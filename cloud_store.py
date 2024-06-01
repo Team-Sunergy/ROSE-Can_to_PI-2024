@@ -9,8 +9,8 @@ from datetime import datetime
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Supabase configuration
-SUPABASE_URL = 'https://qewzbllhuxtfxzudwtdm.supabase.co'
-SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFld3pibGxodXh0Znh6dWR3dGRtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTcyMDIxMDAsImV4cCI6MjAzMjc3ODEwMH0.uIw4f7uJEmzK4UhoPn5abCIx9KmSQO0c3zzJBiH3Hsg'
+SUPABASE_URL = 'URL'
+SUPABASE_KEY = 'KEY'
 
 def initialize_supabase() -> Client:
     try:
