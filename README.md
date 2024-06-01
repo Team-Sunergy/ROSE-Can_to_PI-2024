@@ -25,3 +25,11 @@ To get started with this project, follow the instructions below:
 1. **Hardware Setup**: Connect the Raspberry Pi to the C.A.N. Bus using the appropriate hardware.
 2. **Software Installation**: Install the necessary software and libraries on the Raspberry Pi.
 3. **Configuration**: Configure the system to read and display C.A.N. messages.
+
+## Contributors
+
+Developed by:
+- Nathan Care
+- John Waugh
+- Blaez Jibben
+- Sean Choi
