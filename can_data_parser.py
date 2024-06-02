@@ -1,28 +1,68 @@
+import os
+import time
 import can
 
-def receive_can_messages(channel='can0', bustype='socketcan'):
-    """
-    Receives and prints CAN messages from the specified channel and bus type.
-    
-    Parameters:
-    - channel (str): The name of the CAN interface (default: 'can0').
-    - bustype (str): The type of the CAN interface (default: 'socketcan').
-    """
-    try:
-        # Initialize the CAN bus with the specified channel and bus type
-        bus = can.interface.Bus(channel=channel, bustype=bustype)
-        print(f"Listening for CAN messages on {channel}...")
-        
-        # Continuously listen for incoming CAN messages
-        while True:
-            message = bus.recv()  # Receive a single CAN message
-            if message:
-                print(f"Received message: {message}")
-                
-    except KeyboardInterrupt:
-        print("Stopped by user")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+def setup_can_interface():
+    print('\n\rCAN Data Parser')
+    print('Bring up CAN0....')
+    # Bring down the interface if it's already up
+    os.system("sudo /sbin/ip link set can0 down")
+    # Bring up the interface with the correct settings
+    os.system("sudo /sbin/ip link set can0 up type can bitrate 250000")
+    time.sleep(0.1)
+    print('Ready')
 
-if __name__ == "__main__":
-    receive_can_messages()
+def shutdown_can_interface():
+    os.system("sudo /sbin/ip link set can0 down")
+    print('\n\rCAN interface shut down')
+
+def initialize_bus():
+    try:
+        bus = can.interface.Bus(channel='can0', bustype='socketcan')  # Correct interface type
+        print('Initialized bus')
+        return bus
+    except OSError:
+        print('Cannot find PiCAN board.')
+        exit()
+
+def parse_can_message(message):
+    # Function to parse CAN message data
+    parsed_data = {
+        'timestamp': message.timestamp,
+        'arbitration_id': message.arbitration_id,
+        'dlc': message.dlc,
+        'data': message.data,
+    }
+
+    # Example: Print data in hex format
+    data_str = ' '.join(f'{byte:02x}' for byte in message.data)
+    parsed_data['data_str'] = data_str
+
+    return parsed_data
+
+def main():
+    setup_can_interface()
+    print('The setup_can_interface done')
+    bus = initialize_bus()
+    print('Bus var is set')
+
+    try:
+        print('In the try')
+        while True:
+            print('In the while loop')
+            message = bus.recv()  # Wait until a message is received.
+            print('Message got from the bus')
+            parsed_message = parse_can_message(message)
+
+            print(f"Timestamp: {parsed_message['timestamp']:.6f}")
+            print(f"ID: {parsed_message['arbitration_id']:x}")
+            print(f"DLC: {parsed_message['dlc']}")
+            print(f"Data: {parsed_message['data_str']}")
+            print('-' * 30)
+
+    except KeyboardInterrupt:
+        shutdown_can_interface()
+        print('\n\rKeyboard interrupt')
+
+if __name__ == '__main__':
+    main()
