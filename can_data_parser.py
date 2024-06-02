@@ -2,7 +2,7 @@ import can
 
 def receive_can_messages(channel='can0', bustype='socketcan'):
     """
-    Receives and prints CAN messages from the specified channel and bus type using a Printer listener.
+    Receives and prints CAN messages from the specified channel and bus type.
     
     Parameters:
     - channel (str): The name of the CAN interface (default: 'can0').
@@ -13,14 +13,12 @@ def receive_can_messages(channel='can0', bustype='socketcan'):
         bus = can.interface.Bus(channel=channel, bustype=bustype)
         print(f"Listening for CAN messages on {channel}...")
         
-        # Create a Printer listener to print received messages
-        printer = can.Printer()
-        can.Notifier(bus, [printer])
-        
         # Continuously listen for incoming CAN messages
         while True:
-            pass  # No need to manually receive messages, the Printer listener handles it
-
+            message = bus.recv()  # Receive a single CAN message
+            if message:
+                print(f"Received message: {message}")
+                
     except KeyboardInterrupt:
         print("Stopped by user")
     except Exception as e:
