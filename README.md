@@ -33,3 +33,12 @@ Developed by:
 - John Waugh
 - Blaez Jibben
 - Sean Choi
+
+## Todo
+ - find a way to filter out each msg(i.e look for specific ID numbers)
+ - find each msg ID
+ - display Speed, Soc, Power intake, Power outtake.
+ - make some kind of gui (Make a acutral gui or just use flask(i.e html/css))
+ - get a LTE dongle
+ - send data to the cloud
+ - get a new screen
