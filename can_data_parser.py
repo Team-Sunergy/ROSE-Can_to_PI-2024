@@ -1,15 +1,21 @@
-def parse_can_message(message):
-    # Function to parse CAN message data
-    parsed_data = {
-        'timestamp': message.timestamp,
-        'arbitration_id': message.arbitration_id,
-        'dlc': message.dlc,
-        'data': message.data,
-    }
+import can
 
-    # Add custom parsing logic here
-    # Example: Format data bytes as a hexadecimal string
-    data_str = ' '.join(f'{byte:02x}' for byte in message.data)
-    parsed_data['data_str'] = data_str
+def receive_can_messages(channel='can0', bustype='socketcan'):
+    try:
+        # Set up the CAN bus
+        bus = can.interface.Bus(channel=channel, bustype=bustype)
+        print(f"Listening for CAN messages on {channel}...")
 
-    return parsed_data
+        # Create a listener that will print received messages
+        while True:
+            message = bus.recv()
+            if message:
+                print(f"Received message: {message}")
+
+    except KeyboardInterrupt:
+        print("Stopped by user")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+if __name__ == "__main__":
+    receive_can_messages()
