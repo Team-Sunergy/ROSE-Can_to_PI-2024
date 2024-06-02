@@ -1,89 +1,30 @@
 import os
-import json
-import can
-import logging
-from supabase import create_client, Client
-from datetime import datetime
+import supabase
+from dotenv import load_dotenv
 
-# Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+# Load environment variables from .env file
+load_dotenv()
 
-# Supabase configuration
-SUPABASE_URL = 'URL'
-SUPABASE_KEY = 'KEY'
+# Initialize Supabase client
+supabase_url = os.getenv("SUPABASE_URL")
+supabase_key = os.getenv("SUPABASE_KEY")
+supabase_client = supabase.create_client(supabase_url, supabase_key)
 
-def initialize_supabase() -> Client:
-    try:
-        supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-        logging.info("Supabase initialized successfully.")
-        return supabase
-    except Exception as e:
-        logging.error(f"Failed to initialize Supabase: {e}")
-        exit(1)
+def store_data_to_supabase(parsed_data):
+    # Store parsed data to Supabase
+    table_name = "can_data"
+    response = supabase_client.table(table_name).insert(parsed_data)
+    if response.status_code == 201:
+        print("Data stored successfully.")
+    else:
+        print("Failed to store data:", response.error)
 
-def read_can_data(supabase: Client):
-    try:
-        # Set up CAN bus interface
-        bus = can.interface.Bus(channel='can0', bustype='socketcan_native')
-        logging.info("Listening for CAN messages...")
-
-        while True:
-            # Receive CAN message
-            message = bus.recv()
-            if message is not None:
-                data = {
-                    'id': message.arbitration_id,
-                    'data': list(message.data),
-                    'timestamp': datetime.fromtimestamp(message.timestamp).isoformat()
-                }
-                logging.info(f"Received message: {data}")
-                # Send received data to Supabase
-                send_to_supabase(supabase, data)
-    except KeyboardInterrupt:
-        logging.info("Interrupted by user, exiting...")
-    except Exception as e:
-        logging.error(f"Error reading CAN data: {e}")
-    finally:
-        bus.shutdown()
-
-def send_to_supabase(supabase: Client, data: dict):
-    try:
-        # Insert data into Supabase table
-        response = supabase.table('can_data').insert(data).execute()
-        if response.error:
-            raise Exception(response.error)
-        logging.info(f"Data sent to Supabase: {response.data}")
-    except Exception as e:
-        logging.error(f"Failed to send data to Supabase: {e}")
-        # Save data to USB if Supabase send fails
-        save_to_usb(data)
-
-def save_to_usb(data: dict):
-    usb_path = '/path/to/usb_drive/can_data_backup.json'  # Path to save data on USB
-    try:
-        # Ensure the directory exists
-        os.makedirs(os.path.dirname(usb_path), exist_ok=True)
-
-        # Create an empty JSON file if it does not exist
-        if not os.path.exists(usb_path):
-            with open(usb_path, 'w') as f:
-                json.dump([], f)
-
-        # Read existing data from the USB file
-        with open(usb_path, 'r') as f:
-            existing_data = json.load(f)
-
-        # Append new data to the existing data
-        existing_data.append(data)
-
-        # Write updated data back to the USB file
-        with open(usb_path, 'w') as f:
-            json.dump(existing_data, f, indent=4)
-
-        logging.info(f"Data saved to USB: {usb_path}")
-    except Exception as e:
-        logging.error(f"Failed to save data to USB: {e}")
-
-if __name__ == "__main__":
-    supabase_client = initialize_supabase()
-    read_can_data(supabase_client)
+# Example usage:
+# parsed_data = {
+#     "timestamp": 1234567890.123,
+#     "arbitration_id": 123,
+#     "dlc": 8,
+#     "data": [0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08],
+#     "data_str": "01 02 03 04 05 06 07 08"
+# }
+# store_data_to_supabase(parsed_data)
