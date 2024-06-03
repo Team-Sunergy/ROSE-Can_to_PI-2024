@@ -44,14 +44,12 @@ def main():
     setup_can_interface()
     print('The setup_can_interface done')
     bus = initialize_bus()
-    print('Bus var is set')
+    print('Bus varible is set')
 
     try:
         print('In the try')
         while True:
-            print('In the while loop')
             message = bus.recv()  # Wait until a message is received.
-            print('Message got from the bus')
             parsed_message = parse_can_message(message)
 
             print(f"Timestamp: {parsed_message['timestamp']:.6f}")
