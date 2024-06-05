@@ -2,6 +2,16 @@ import os
 import time
 import can
 
+mcFilters = [
+    {"can_id": 0x08850225, "can_mask": 0x1FFFFFFF, "extended": True},
+    {"can_id": 0x08850245, "can_mask": 0x1FFFFFFF, "extended": True},
+    {"can_id": 0x08850265, "can_mask": 0x1FFFFFFF, "extended": True},
+    {"can_id": 0x08850285, "can_mask": 0x1FFFFFFF, "extended": True},
+]
+
+
+
+
 def setup_can_interface():
     print('\n\rCAN Data Parser')
     print('Bring up CAN0....')
@@ -17,8 +27,8 @@ def shutdown_can_interface():
     print('\n\rCAN interface shut down')
 
 def initialize_bus():
-    try:
-        bus = can.interface.Bus(channel='can0', bustype='socketcan')  # Correct interface type
+    try:    
+        bus = can.interface.Bus(channel='can0', bustype='socketcan',can_filters=mcFilters)  # Correct interface type
         print('Initialized bus')
         return bus
     except OSError:
