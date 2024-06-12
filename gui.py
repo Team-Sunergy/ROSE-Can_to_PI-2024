@@ -17,14 +17,14 @@ mainWin.rowconfigure(0, weight=1)
 
 
 # configure left window
-leftWindow = ttk.Frame(mainWin, borderwidth=10, relief='sunken')
+leftWindow = tk.Frame(mainWin, borderwidth=10, relief='sunken')
 leftWindow.columnconfigure(0, weight=1)
 leftWindow.columnconfigure(1, weight=10)
 leftWindow.columnconfigure(2, weight=1)
 leftWindow.rowconfigure((0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), weight=1)
 leftWindow.grid_propagate(False) # makes it so grid doesnt expand based on labels inside
 
-rightWindow = ttk.Frame(mainWin, borderwidth=10, relief='sunken')
+rightWindow = tk.Frame(mainWin, borderwidth=10, relief='groove')
 rightWindow.rowconfigure((0, 1, 2, 3, 4, 5, 6, 7, 8, 9), weight=1)
 rightWindow.grid_propagate(False)
 
@@ -35,15 +35,15 @@ leftWindow.grid(row=0, column=0, sticky='nsew')
 # place widget in left window
 speedCarLabel = ttk.Label(leftWindow, text="SPEED", font=('Helvetica', '10', 'bold italic'))
 speedCarLabel.grid(row=4, column=1, sticky='s')
-speedActual = ttk.Label(leftWindow, text="", font=("Helvetica", "45", "bold"), borderwidth=30, relief="raised")
+speedActual = ttk.Label(leftWindow, text="", font=("Helvetica", "65", "bold"), borderwidth=30, relief="raised")
 speedActual.grid(row=5, column=1, sticky='n')
 
 # right window labels
-label1 = ttk.Label(rightWindow, text="text1: ", borderwidth=5, relief='raised')
-label2 = ttk.Label(rightWindow, text="text2: ", borderwidth=5, relief='raised')
-label3 = ttk.Label(rightWindow, text="text3: ", borderwidth=5, relief='raised')
-label4 = ttk.Label(rightWindow, text="text4: ", borderwidth=5, relief='raised')
-label5 = ttk.Label(rightWindow, text="text5: ", borderwidth=5, relief='raised')
+label1 = ttk.Label(rightWindow, text=" text1: ", borderwidth=5, relief='raised')
+label2 = ttk.Label(rightWindow, text=" text2: ", borderwidth=5, relief='raised')
+label3 = ttk.Label(rightWindow, text=" text3: ", borderwidth=5, relief='raised')
+label4 = ttk.Label(rightWindow, text=" text4: ", borderwidth=5, relief='raised')
+label5 = ttk.Label(rightWindow, text=" text5: ", borderwidth=5, relief='raised')
 
 label1.grid(row=2)
 label2.grid(row=3)
