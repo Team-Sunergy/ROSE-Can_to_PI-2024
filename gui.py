@@ -17,14 +17,14 @@ mainWin.rowconfigure(0, weight=1)
 
 
 # configure left window
-leftWindow = tk.Frame(mainWin, borderwidth=10, relief='sunken')
+leftWindow = tk.Frame(mainWin, borderwidth=5, relief='raised')
 leftWindow.columnconfigure(0, weight=1)
 leftWindow.columnconfigure(1, weight=10)
 leftWindow.columnconfigure(2, weight=1)
 leftWindow.rowconfigure((0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), weight=1)
 leftWindow.grid_propagate(False) # makes it so grid doesnt expand based on labels inside
 
-rightWindow = tk.Frame(mainWin, borderwidth=10, relief='groove')
+rightWindow = tk.Frame(mainWin, borderwidth=5, relief='raised')
 rightWindow.rowconfigure((0, 1, 2, 3, 4, 5, 6, 7, 8, 9), weight=1)
 rightWindow.grid_propagate(False)
 
@@ -51,16 +51,19 @@ label3.grid(row=4)
 label4.grid(row=5)
 label5.grid(row=6)
 
+# data transfer suite
 mockDataSuite = mockDataTransfer()
 mockDataSuite.main()
 data: str = mockDataSuite.data
 
+# update label fun
 def update_label():
     data = mockDataSuite.main()
     if data is not None:
         speedActual.config(text=data)
         mainWin.after(100, update_label)
 
-
+# starts the update label loop
 update_label()
+# starts the mainWindow loop
 mainWin.mainloop()
