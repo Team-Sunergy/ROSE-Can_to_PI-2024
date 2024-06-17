@@ -3,11 +3,16 @@ import time
 import can
 
 # Define CAN message filters to specify which CAN messages to receive
-mcFilters = [
-    {"can_id": 0x08850225, "can_mask": 0x1FFFFFFF, "extended": True},
-    {"can_id": 0x08850245, "can_mask": 0x1FFFFFFF, "extended": True},
-    {"can_id": 0x08850265, "can_mask": 0x1FFFFFFF, "extended": True},
-    {"can_id": 0x08850285, "can_mask": 0x1FFFFFFF, "extended": True},
+bus_filters = [
+    {"can_id": 0x612, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 1
+    {"can_id": 0x611, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 1
+    {"can_id": 0x602, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 0
+    {"can_id": 0x601, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 0
+    {"can_id": 0x289, "can_mask": 0x1FFFFFFF, "extended": False},       #BMS 
+    {"can_id": 0x08850225, "can_mask": 0x1FFFFFFF, "extended": True},   #Motor RearLeft
+    {"can_id": 0x08850245, "can_mask": 0x1FFFFFFF, "extended": True},   #Motor RearRight
+    {"can_id": 0x08850265, "can_mask": 0x1FFFFFFF, "extended": True},   #Motor FrontLeft
+    {"can_id": 0x08850285, "can_mask": 0x1FFFFFFF, "extended": True},   #Motor FrontLeft
 ]
 
 def setup_can_interface():
@@ -38,7 +43,7 @@ def initialize_bus():
     """
     try:
         bus = can.interface.Bus(
-            channel="can0", bustype="socketcan", can_filters=mcFilters
+            channel="can0", bustype="socketcan", can_filters=bus_filters
         )
         print("Initialized bus & Filter")
         return bus
@@ -46,20 +51,40 @@ def initialize_bus():
         print("Cannot find PiCAN board.")
         exit()
 
-def parse_can_message(message):
+def shift_bits(data, shift_amount):
+    """
+    Shifts the bits of each byte in the data by the specified amount.
+    """
+    shifted_data = bytearray()
+    for byte in data:
+        shifted_byte = (byte << shift_amount) & 0xFF | (byte >> (8 - shift_amount))
+        shifted_data.append(shifted_byte)
+    return shifted_data
+
+def getBits(canId: int, low: int, high: int) -> int:
+    """
+    Extracts bits from `low` to `high` (inclusive) from the given `canId`.
+    """
+    mask = (1 << (high - low + 1)) - 1
+    return (canId >> low) & mask
+
+def parse_can_message(message, shift_amount=0):
     """
     Parses a received CAN message into a dictionary with timestamp,
     arbitration ID, data length code (DLC), and data (in hex string format).
+    Shifts the data bits by the specified amount.
     """
+    shifted_data = shift_bits(message.data, shift_amount)
+
     parsed_data = {
         "timestamp": message.timestamp,
         "arbitration_id": message.arbitration_id,
         "dlc": message.dlc,
-        "data": message.data,
+        "data": shifted_data,
     }
 
-    # Convert data bytes to a hex string
-    data_str = " ".join(f"{byte:02x}" for byte in message.data)
+    # Convert shifted data bytes to a hex string
+    data_str = " ".join(f"{byte:02x}" for byte in shifted_data)
     parsed_data["data_str"] = data_str
 
     return parsed_data
@@ -74,11 +99,15 @@ def main():
     bus = initialize_bus()
     print("Bus variable is set")
 
+    shift_amount = 2  # Set the amount to shift the data bits
+
     try:
         print("In the try")
         while True:
             message = bus.recv()  # Wait until a CAN message is received
-            parsed_message = parse_can_message(message)  # Parse the received message
+            parsed_message = parse_can_message(message, shift_amount)  # Parse the received message with bit shifting
+            bits_extracted = getBits(parsed_message['arbitration_id'], 4, 11)
+            print(f"Extracted Bits: {bits_extracted:x}")
 
             # Print the parsed message details
             print(f"Timestamp: {parsed_message['timestamp']:.6f}")
