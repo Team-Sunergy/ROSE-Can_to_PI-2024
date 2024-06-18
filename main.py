@@ -1,6 +1,7 @@
 from can_interface import setup_can_interface, shutdown_can_interface
 from bus import initialize_bus
 from message_parser import parse_can_message
+from tools import getBits
 
 def main():
     """
@@ -17,12 +18,15 @@ def main():
         while True:
             message = bus.recv()
             parsed_message = parse_can_message(message) # recieves parsed message
-
+            data = parsed_message['data']
+            
             print(f"Timestamp: {parsed_message['timestamp']:.6f}")
             print(f"ID: {parsed_message['arbitration_id']:x}")
             print(f"DLC: {parsed_message['dlc']}")
             print(f"Data: {parsed_message['data_str']}")
             print("-" * 30)
+            print(getBits(data, 0, 7))
+
 
     except KeyboardInterrupt:
         shutdown_can_interface()

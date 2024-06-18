@@ -1,3 +1,12 @@
+import math
+from math import pi
+
+# these might be better to define in main
+TIRE_DIAMETER = 21.5 # in inches
+NUM_OF_INCHES_IN_MILE = 63360
+MINUTES_IN_HOUR = 60
+PI = math.pi
+
 # tools for use in can data gathering
 def shift_bits(data, shift_amount):
     """
@@ -9,10 +18,14 @@ def shift_bits(data, shift_amount):
         shifted_data.append(shifted_byte)
     return shifted_data
 
-# gets certain bits from data
-def getBits(canId: int, low: int, high: int) -> int:
+def getBits(canMessage: bytearray, low: int, high: int) -> int:
     """
-    Extracts bits from `low` to `high` (inclusive) from the given `canId`.
+    Extracts bits from `low` to `high` (inclusive) from the given.
     """
     mask = (1 << (high - low + 1)) - 1
-    return (canId >> low) & mask
+    return (int.from_bytes(canMessage, byteorder='little') >> low) & mask
+
+
+# if given bits, will return the correct speed of a vehicle given diameter of tires
+def getSpeed(RPM):
+    return RPM * TIRE_DIAMETER * PI * MINUTES_IN_HOUR/NUM_OF_INCHES_IN_MILE
