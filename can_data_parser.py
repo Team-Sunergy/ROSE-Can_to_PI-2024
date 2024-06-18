@@ -115,6 +115,7 @@ def main():
             print(f"DLC: {parsed_message['dlc']}")
             print(f"Data: {parsed_message['data_str']}")
             print("-" * 30)
+            time.sleep(.01)
 
     except KeyboardInterrupt:
         # Shut down the CAN interface when the program is interrupted
