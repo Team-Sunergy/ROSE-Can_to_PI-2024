@@ -6,7 +6,7 @@ bus_filters = [
     {"can_id": 0x611, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 1
     {"can_id": 0x602, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 0
     {"can_id": 0x601, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 0
-    {"can_id": 0x289, "can_mask": 0x1FFFFFFF, "extended": False},       #BMS 
+    #{"can_id": 0x289, "can_mask": 0x1FFFFFFF, "extended": False},       #BMS 
     {"can_id": 0x08850225, "can_mask": 0x1FFFFFFF, "extended": True},   #Motor RearLeft
     {"can_id": 0x08850245, "can_mask": 0x1FFFFFFF, "extended": True},   #Motor RearRight
     {"can_id": 0x08850265, "can_mask": 0x1FFFFFFF, "extended": True},   #Motor FrontLeft

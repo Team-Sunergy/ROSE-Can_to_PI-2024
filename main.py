@@ -1,7 +1,8 @@
 from can_interface import setup_can_interface, shutdown_can_interface
 from bus import initialize_bus
 from message_parser import parse_can_message
-from tools import getBits
+from tools import getBits, send_request_frame0_periodically
+
 
 def main():
     """
@@ -12,6 +13,8 @@ def main():
     print("The setup_can_interface done")
     bus = initialize_bus()
     print("Bus variable is set")
+    send_request_frame0_periodically(bus)
+    print("Sending request frame0 in main...")
 
     try:
         print("In the try")
