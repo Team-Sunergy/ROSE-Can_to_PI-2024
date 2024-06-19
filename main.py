@@ -1,7 +1,8 @@
 from can_interface import setup_can_interface, shutdown_can_interface
 from bus import initialize_bus
 from message_parser import parse_can_message
-from tools import getBits, send_request_frame0_periodically
+from tools import send_requests_frame0, getBits
+
 
 
 def main():
@@ -13,12 +14,13 @@ def main():
     print("The setup_can_interface done")
     bus = initialize_bus()
     print("Bus variable is set")
-    send_request_frame0_periodically(bus)
+    #send_request_frame0_periodically(bus)
     print("Sending request frame0 in main...")
 
     try:
         print("In the try")
         while True:
+            send_requests_frame0(bus)
             message = bus.recv()
             parsed_message = parse_can_message(message) # recieves parsed message
             data = parsed_message['data']
@@ -27,8 +29,9 @@ def main():
             print(f"ID: {parsed_message['arbitration_id']:x}")
             print(f"DLC: {parsed_message['dlc']}")
             print(f"Data: {parsed_message['data_str']}")
-            print("-" * 30)
             print(getBits(data, 0, 7))
+            print("-" * 30)
+            
 
 
     except KeyboardInterrupt:

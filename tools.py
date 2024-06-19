@@ -43,23 +43,14 @@ def send_requests_frame0(bus):
     # Create a request messages for Frame0
     #Log_Req_RL1, message to rear left
     request_frame0_RL1 = can.Message(arbitration_id=0x08F89540, 
-                                 data=[0x07],  # Data to request Frame0, 7 is frame0, 1, 2
+                                 data=[0x01],  # Data to request Frame0, 7 is frame0, 1, 2
                                  is_extended_id=True)  # true as it is 29bit frame
     
     #Log_Req_RR1, message to rear right
     request_frame0_RR1 = can.Message(arbitration_id=0x08F91540, 
-                                 data=[0x07],  # Data to request Frame0, 7 is frame0, 1, 2
-                                 is_extended_id=True)  # true as it is 29bit frame
-    
-    #Log_Req-FL1, message to front left
-    request_frame0_FL1 = can.Message(arbitration_id=0x08F99540,
-                                 data=[0x07],  # Data to request Frame0, 7 is frame0, 1, 2
+                                 data=[0x01],  # Data to request Frame0, 7 is frame0, 1, 2
                                  is_extended_id=True)  # true as it is 29bit frame
 
-    #Log_Req_FR1, message to front right
-    request_frame0_FR1 = can.Message(arbitration_id=0x08FA1540,
-                                 data=[0x07],  # Data to request Frame0, 7 is frame0, 1, 2
-                                 is_extended_id=True)  # true as it is 29bit frame
 
     # Sends request messages
     try:
@@ -74,28 +65,15 @@ def send_requests_frame0(bus):
     except can.CanError:
         print("Failed to send request for Frame0 RR1")
 
-    try:
-        bus.send(request_frame0_FL1)
-        print("Request for Frame0 FL1 sent")
-    except can.CanError:
-        print("Failed to send request for Frame0 FL1")
+def send_request_frame0_periodically(bus):
+    while True:
+        """
+        This sends a frame0 request every 100ms, as a request is needed every 100ms inorder to continue recieving
+        data from the CAN.
+        """
+        send_requests_frame0(bus)
+        time.sleep(0.1)
 
-    try:
-        bus.send(request_frame0_FR1)
-        print("Request for Frame0 FR1 sent")
-    except can.CanError:
-        print("Failed to send request for Frame0 FR1")
-
-
-    def send_request_frame0_periodically(bus):
-        while True:
-            """
-            This sends a frame0 request every 100ms, as a request is needed every 100ms inorder to continue recieving
-            data from the CAN.
-            """
-            send_requests_frame0(bus)
-            time.sleep(0.1)
-
-            threading.Thread(target=send_request_frame0_periodically).start()
-            print("Started thread to send request frame0...")
+        threading.Thread(target=send_request_frame0_periodically(bus)).start()
+        print("Started thread to send request frame0...")
 
