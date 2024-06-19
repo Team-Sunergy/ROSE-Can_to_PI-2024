@@ -89,6 +89,10 @@ def send_requests_frame0(bus):
 
     def send_request_frame0_periodically(bus):
         while True:
+            """
+            This sends a frame0 request every 100ms, as a request is needed every 100ms inorder to continue recieving
+            data from the CAN.
+            """
             send_requests_frame0(bus)
             time.sleep(0.1)
 
