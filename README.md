@@ -39,6 +39,6 @@ Developed by:
  - find each msg ID
  - display Speed, Soc, Power intake, Power outtake.
  - make some kind of gui (Make a acutral gui or just use flask(i.e html/css))
- - get a LTE dongle
+ - get a LoRa dongle
  - send data to the cloud
  - get a new screen
