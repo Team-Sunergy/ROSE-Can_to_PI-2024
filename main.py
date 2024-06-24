@@ -3,7 +3,6 @@ from bus import initialize_bus
 from message_parser import parse_can_message, group_can_data
 from tools import getBits, send_request_frame0_periodically, getSpeed
 from gui import startGui, updateGuiData
-from multiprocessing import Process
 
 def main():
     """
