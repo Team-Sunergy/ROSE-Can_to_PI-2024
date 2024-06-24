@@ -77,5 +77,8 @@ def update_label(data: dict):
         else:
              speedActual.config(text="none")
     
-if __name__ == "__main__":
+def main2():
     threading.Thread(target=startGui).start()
+
+if __name__ == "__main__":
+    main2()
