@@ -34,21 +34,22 @@ leftWindow.grid(row=0, column=0, sticky='nsew')
 # place widget in left window
 speedCarLabel = ttk.Label(leftWindow, text="SPEED", font=('Helvetica', '10', 'bold italic'))
 speedCarLabel.grid(row=4, column=1, sticky='s')
-speedActual = ttk.Label(leftWindow, text="inf spd (sean coded all of this)", font=("Helvetica", "65", "bold"), borderwidth=10, relief="raised")
+speedActual = ttk.Label(leftWindow, text="inf spd", font=("Helvetica", "65", "bold"), borderwidth=10, relief="raised")
 speedActual.grid(row=5, column=1, sticky='n')
 
 # right window labels
-label1 = ttk.Label(rightWindow, text=" SOC ", borderwidth=5, relief='raised')
-label2 = ttk.Label(rightWindow, text=" MOTOR CURRENT IN: ", borderwidth=2, relief='raised')
-label3 = ttk.Label(rightWindow, text=" MOTOR CURRENT OUT: ", borderwidth=2, relief='raised')
-label4 = ttk.Label(rightWindow, text=" DELTA VOLTAGE: ", borderwidth=2, relief='raised')
-label5 = ttk.Label(rightWindow, text=" HAPPINESS STATUS: ", borderwidth=2, relief='raised')
+socLabel = ttk.Label(rightWindow, text=" SOC ", font=("Helvetica", "30"), borderwidth=5, relief='raised')
+motorCurrentInLabel = ttk.Label(rightWindow, text=" MOTOR CURRENT IN: ", font=("Helvetica", "30"), borderwidth=2, relief='raised')
+motorCurrentOutLabel = ttk.Label(rightWindow, text=" ZACH METER: ", font=("Helvetica", "30"),borderwidth=2, relief='raised')
+deltaVoltageLabel = ttk.Label(rightWindow, text=" DELTA VOLTAGE: ", font=("Helvetica", "30"), borderwidth=2, relief='raised')
+HappinessStatusLabel = ttk.Label(rightWindow, text=" HAPPINESS STATUS: HAPPY!!!", font=("Helvetica", "30"), borderwidth=2, relief='raised')
 
-label1.grid(row=2)
-label2.grid(row=3)
-label3.grid(row=4)
-label4.grid(row=5)
-label5.grid(row=6)
+
+socLabel.grid(row=2)
+motorCurrentInLabel.grid(row=3)
+motorCurrentOutLabel.grid(row=4)
+deltaVoltageLabel.grid(row=5)
+HappinessStatusLabel.grid(row=6)
 
 def startGui():
     """starts the gui loop given data"""
@@ -62,8 +63,12 @@ def updateGuiData(data: dict):
 def update_label(data: dict):
         """private for gui.py, takes data dict
         and updates label"""
-        if data is not None:
+        if data['DataType'] is not "none":
             # update speed with speed
             speedActual.config(text=str(data['Speed']))
+            socLabel.config(text=" SOC" + str(data['SOC']))
+            motorCurrentInLabel(text=" MOTOR CURRENT IN: " + str(data['MotorCurrentPeakAverage']))
+            motorCurrentOutLabel(text= " ZACH METER: " + str(data['FETTemperature']))
+            deltaVoltageLabel(text = " DELTA VOLTAGE: " + str(data['BatteryVoltage']))
         else:
-             speedActual.config(text="bobathan")
+             speedActual.config(text="none")
