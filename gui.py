@@ -66,7 +66,7 @@ def updateGuiData(data: dict):
 def update_label(data: dict):
         """private for gui.py, takes data dict
         and updates label"""
-        if data['DataType'] is not "none":
+        if data['DataType'] != "none":
             # update speed with speed
             speedActual.config(text=str(data['Speed']))
             socLabel.config(text=" SOC" + str(data['SOC']))
