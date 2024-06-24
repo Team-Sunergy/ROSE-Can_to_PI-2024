@@ -35,13 +35,13 @@ rightWindow.grid(row=0, column=1, sticky='nsew')
 leftWindow.grid(row=0, column=0, sticky='nsew')
 
 # place widget in left window
-speedCarLabel = ttk.Label(leftWindow, text="SPEED", font=('Helvetica', '10', 'bold italic'))
+speedCarLabel = ttk.Label(leftWindow, text="SPEED", font=('Helvetica', '10')
 speedCarLabel.grid(row=4, column=1, sticky='s')
-speedActual = ttk.Label(leftWindow, text="inf spd", font=("Helvetica", "65", "bold"), borderwidth=10, relief="raised")
+speedActual = ttk.Label(leftWindow, text="inf spd", font=("Helvetica", "65", "bold"), borderwidth=2, relief="raised")
 speedActual.grid(row=5, column=1, sticky='n')
 
 # right window labels
-socLabel = ttk.Label(rightWindow, text=" SOC ", font=("Helvetica", "15"), borderwidth=5, relief='raised')
+socLabel = ttk.Label(rightWindow, text=" SOC ", font=("Helvetica", "15"), borderwidth=2, relief='raised')
 motorCurrentInLabel = ttk.Label(rightWindow, text=" MOTOR CURRENT IN: ", font=("Helvetica", "15"), borderwidth=2, relief='raised')
 motorCurrentOutLabel = ttk.Label(rightWindow, text=" ZACH METER: ", font=("Helvetica", "15"),borderwidth=2, relief='raised')
 deltaVoltageLabel = ttk.Label(rightWindow, text=" DELTA VOLTAGE: ", font=("Helvetica", "15"), borderwidth=2, relief='raised')
@@ -49,10 +49,10 @@ HappinessStatusLabel = ttk.Label(rightWindow, text=" HAPPINESS STATUS: HAPPY!!!"
 
 
 socLabel.grid(row=2, column=0)
-motorCurrentInLabel.grid(row=3,column=0)
-motorCurrentOutLabel.grid(row=4, column=0)
-deltaVoltageLabel.grid(row=5, column=0)
-HappinessStatusLabel.grid(row=6, column=0)
+motorCurrentInLabel.grid(row=3,c olumn=0, sticky='w')
+motorCurrentOutLabel.grid(row=4, column=0, sticky='w')
+deltaVoltageLabel.grid(row=5, column=0, sticky='w')
+HappinessStatusLabel.grid(row=6, column=0, sticky='w')
 
 def startGui():
     """starts the gui loop given data"""
