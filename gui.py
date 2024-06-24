@@ -38,7 +38,7 @@ speedActual = ttk.Label(leftWindow, text="inf spd", font=("Helvetica", "65", "bo
 speedActual.grid(row=5, column=1, sticky='n')
 
 # right window labels
-socLabel = ttk.Label(rightWindow, text=" SOC ", font=("Helvetica", "30"), borderwidth=5, relief='raised')
+socLabel = ttk.Label(rightWindow, text=" SOC: ", font=("Helvetica", "30"), borderwidth=5, relief='raised')
 motorCurrentInLabel = ttk.Label(rightWindow, text=" MOTOR CURRENT IN: ", font=("Helvetica", "30"), borderwidth=2, relief='raised')
 motorCurrentOutLabel = ttk.Label(rightWindow, text=" ZACH METER: ", font=("Helvetica", "30"),borderwidth=2, relief='raised')
 deltaVoltageLabel = ttk.Label(rightWindow, text=" DELTA VOLTAGE: ", font=("Helvetica", "30"), borderwidth=2, relief='raised')
