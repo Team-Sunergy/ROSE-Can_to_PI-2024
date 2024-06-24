@@ -1,4 +1,3 @@
-import tkthread; tkthread.patch()
 import tkinter as tk
 import tkinter.font as tkFont
 from tkinter import ttk
@@ -60,9 +59,10 @@ def startGui():
     """starts the gui loop given data"""
     print("Starting gui")
     mainWin.mainloop()
+
 def updateGuiData(data: dict):
     """starts the gui loop given data"""
-    tkthread.main(mainWin).call(update_label, data)
+    update_label(data)
         
 def update_label(data: dict):
         """private for gui.py, takes data dict
@@ -76,9 +76,3 @@ def update_label(data: dict):
             deltaVoltageLabel(text = " DELTA VOLTAGE: " + str(data['BatteryVoltage']))
         else:
              speedActual.config(text="none")
-    
-def main2():
-    threading.Thread(target=startGui).start()
-
-if __name__ == "__main__":
-    main2()

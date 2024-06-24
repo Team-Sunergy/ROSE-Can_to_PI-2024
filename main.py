@@ -1,5 +1,3 @@
-import tkthread; tkthread.patch()
-
 from can_interface import setup_can_interface, shutdown_can_interface
 from bus import initialize_bus
 from message_parser import parse_can_message, group_can_data
@@ -15,8 +13,6 @@ def main():
     print("The setup_can_interface done")
     bus = initialize_bus()
     print("Bus variable is set")
-    main2()
-    print("Gui started up")
     # this is for motor controllers
     send_request_frame0_periodically(bus=bus)
     print("Sending request frame0 in main...")
