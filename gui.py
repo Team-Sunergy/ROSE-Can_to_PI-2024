@@ -36,7 +36,7 @@ rightWindow.grid(row=0, column=1, sticky='nsew')
 leftWindow.grid(row=0, column=0, sticky='nsew')
 
 # place widget in left window
-speedCarLabel = ttk.Label(leftWindow, text="SPEED", font=('Helvetica', '10')
+speedCarLabel = ttk.Label(leftWindow, text="SPEED", font=('Helvetica', '10'))
 speedCarLabel.grid(row=4, column=1, sticky='s')
 speedActual = ttk.Label(leftWindow, text="inf spd", font=("Helvetica", "65", "bold"), borderwidth=2, relief="raised")
 speedActual.grid(row=5, column=1, sticky='n')
