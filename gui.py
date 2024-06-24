@@ -54,13 +54,15 @@ label4.grid(row=5)
 label5.grid(row=6)
 
 def startGui(data: dict):
-    "starts the gui loop given data"
+    """starts the gui loop given data"""
     update_label(data)
     if(not mainLoopOn):
         mainWin.mainloop()
     
         
 def update_label(data: dict):
+        """private for gui.py, takes data dict
+        and updates label"""
         if data is not None:
             # update speed with speed
             speedActual.config(text=str(data['Speed']))
