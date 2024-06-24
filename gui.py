@@ -55,10 +55,11 @@ label5.grid(row=6)
 
 def startGui(data: dict):
     """starts the gui loop given data"""
-    update_label(data)
     if(not mainLoopOn):
         print("Starting gui")
         mainWin.mainloop()
+        update_label(data)
+
     
         
 def update_label(data: dict):
@@ -67,4 +68,5 @@ def update_label(data: dict):
         if data is not None:
             # update speed with speed
             speedActual.config(text=str(data['Speed']))
-            mainWin.after(100, update_label)
+        else:
+             speedActual.config(text="bobathan")

@@ -22,6 +22,7 @@ def main():
     try:
         print("In the try")
         while True:
+            startGui(canData)
             message = bus.recv()
             parsed_message = parse_can_message(message) # recieves parsed message
             data = parsed_message['data']
@@ -36,7 +37,6 @@ def main():
             # used for sending data, contains all different types of possible categories (mppts, bms, mc)
             # depending on what CAN frame ID is
             canData = group_can_data(data=data)
-            startGui(canData)
             
 
 
