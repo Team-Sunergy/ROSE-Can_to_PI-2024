@@ -34,15 +34,15 @@ leftWindow.grid(row=0, column=0, sticky='nsew')
 # place widget in left window
 speedCarLabel = ttk.Label(leftWindow, text="SPEED", font=('Helvetica', '10', 'bold italic'))
 speedCarLabel.grid(row=4, column=1, sticky='s')
-speedActual = ttk.Label(leftWindow, text="", font=("Helvetica", "65", "bold"), borderwidth=30, relief="raised")
+speedActual = ttk.Label(leftWindow, text="inf spd (sean coded all of this)", font=("Helvetica", "65", "bold"), borderwidth=10, relief="raised")
 speedActual.grid(row=5, column=1, sticky='n')
 
 # right window labels
-label1 = ttk.Label(rightWindow, text=" text1: ", borderwidth=5, relief='raised')
-label2 = ttk.Label(rightWindow, text=" text2: ", borderwidth=5, relief='raised')
-label3 = ttk.Label(rightWindow, text=" text3: ", borderwidth=5, relief='raised')
-label4 = ttk.Label(rightWindow, text=" text4: ", borderwidth=5, relief='raised')
-label5 = ttk.Label(rightWindow, text=" text5: ", borderwidth=5, relief='raised')
+label1 = ttk.Label(rightWindow, text=" SOC ", borderwidth=5, relief='raised')
+label2 = ttk.Label(rightWindow, text=" MOTOR CURRENT IN: ", borderwidth=2, relief='raised')
+label3 = ttk.Label(rightWindow, text=" MOTOR CURRENT OUT: ", borderwidth=2, relief='raised')
+label4 = ttk.Label(rightWindow, text=" DELTA VOLTAGE: ", borderwidth=2, relief='raised')
+label5 = ttk.Label(rightWindow, text=" HAPPINESS STATUS: ", borderwidth=2, relief='raised')
 
 label1.grid(row=2)
 label2.grid(row=3)
