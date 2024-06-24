@@ -13,8 +13,7 @@ def main():
     print("The setup_can_interface done")
     bus = initialize_bus()
     print("Bus variable is set")
-    p = Process(target=startGui)
-    p.start()
+    startGui()
     print("Gui started up")
     # this is for motor controllers
     send_request_frame0_periodically(bus=bus)
