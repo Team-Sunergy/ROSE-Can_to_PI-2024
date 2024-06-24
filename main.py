@@ -1,3 +1,5 @@
+import tkthread; tkthread.patch()
+
 from can_interface import setup_can_interface, shutdown_can_interface
 from bus import initialize_bus
 from message_parser import parse_can_message, group_can_data
