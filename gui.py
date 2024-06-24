@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.font as tkFont
 from tkinter import ttk
+import threading
 
 from mockDataTransfer import *
 
@@ -57,7 +58,7 @@ HappinessStatusLabel.grid(row=6, column=0, sticky='w')
 def startGui():
     """starts the gui loop given data"""
     print("Starting gui")
-    mainWin.mainloop()
+    threading.Thread(target=mainWin.mainloop()).start()
 
 def updateGuiData(data: dict):
     """starts the gui loop given data"""
