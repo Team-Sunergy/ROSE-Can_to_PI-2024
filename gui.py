@@ -63,7 +63,6 @@ def startGui():
 def updateGuiData(data: dict):
     """starts the gui loop given data"""
     update_label(data)
-    mainWin.after(100, updateGuiData)
         
 def update_label(data: dict):
         """private for gui.py, takes data dict
