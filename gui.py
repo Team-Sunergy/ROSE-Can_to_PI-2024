@@ -59,11 +59,10 @@ HappinessStatusLabel.grid(row=6, column=0, sticky='w')
 def startGui():
     """starts the gui loop given data"""
     print("Starting gui")
-    threading.Thread(target=mainWin.mainloop).start()
-
+    mainWin.mainloop()
 def updateGuiData(data: dict):
     """starts the gui loop given data"""
-    update_label(data)
+    tkthread.main(mainWin).call(update_label, data)
         
 def update_label(data: dict):
         """private for gui.py, takes data dict
@@ -77,3 +76,6 @@ def update_label(data: dict):
             deltaVoltageLabel(text = " DELTA VOLTAGE: " + str(data['BatteryVoltage']))
         else:
              speedActual.config(text="none")
+    
+if __name__ == "__main__":
+    threading.Thread(target=startGui).start()
