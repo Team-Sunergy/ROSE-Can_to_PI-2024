@@ -12,7 +12,10 @@ def main():
     setup_can_interface()
     print("The setup_can_interface done")
     bus = initialize_bus()
+
     print("Bus variable is set")
+
+    # this is for motor controllers
     send_request_frame0_periodically(bus=bus)
     print("Sending request frame0 in main...")
 

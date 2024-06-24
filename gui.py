@@ -57,6 +57,7 @@ def startGui(data: dict):
     """starts the gui loop given data"""
     update_label(data)
     if(not mainLoopOn):
+        print("Starting gui")
         mainWin.mainloop()
     
         
