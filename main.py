@@ -6,6 +6,7 @@ from gui import startGui, updateGuiData
 import threading
 
 def main():
+    data = None
     """
     Main function to set up the CAN interface, initialize the bus, and continuously
     receive and parse CAN messages until interrupted by user.
@@ -17,7 +18,7 @@ def main():
     # this is for motor controllers
     send_request_frame0_periodically(bus=bus)
     print("Sending request frame0 in main...")
-    gui_thread = threading.Thread(target=startGui)
+    gui_thread = threading.Thread(target=updateGuiData, data)
     gui_thread.start()
 
     try:
@@ -36,10 +37,7 @@ def main():
             
             # used for sending data, contains all different types of possible categories (mppts, bms, mc)
             # depending on what CAN frame ID is
-            canData = group_can_data(data=data)
-            updateGuiData(data=data)
-
-            
+            canData = group_can_data(data=data)            
 
 
 
