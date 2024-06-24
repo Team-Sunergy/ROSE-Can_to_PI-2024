@@ -58,7 +58,7 @@ HappinessStatusLabel.grid(row=6, column=0, sticky='w')
 def startGui():
     """starts the gui loop given data"""
     print("Starting gui")
-    threading.Thread(target=mainWin.mainloop()).start()
+    threading.Thread(target=mainWin.mainloop).start()
 
 def updateGuiData(data: dict):
     """starts the gui loop given data"""
