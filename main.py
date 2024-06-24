@@ -2,7 +2,8 @@ from can_interface import setup_can_interface, shutdown_can_interface
 from bus import initialize_bus
 from message_parser import parse_can_message, group_can_data
 from tools import getBits, send_request_frame0_periodically, getSpeed
-from gui import main2, updateGuiData
+from gui import startGui, updateGuiData
+import threading
 
 def main():
     """
@@ -16,6 +17,8 @@ def main():
     # this is for motor controllers
     send_request_frame0_periodically(bus=bus)
     print("Sending request frame0 in main...")
+    gui_thread = threading.Thread(target=startGui)
+    gui_thread.start()
 
     try:
         print("In the try")
