@@ -1,8 +1,7 @@
 from can_interface import setup_can_interface, shutdown_can_interface
 from bus import initialize_bus
-from message_parser import parse_can_message
-from tools import getBits, send_request_frame0_periodically
-
+from message_parser import parse_can_message, group_can_data
+from tools import getBits, send_request_frame0_periodically, getSpeed
 
 def main():
     """
@@ -23,12 +22,17 @@ def main():
             parsed_message = parse_can_message(message) # recieves parsed message
             data = parsed_message['data']
             
+            # used for seeing can frames
             print(f"Timestamp: {parsed_message['timestamp']:.6f}")
             print(f"ID: {parsed_message['arbitration_id']:x}")
             print(f"DLC: {parsed_message['dlc']}")
             print(f"Data: {parsed_message['data_str']}")
             print("-" * 30)
-            print(getBits(data, 0, 7))
+            
+            # used for sending data, contains all different types of possible categories (mppts, bms, mc)
+            # depending on what CAN frame ID is
+            canData = group_can_data(data=data)
+
 
 
     except KeyboardInterrupt:

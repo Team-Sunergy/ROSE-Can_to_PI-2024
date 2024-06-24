@@ -4,7 +4,6 @@ from tkinter import ttk
 
 from mockDataTransfer import *
 
-
 # window
 mainWin = tk.Tk()
 mainWin.title("raspberry pi interface")
@@ -51,19 +50,13 @@ label3.grid(row=4)
 label4.grid(row=5)
 label5.grid(row=6)
 
-# data transfer suite
-mockDataSuite = mockDataTransfer()
-mockDataSuite.main()
-data: str = mockDataSuite.data
-
-# update label fun
-def update_label():
-    data = mockDataSuite.main()
-    if data is not None:
-        speedActual.config(text=data)
-        mainWin.after(100, update_label)
-
-# starts the update label loop
-update_label()
-# starts the mainWindow loop
-mainWin.mainloop()
+def startGui(data: dict):
+    "starts the gui loop given data"
+    update_label(data)
+    mainWin.mainloop()
+    
+def update_label(data: dict):
+        if data is not None:
+            # update speed with speed
+            speedActual.config(text=str(data['Speed']))
+            mainWin.after(100, update_label)
