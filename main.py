@@ -12,7 +12,7 @@ def main():
     print("The setup_can_interface done")
     bus = initialize_bus()
     print("Bus variable is set")
-    send_request_frame0_periodically(bus)
+    send_request_frame0_periodically(bus=bus)
     print("Sending request frame0 in main...")
 
     try:
