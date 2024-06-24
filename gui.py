@@ -4,9 +4,6 @@ from tkinter import ttk
 
 from mockDataTransfer import *
 
-# bool for mainLoopOn
-mainLoopOn: bool = False
-
 # window
 mainWin = tk.Tk()
 mainWin.title("raspberry pi interface")
@@ -53,14 +50,14 @@ label3.grid(row=4)
 label4.grid(row=5)
 label5.grid(row=6)
 
-def startGui(data: dict):
+def startGui():
     """starts the gui loop given data"""
-    if(not mainLoopOn):
-        print("Starting gui")
-        mainWin.mainloop()
-        update_label(data)
+    print("Starting gui")
+    mainWin.mainloop()
 
-    
+def updateGuiData(data: dict):
+    """starts the gui loop given data"""
+    update_label(data)
         
 def update_label(data: dict):
         """private for gui.py, takes data dict

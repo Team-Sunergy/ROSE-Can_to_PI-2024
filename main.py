@@ -2,7 +2,7 @@ from can_interface import setup_can_interface, shutdown_can_interface
 from bus import initialize_bus
 from message_parser import parse_can_message, group_can_data
 from tools import getBits, send_request_frame0_periodically, getSpeed
-from gui import startGui
+from gui import startGui, updateGuiData
 
 def main():
     """
@@ -12,9 +12,9 @@ def main():
     setup_can_interface()
     print("The setup_can_interface done")
     bus = initialize_bus()
-
     print("Bus variable is set")
-
+    startGui()
+    print("Gui started up")
     # this is for motor controllers
     send_request_frame0_periodically(bus=bus)
     print("Sending request frame0 in main...")
@@ -22,7 +22,6 @@ def main():
     try:
         print("In the try")
         while True:
-            startGui(canData)
             message = bus.recv()
             parsed_message = parse_can_message(message) # recieves parsed message
             data = parsed_message['data']
@@ -37,6 +36,8 @@ def main():
             # used for sending data, contains all different types of possible categories (mppts, bms, mc)
             # depending on what CAN frame ID is
             canData = group_can_data(data=data)
+            updateGuiData(data=data)
+
             
 
 
