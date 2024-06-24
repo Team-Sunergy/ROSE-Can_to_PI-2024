@@ -2,6 +2,7 @@ from can_interface import setup_can_interface, shutdown_can_interface
 from bus import initialize_bus
 from message_parser import parse_can_message, group_can_data
 from tools import getBits, send_request_frame0_periodically, getSpeed
+from gui import startGui
 
 def main():
     """
@@ -32,6 +33,8 @@ def main():
             # used for sending data, contains all different types of possible categories (mppts, bms, mc)
             # depending on what CAN frame ID is
             canData = group_can_data(data=data)
+            startGui(canData)
+            
 
 
 
