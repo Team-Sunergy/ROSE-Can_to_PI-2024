@@ -50,7 +50,7 @@ HappinessStatusLabel = ttk.Label(rightWindow, text=" HAPPINESS STATUS: HAPPY!!!"
 
 
 socLabel.grid(row=2, column=0)
-motorCurrentInLabel.grid(row=3,c olumn=0, sticky='w')
+motorCurrentInLabel.grid(row=3, column=0, sticky='w')
 motorCurrentOutLabel.grid(row=4, column=0, sticky='w')
 deltaVoltageLabel.grid(row=5, column=0, sticky='w')
 HappinessStatusLabel.grid(row=6, column=0, sticky='w')
