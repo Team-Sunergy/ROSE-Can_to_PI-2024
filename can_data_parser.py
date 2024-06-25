@@ -99,7 +99,7 @@ def main():
     bus = initialize_bus()
     print("Bus variable is set")
 
-    shift_amount = 2  # Set the amount to shift the data bits
+    shift_amount = 0  # Set the amount to shift the data bits
 
     try:
         print("In the try")
