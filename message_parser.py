@@ -47,8 +47,8 @@ def group_can_data(canId, data: bytearray) -> dict:
     # motor controllers
     if(canId == 0x0885025 or canId == 0x08850245 or canId == 0x08850265 or canId == 0x08850285):
         canData.update({'DataType': 'mc',
-                'BatteryVoltage': getBits(data, 0, 9),
-                'BatteryCurrent': getBits(data, 10, 18),
+                'BatteryVoltage': getBits(data, 0, 9) * 0.001,
+                'BatteryCurrent': getBits(data, 10, 18) * 0.001,
                 'BatteryCurrentDirection': getBits(data, 19, 19),
                 'MotorCurrentPeakAverage': getBits(data, 20, 29),
                 'FETTemperature': getBits(data, 30, 34),
@@ -60,8 +60,8 @@ def group_can_data(canId, data: bytearray) -> dict:
     elif(canId == 0x289):
         canData.update({'DataType': 'bms',
                    'SOC': getBits(data, 0, 7),
-                   'HighCellVolts': getBits(data, 8, 23),
-                   'LowCellVolts': getBits(data, 24, 39),
+                   'HighCellVolts': float(getBits(data, 8, 15)),
+                   'LowCellVolts': float(getBits(data, 24, 31)),
                    'Temp': getBits(data, 56, 63)})
     # MPPTS  out volts and out current
     elif(canId == 0x601 or canId == 0x611):
