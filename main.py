@@ -140,7 +140,7 @@ def main():
     print("Sending request frame0 in main...")
     worker = threading.Thread(target=worker_thread, args=(dataQueue, bus))
     worker.start()
-    updateGuiData(dataQueue=dataQueue)
+    mainWin.after(100, updateGuiData, dataQueue)
     startGui()
 
 if __name__ == "__main__":
