@@ -69,8 +69,6 @@ def startGui(dataQ):
     mainWin.after(100, updateGuiData, dataQ)
     mainWin.mainloop()
 
-
-
 def updateGuiData(dataQueue):
     try:
         # non-blocking get from queue
