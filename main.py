@@ -96,6 +96,7 @@ def update_label(data: dict):
 def worker_thread(queue, bus):
     """A worker thread that generates canData and puts it on the queue."""
     while True:
+        print("Running...")
         data = canCollection(bus)
         queue.put(data) # puts data in queue
         time.sleep(1)  # controls the rate of data generation.
