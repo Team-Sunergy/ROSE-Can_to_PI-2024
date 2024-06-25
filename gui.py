@@ -1,9 +1,13 @@
 import tkinter as tk
 import tkinter.font as tkFont
 from tkinter import ttk
+import queue
 import threading
-
 from mockDataTransfer import *
+
+# data queue for data
+dataQueue = queue.Queue()
+
 
 # window
 mainWin = tk.Tk()
@@ -58,14 +62,25 @@ HappinessStatusLabel.grid(row=6, column=0, sticky='w')
 def startGui():
     """starts the gui loop given data"""
     print("Starting gui")
+    mainWin.after(100, updateGuiData, dataQueue)
     mainWin.mainloop()
 
 
-def updateGuiData(data: dict):
-    """starts the gui loop given data"""
-    update_label(data=data)
-    mainWin.after.updateGuiData(100, update_label, data)
-    startGui()
+
+def updateGuiData(dataQueue):
+    try:
+        # non-blocking get from queue
+        data = dataQueue.get_nowait()
+    except queue.Empty:
+        # no new data
+        pass
+    else:
+        # data received, update labels
+        update_label(data=data)
+
+    # Schedule next check
+    mainWin.after(100, updateGuiData, dataQueue)
+
         
 def update_label(data: dict):
         """private for gui.py, takes data dict
