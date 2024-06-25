@@ -68,7 +68,7 @@ def send_request_frame0_periodically(bus):
     def send_requests():
         while True:
             send_requests_frame0(bus)
-            time.sleep(0.1)
+            time.sleep(0.5)
 
     threading.Thread(target=send_requests).start()
     print("Started thread to send request frame0...")
