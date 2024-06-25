@@ -23,7 +23,6 @@ def initialize_bus():
         bus = can.interface.Bus(
             channel="can0", bustype="socketcan", can_filters=bus_filters
         )
-        bus.set_filters(bus_filters)
         print("Initialized bus & Filter")
         return bus
     except OSError:

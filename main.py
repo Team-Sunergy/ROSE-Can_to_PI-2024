@@ -9,6 +9,8 @@ import queue
 import threading
 from mockDataTransfer import *
 
+
+
 # window
 mainWin = tk.Tk()
 mainWin.title("raspberry pi interface")
@@ -91,10 +93,10 @@ def update_label(data: dict):
         else:
              speedActual.config(text="none")
 
-def worker_thread(queue):
+def worker_thread(queue, bus):
     """A worker thread that generates canData and puts it on the queue."""
     while True:
-        data = canCollection()
+        data = canCollection(bus)
         queue.put(data) # puts data in queue
         time.sleep(1)  # controls the rate of data generation.
 
@@ -122,8 +124,6 @@ def canCollection(bus):
 
 # data queue for data
 dataQueue = queue.Queue()
-worker = threading.Thread(target=worker_thread, args=(dataQueue,))
-worker.start()
 
 def main():
     """
@@ -137,6 +137,8 @@ def main():
     # this is for motor controllers
     send_request_frame0_periodically(bus=bus)
     print("Sending request frame0 in main...")
+    worker = threading.Thread(target=worker_thread, args=(dataQueue, bus))
+    worker.start()
     updateGuiData(dataQueue=dataQueue)
     startGui()
 
