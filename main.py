@@ -53,7 +53,7 @@ motorCurrentOutLabel = ttk.Label(rightWindow, text=" ZACH METER: ", font=("Helve
 deltaVoltageLabel = ttk.Label(rightWindow, text=" DELTA VOLTAGE: ", font=("Helvetica", "15"), borderwidth=2, relief='raised')
 HappinessStatusLabel = ttk.Label(rightWindow, text=" HAPPINESS STATUS: HAPPY!!!", font=("Helvetica", "15"), borderwidth=2, relief='raised')
 
-socLabel.grid(row=2, column=0)
+socLabel.grid(row=2, column=0, sticky='w')
 motorCurrentInLabel.grid(row=3, column=0, sticky='w')
 motorCurrentOutLabel.grid(row=4, column=0, sticky='w')
 deltaVoltageLabel.grid(row=5, column=0, sticky='w')
@@ -87,12 +87,13 @@ def update_label(data: dict):
         if data['DataType'] != "none":
             # update speed with speed
             speedActual.config(text=str(data['Speed']))
-            socLabel.config(text=" SOC" + str(data['SOC']))
+            socLabel.config(text=" SOC: " + str(data['SOC']))
             motorCurrentInLabel(text=" MOTOR CURRENT IN: " + str(data['MotorCurrentPeakAverage']))
             motorCurrentOutLabel(text= " ZACH METER: " + str(data['FETTemperature']))
             deltaVoltageLabel(text = " DELTA VOLTAGE: " + str(data['BatteryVoltage']))
         else:
              speedActual.config(text="none")
+             socLabel.config(text="datatype = none")
 
 def worker_thread(queue, bus):
     """A worker thread that generates canData and puts it on the queue."""
