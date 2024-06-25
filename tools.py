@@ -50,18 +50,18 @@ def send_requests_frame0(bus):
     request_frame0_RR1 = can.Message(arbitration_id=0x08F91540, 
                                  data=[0x07],  # Data to request Frame0, 7 is frame0, 1, 2
                                  is_extended_id=True)  # true as it is 29bit frame
-    # # Sends request messages
-    # try:
-    #     bus.send(request_frame0_RL1)
-    #     print("Request for Frame0 RL1 sent")
-    # except can.CanError:
-    #     print("Failed to send request for Frame0 RL1")
+    # Sends request messages
+    try:
+        bus.send(request_frame0_RL1)
+        print("Request for Frame0 RL1 sent")
+    except can.CanError:
+        print("Failed to send request for Frame0 RL1")
 
-    # try:
-    #     bus.send(request_frame0_RR1)
-    #     print("Request for Frame0 RR1 sent")
-    # except can.CanError:
-    #     print("Failed to send request for Frame0 RR1")
+    try:
+        bus.send(request_frame0_RR1)
+        print("Request for Frame0 RR1 sent")
+    except can.CanError:
+        print("Failed to send request for Frame0 RR1")
 
 
 def send_request_frame0_periodically(bus):
