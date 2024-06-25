@@ -88,9 +88,9 @@ def update_label(data: dict):
             # update speed with speed
             speedActual.config(text=str(data['Speed']))
             socLabel.config(text=" SOC: " + str(data['SOC']))
-            motorCurrentInLabel(text=" MOTOR CURRENT IN: " + str(data['MotorCurrentPeakAverage']))
-            motorCurrentOutLabel(text= " ZACH METER: " + str(data['FETTemperature']))
-            deltaVoltageLabel(text = " DELTA VOLTAGE: " + str(data['HighCellVoltage'] - data['LowCellVoltage']))
+            motorCurrentInLabel.config(text=" MOTOR CURRENT IN: " + str(data['MotorCurrentPeakAverage']))
+            motorCurrentOutLabel.config(text= " ZACH METER: " + str(data['FETTemperature']))
+            deltaVoltageLabel.config(text = " DELTA VOLTAGE: " + str(data['HighCellVoltage'] - data['LowCellVoltage']))
         else:
              speedActual.config(text="none")
              socLabel.config(text="datatype = none")
