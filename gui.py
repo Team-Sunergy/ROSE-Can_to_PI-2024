@@ -59,10 +59,10 @@ motorCurrentOutLabel.grid(row=4, column=0, sticky='w')
 deltaVoltageLabel.grid(row=5, column=0, sticky='w')
 HappinessStatusLabel.grid(row=6, column=0, sticky='w')
 
-def startGui():
+def startGui(dataQ):
     """starts the gui loop given data"""
     print("Starting gui")
-    mainWin.after(100, updateGuiData, dataQueue)
+    mainWin.after(100, updateGuiData, dataQ)
     mainWin.mainloop()
 
 
