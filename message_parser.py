@@ -29,8 +29,21 @@ def group_can_data(canId, data: bytearray) -> dict:
     There are also a few other keys that have been added, such as speed.
     """
     canData = {'DataType': 'none',
+               'BatteryVoltage': 'none',
+               'BatteryCurrent': 'none',
+               'BatteryCurrentDirection': 'none',
+               'MotorCurrentPeakAverage': 'none',
+               'FETTemperature': 'none',
+               'MotorRotatingSpeed': 'none',
+               'PWMDuty': 'none',
+               'LeadAngle': 'none',
                'Speed': 'none',
-               'MotorCurrentPeakAvverage': none}
+               'SOC': 'none',
+               'HighCellVolts': 'none',
+               'LowCellVolts': 'none',
+               'Temp': 'none',
+               'OutVolts': 'none',
+               'OutCurrent': 'none'}
     # motor controllers
     if(canId == 0x0885025 or canId == 0x08850245 or canId == 0x08850265 or canId == 0x08850285):
         canData.update({'DataType': 'mc',
@@ -42,7 +55,7 @@ def group_can_data(canId, data: bytearray) -> dict:
                 'MotorRotatingSpeed': getBits(data, 35, 46),
                 'PWMDuty': getBits(data, 47, 56),
                 'LeadAngle': getBits(data, 57, 63),
-                'Speed': getSpeed(getBits(data, 20, 29))})
+                'Speed': getSpeed(getBits(data, 20, 29))}),
     # bms
     elif(canId == 0x289):
         canData.update({'DataType': 'bms',
