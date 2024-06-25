@@ -10,57 +10,8 @@ import queue
 import threading
 from mockDataTransfer import *
 
-
-def main():
-    data = None
-    """
-    Main function to set up the CAN interface, initialize the bus, and continuously
-    receive and parse CAN messages until interrupted by user.
-    """
-    setup_can_interface()
-    print("The setup_can_interface done")
-    bus = initialize_bus()
-    print("Bus variable is set")
-    # this is for motor controllers
-    send_request_frame0_periodically(bus=bus)
-    print("Sending request frame0 in main...")
-    guiThread = threading.Thread(target=startGui, args=(dataQueue,))
-    guiThread.start()
-
-
-    try:
-        print("In the try")
-        while True:
-            message = bus.recv()
-            parsed_message = parse_can_message(message) # recieves parsed message
-            data = parsed_message['data']
-            
-            # used for seeing can frames
-            print(f"Timestamp: {parsed_message['timestamp']:.6f}")
-            print(f"ID: {parsed_message['arbitration_id']:x}")
-            print(f"DLC: {parsed_message['dlc']}")
-            print(f"Data: {parsed_message['data_str']}")
-            print("-" * 30)
-            
-            # used for sending data, contains all different types of possible categories (mppts, bms, mc)
-            # depending on what CAN frame ID is
-            canData = group_can_data(data=data) 
-            dataQueue.put(canData)           
-
-
-
-    except KeyboardInterrupt:
-        shutdown_can_interface()
-        print("\n\rKeyboard interrupt")
-
-if __name__ == "__main__":
-    main()
-
-
-
 # data queue for data
 dataQueue = queue.Queue()
-
 
 # window
 mainWin = tk.Tk()
@@ -147,3 +98,51 @@ def update_label(data: dict):
             deltaVoltageLabel(text = " DELTA VOLTAGE: " + str(data['BatteryVoltage']))
         else:
              speedActual.config(text="none")
+
+
+def main():
+    data = None
+    """
+    Main function to set up the CAN interface, initialize the bus, and continuously
+    receive and parse CAN messages until interrupted by user.
+    """
+    setup_can_interface()
+    print("The setup_can_interface done")
+    bus = initialize_bus()
+    print("Bus variable is set")
+    # this is for motor controllers
+    send_request_frame0_periodically(bus=bus)
+    print("Sending request frame0 in main...")
+    guiThread = threading.Thread(target=startGui, args=(dataQueue,))
+    guiThread.start()
+
+
+    try:
+        print("In the try")
+        while True:
+            message = bus.recv()
+            parsed_message = parse_can_message(message) # recieves parsed message
+            data = parsed_message['data']
+            
+            # used for seeing can frames
+            print(f"Timestamp: {parsed_message['timestamp']:.6f}")
+            print(f"ID: {parsed_message['arbitration_id']:x}")
+            print(f"DLC: {parsed_message['dlc']}")
+            print(f"Data: {parsed_message['data_str']}")
+            print("-" * 30)
+            
+            # used for sending data, contains all different types of possible categories (mppts, bms, mc)
+            # depending on what CAN frame ID is
+            canData = group_can_data(data=data) 
+            dataQueue.put(canData)           
+
+
+
+    except KeyboardInterrupt:
+        shutdown_can_interface()
+        print("\n\rKeyboard interrupt")
+
+if __name__ == "__main__":
+    main()
+
+
