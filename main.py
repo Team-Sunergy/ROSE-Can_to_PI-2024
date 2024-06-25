@@ -66,6 +66,7 @@ def startGui():
 
 def updateGuiData(dataQueue):
     """updates gui via a queue system"""
+    print("starting update gui data")
     try:
         # non-blocking get from queue
         data = dataQueue.get_nowait()
@@ -117,7 +118,7 @@ def canCollection(bus):
         
         # used for sending data, contains all different types of possible categories (mppts, bms, mc)
         # depending on what CAN frame ID is
-        return group_can_data(data=data)
+        return group_can_data(parsed_message['arbitration_id'], data=data)
     
     except KeyboardInterrupt:
         shutdown_can_interface()
