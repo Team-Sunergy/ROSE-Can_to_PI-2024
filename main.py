@@ -6,10 +6,8 @@ import tkinter as tk
 import tkinter.font as tkFont
 from tkinter import ttk
 import queue
+import threading
 from mockDataTransfer import *
-
-# data queue for data
-dataQueue = queue.Queue()
 
 # window
 mainWin = tk.Tk()
@@ -20,7 +18,6 @@ mainWin.geometry('800x480')
 mainWin.columnconfigure(0, weight=1)
 mainWin.columnconfigure(1, weight=1)
 mainWin.rowconfigure(0, weight=1)
-
 
 # configure left window
 leftWindow = tk.Frame(mainWin, borderwidth=5, relief='raised')
@@ -54,20 +51,19 @@ motorCurrentOutLabel = ttk.Label(rightWindow, text=" ZACH METER: ", font=("Helve
 deltaVoltageLabel = ttk.Label(rightWindow, text=" DELTA VOLTAGE: ", font=("Helvetica", "15"), borderwidth=2, relief='raised')
 HappinessStatusLabel = ttk.Label(rightWindow, text=" HAPPINESS STATUS: HAPPY!!!", font=("Helvetica", "15"), borderwidth=2, relief='raised')
 
-
 socLabel.grid(row=2, column=0)
 motorCurrentInLabel.grid(row=3, column=0, sticky='w')
 motorCurrentOutLabel.grid(row=4, column=0, sticky='w')
 deltaVoltageLabel.grid(row=5, column=0, sticky='w')
 HappinessStatusLabel.grid(row=6, column=0, sticky='w')
 
-def startGui(dataQ):
+def startGui():
     """starts the gui loop given data"""
     print("Starting gui")
-    mainWin.after(100, updateGuiData, dataQ)
     mainWin.mainloop()
 
 def updateGuiData(dataQueue):
+    """updates gui via a queue system"""
     try:
         # non-blocking get from queue
         data = dataQueue.get_nowait()
@@ -78,7 +74,7 @@ def updateGuiData(dataQueue):
         # data received, update labels
         update_label(data=data)
 
-    # Schedule next check
+    # schedule next update
     mainWin.after(100, updateGuiData, dataQueue)
 
         
@@ -95,9 +91,41 @@ def update_label(data: dict):
         else:
              speedActual.config(text="none")
 
+def worker_thread(queue):
+    """A worker thread that generates canData and puts it on the queue."""
+    while True:
+        data = canCollection()
+        queue.put(data) # puts data in queue
+        time.sleep(1)  # controls the rate of data generation.
+
+def canCollection(bus):
+    print("In the try")
+    try:
+        message = bus.recv()
+        parsed_message = parse_can_message(message) # recieves parsed message
+        data = parsed_message['data']
+        
+        # used for seeing can frames
+        print(f"Timestamp: {parsed_message['timestamp']:.6f}")
+        print(f"ID: {parsed_message['arbitration_id']:x}")
+        print(f"DLC: {parsed_message['dlc']}")
+        print(f"Data: {parsed_message['data_str']}")
+        print("-" * 30)
+        
+        # used for sending data, contains all different types of possible categories (mppts, bms, mc)
+        # depending on what CAN frame ID is
+        return group_can_data(data=data)
+    
+    except KeyboardInterrupt:
+        shutdown_can_interface()
+        print("\n\rKeyboard interrupt")
+
+# data queue for data
+dataQueue = queue.Queue()
+worker = threading.Thread(target=worker_thread, args=(dataQueue,))
+worker.start()
 
 def main():
-    data = None
     """
     Main function to set up the CAN interface, initialize the bus, and continuously
     receive and parse CAN messages until interrupted by user.
@@ -109,33 +137,8 @@ def main():
     # this is for motor controllers
     send_request_frame0_periodically(bus=bus)
     print("Sending request frame0 in main...")
-    startGui(dataQ=dataQueue)
-
-
-    try:
-        print("In the try")
-        while True:
-            message = bus.recv()
-            parsed_message = parse_can_message(message) # recieves parsed message
-            data = parsed_message['data']
-            
-            # used for seeing can frames
-            print(f"Timestamp: {parsed_message['timestamp']:.6f}")
-            print(f"ID: {parsed_message['arbitration_id']:x}")
-            print(f"DLC: {parsed_message['dlc']}")
-            print(f"Data: {parsed_message['data_str']}")
-            print("-" * 30)
-            
-            # used for sending data, contains all different types of possible categories (mppts, bms, mc)
-            # depending on what CAN frame ID is
-            canData = group_can_data(data=data) 
-            dataQueue.put(canData)           
-
-
-
-    except KeyboardInterrupt:
-        shutdown_can_interface()
-        print("\n\rKeyboard interrupt")
+    updateGuiData(dataQueue=dataQueue)
+    startGui()
 
 if __name__ == "__main__":
     main()
