@@ -2,12 +2,10 @@ from can_interface import setup_can_interface, shutdown_can_interface
 from bus import initialize_bus
 from message_parser import parse_can_message, group_can_data
 from tools import getBits, send_request_frame0_periodically, getSpeed
-import threading
 import tkinter as tk
 import tkinter.font as tkFont
 from tkinter import ttk
 import queue
-import threading
 from mockDataTransfer import *
 
 # data queue for data
@@ -111,8 +109,7 @@ def main():
     # this is for motor controllers
     send_request_frame0_periodically(bus=bus)
     print("Sending request frame0 in main...")
-    guiThread = threading.Thread(target=startGui, args=(dataQueue,))
-    guiThread.start()
+    startGui(dataQ=dataQueue)
 
 
     try:
