@@ -28,7 +28,9 @@ def group_can_data(canId, data: bytearray) -> dict:
     You can see the keys for each here.
     There are also a few other keys that have been added, such as speed.
     """
-    canData = {'DataType': 'none'}
+    canData = {'DataType': 'none',
+               'Speed': 'none',
+               'MotorCurrentPeakAvverage': none}
     # motor controllers
     if(canId == 0x0885025 or canId == 0x08850245 or canId == 0x08850265 or canId == 0x08850285):
         canData.update({'DataType': 'mc',
