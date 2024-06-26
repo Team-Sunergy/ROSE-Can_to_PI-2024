@@ -66,7 +66,6 @@ def startGui():
 
 def updateGuiData(dataQueue):
     """updates gui via a queue system"""
-    print("starting update gui data")
     try:
         # non-blocking get from queue
         data = dataQueue.get_nowait()
@@ -84,7 +83,17 @@ def updateGuiData(dataQueue):
 def update_label(data: dict):
         """private for gui.py, takes data dict
         and updates label"""
-        if data['DataType'] != "none":
+        if data["DataType"] == 'mppt1error' or data['DataType'] == 'mppt0error':
+            print(data["DataType"])
+            print("LowArrayPower: " + str(data['LowArrayPower']))
+            print("MosfetOverheat: " + str(data['MosfetOverheat']))
+            print("BatteryLow: "+ str(data['BatteryLow']))
+            print("BatteryFull: " + str(data['BatteryFull']))
+            print("12VUnderVoltage: " + str(data['12UnderVoltage']))
+            print("HWOvercurrent: " + str(data['HWOvercurrent']))
+            print("HWOvervoltage: " + str(data['HWOvervoltage']))
+
+        if data['DataType'] != 'none':
             # update speed with speed
             speedActual.config(text=str(data['Speed']))
             socLabel.config(text=" SOC: " + str(data['SOC']))
@@ -97,8 +106,8 @@ def update_label(data: dict):
 
 def worker_thread(queue, bus):
     """A worker thread that generates canData and puts it on the queue."""
+    print("Running worker thread.")
     while True:
-        print("Running...")
         data = canCollection(bus)
         queue.put(data) # puts data in queue
         time.sleep(1)  # controls the rate of data generation.
@@ -116,6 +125,7 @@ def canCollection(bus):
         print(f"DLC: {parsed_message['dlc']}")
         print(f"Data: {parsed_message['data_str']}")
         print("-" * 30)
+
         
         # used for sending data, contains all different types of possible categories (mppts, bms, mc)
         # depending on what CAN frame ID is
