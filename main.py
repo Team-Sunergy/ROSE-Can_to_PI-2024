@@ -83,23 +83,13 @@ def updateGuiData(dataQueue):
 def update_label(data: dict):
         """private for gui.py, takes data dict
         and updates label"""
-        if data["DataType"] == 'mppt1error' or data['DataType'] == 'mppt0error':
-            print(data["DataType"])
-            print("LowArrayPower: " + str(data['LowArrayPower']))
-            print("MosfetOverheat: " + str(data['MosfetOverheat']))
-            print("BatteryLow: "+ str(data['BatteryLow']))
-            print("BatteryFull: " + str(data['BatteryFull']))
-            print("12VUnderVoltage: " + str(data['12UnderVoltage']))
-            print("HWOvercurrent: " + str(data['HWOvercurrent']))
-            print("HWOvervoltage: " + str(data['HWOvervoltage']))
-
         if data['DataType'] != 'none':
             # update speed with speed
             speedActual.config(text=str(data['Speed']))
             socLabel.config(text=" SOC: " + str(data['SOC']))
             motorCurrentInLabel.config(text=" MOTOR CURRENT IN: " + str(data['MotorCurrentPeakAverage']))
             motorCurrentOutLabel.config(text= " ZACH METER: " + str(data['FETTemperature']))
-            deltaVoltageLabel.config(text = " DELTA VOLTAGE: " + str(float(data['HighCellVolts']) - float( data['LowCellVolts'])))
+            deltaVoltageLabel.config(text = " DELTA VOLTAGE: ") # + str(float(data['HighCellVolts']) - float( data['LowCellVolts'])))
         else:
              speedActual.config(text="none")
              socLabel.config(text="datatype = none")
@@ -118,8 +108,20 @@ def canCollection(bus):
         message = bus.recv()
         parsed_message = parse_can_message(message) # recieves parsed message
         data = parsed_message['data']
-        
+        # group up data into a table
+        groupedData = group_can_data(parsed_message['arbitration_id'], data=data)
         # used for seeing can frames
+        
+        if groupedData["DataType"] == 'mppt1error' or data['DataType'] == 'mppt0error':
+            print(data["DataType"])
+            print("LowArrayPower: " + str(data['LowArrayPower']))
+            print("MosfetOverheat: " + str(data['MosfetOverheat']))
+            print("BatteryLow: "+ str(data['BatteryLow']))
+            print("BatteryFull: " + str(data['BatteryFull']))
+            print("12VUnderVoltage: " + str(data['12VUnderVoltage']))
+            print("HWOvercurrent: " + str(data['HWOvercurrent']))
+            print("HWOvervoltage: " + str(data['HWOvervoltage']))
+
         print(f"Timestamp: {parsed_message['timestamp']:.6f}")
         print(f"ID: {parsed_message['arbitration_id']:x}")
         print(f"DLC: {parsed_message['dlc']}")
@@ -129,7 +131,7 @@ def canCollection(bus):
         
         # used for sending data, contains all different types of possible categories (mppts, bms, mc)
         # depending on what CAN frame ID is
-        return group_can_data(parsed_message['arbitration_id'], data=data)
+        return groupedData
     
     except KeyboardInterrupt:
         shutdown_can_interface()
