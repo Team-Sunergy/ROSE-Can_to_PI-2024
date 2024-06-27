@@ -20,6 +20,34 @@ def parse_can_message(message, shift_amount=0):
 
     return parsed_data
 
+canData = {'DataType': 'none',
+        'BatteryVoltage': 'none',
+        'BatteryCurrent': 'none',
+        'BatteryCurrentDirection': 'none',
+        'MotorCurrentPeakAverage': 'none',
+        'FETTemperature': 'none',
+        'MotorRotatingSpeed': 'none',
+        'PWMDuty': 'none',
+        'LeadAngle': 'none',
+        'Speed': 'none',
+        'SOC': 'none',
+        'HighCellVolts': 'none',
+        'LowCellVolts': 'none',
+        'Temp': 'none',
+        'InputVoltage': 'none',
+        'InputCurrent': 'none',
+        'OutputVoltage': 'none',
+        'OutputCurrent': 'none',
+        'MosfetTemperature': 'none',
+        'ControllerTemperature': 'none',
+        'LowArrayPower': 'none',
+        'MosfetOverheat': 'none',
+        'BatteryLow': 'none',
+        'BatteryFull': 'none',
+        '12VUnderVoltage': 'none',
+        'HWOvercurrent': 'none',
+        'HWOvervoltage': 'none'}
+
 def group_can_data(canId, data: bytearray) -> dict:
     """
     This function, given the data from a CANFrame, organizes all of the data
@@ -28,33 +56,7 @@ def group_can_data(canId, data: bytearray) -> dict:
     You can see the keys for each here.
     There are also a few other keys that have been added, such as speed.
     """
-    canData = {'DataType': 'none',
-           'BatteryVoltage': 'none',
-           'BatteryCurrent': 'none',
-           'BatteryCurrentDirection': 'none',
-           'MotorCurrentPeakAverage': 'none',
-           'FETTemperature': 'none',
-           'MotorRotatingSpeed': 'none',
-           'PWMDuty': 'none',
-           'LeadAngle': 'none',
-           'Speed': 'none',
-           'SOC': 'none',
-           'HighCellVolts': 'none',
-           'LowCellVolts': 'none',
-           'Temp': 'none',
-           'InputVoltage': 'none',
-           'InputCurrent': 'none',
-           'OutputVoltage': 'none',
-           'OutputCurrent': 'none',
-           'MosfetTemperature': 'none',
-           'ControllerTemperature': 'none',
-           'LowArrayPower': 'none',
-           'MosfetOverheat': 'none',
-           'BatteryLow': 'none',
-           'BatteryFull': 'none',
-           '12VUnderVoltage': 'none',
-           'HWOvercurrent': 'none',
-           'HWOvervoltage': 'none'}
+
 
     # motor controllers
     if(canId == 0x0885025 or canId == 0x08850245 or canId == 0x08850265 or canId == 0x08850285):
