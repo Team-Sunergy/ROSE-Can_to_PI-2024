@@ -20,6 +20,34 @@ def parse_can_message(message, shift_amount=0):
 
     return parsed_data
 
+canData = {'DataType': 'none',
+        'BatteryVoltage': 'none',
+        'BatteryCurrent': 'none',
+        'BatteryCurrentDirection': 'none',
+        'MotorCurrentPeakAverage': 'none',
+        'FETTemperature': 'none',
+        'MotorRotatingSpeed': 'none',
+        'PWMDuty': 'none',
+        'LeadAngle': 'none',
+        'Speed': 'none',
+        'SOC': 'none',
+        'HighCellVolts': 'none',
+        'LowCellVolts': 'none',
+        'Temp': 'none',
+        'InputVoltage': 'none',
+        'InputCurrent': 'none',
+        'OutputVoltage': 'none',
+        'OutputCurrent': 'none',
+        'MosfetTemperature': 'none',
+        'ControllerTemperature': 'none',
+        'LowArrayPower': 'none',
+        'MosfetOverheat': 'none',
+        'BatteryLow': 'none',
+        'BatteryFull': 'none',
+        '12VUnderVoltage': 'none',
+        'HWOvercurrent': 'none',
+        'HWOvervoltage': 'none'}
+
 def group_can_data(canId, data: bytearray) -> dict:
     """
     This function, given the data from a CANFrame, organizes all of the data
@@ -28,33 +56,7 @@ def group_can_data(canId, data: bytearray) -> dict:
     You can see the keys for each here.
     There are also a few other keys that have been added, such as speed.
     """
-    canData = {'DataType': 'none',
-           'BatteryVoltage': 'none',
-           'BatteryCurrent': 'none',
-           'BatteryCurrentDirection': 'none',
-           'MotorCurrentPeakAverage': 'none',
-           'FETTemperature': 'none',
-           'MotorRotatingSpeed': 'none',
-           'PWMDuty': 'none',
-           'LeadAngle': 'none',
-           'Speed': 'none',
-           'SOC': 'none',
-           'HighCellVolts': 'none',
-           'LowCellVolts': 'none',
-           'Temp': 'none',
-           'InputVoltage': 'none',
-           'InputCurrent': 'none',
-           'OutputVoltage': 'none',
-           'OutputCurrent': 'none',
-           'MosfetTemperature': 'none',
-           'ControllerTemperature': 'none',
-           'LowArrayPower': 'none',
-           'MosfetOverheat': 'none',
-           'BatteryLow': 'none',
-           'BatteryFull': 'none',
-           '12VUnderVoltage': 'none',
-           'HWOvercurrent': 'none',
-           'HWOvervoltage': 'none'}
+
 
     # motor controllers
     if(canId == 0x0885025 or canId == 0x08850245 or canId == 0x08850265 or canId == 0x08850285):
@@ -80,13 +82,13 @@ def group_can_data(canId, data: bytearray) -> dict:
     # MPPTS InputVoltage and InputCurrent
     elif(canId == 0x600 or canId == 0x610):
         canData.update({'DataType': 'mpptsInput',
-                   'InputVoltage': get32FloatBits(data, 0, 31),
-                   'InputCurrent': get32FloatBits(data, 32, 63)})
+                   'InputVoltage': getBits(data, 0, 31),
+                   'InputCurrent': getBits(data, 32, 63)})
     # MPPTS  out volts and out current
     elif(canId == 0x601 or canId == 0x611):
         canData.update({'DataType': 'mpptsOutput',
-                   'OutputVoltage': get32FloatBits(data, 0, 31),
-                   'OutputCurrent': get32FloatBits(data, 32, 63)})
+                   'OutputVoltage': getBits(data, 0, 31),
+                   'OutputCurrent': getBits(data, 32, 63)})
     # MPPTS temp
     elif(canId == 0x602 or canId == 0x612):
         canData.update({'DataType': 'mpptsTemp',
