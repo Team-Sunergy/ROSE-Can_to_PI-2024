@@ -28,21 +28,22 @@ def canCollection(bus):
         groupedData = group_can_data(parsed_message['arbitration_id'], data=data)
         # used for seeing can frames
         
-        if groupedData["DataType"] == 'mppt1error' or data['DataType'] == 'mppt0error':
-            print(data["DataType"])
-            print("LowArrayPower: " + str(data['LowArrayPower']))
-            print("MosfetOverheat: " + str(data['MosfetOverheat']))
-            print("BatteryLow: "+ str(data['BatteryLow']))
-            print("BatteryFull: " + str(data['BatteryFull']))
-            print("12VUnderVoltage: " + str(data['12VUnderVoltage']))
-            print("HWOvercurrent: " + str(data['HWOvercurrent']))
-            print("HWOvervoltage: " + str(data['HWOvervoltage']))
+        if groupedData["DataType"] == 'mppt1error' or groupedData['DataType'] == 'mppt0error':
+            print(groupedData["DataType"])
+            print("LowArrayPower: " + str(groupedData['LowArrayPower']))
+            print("MosfetOverheat: " + str(groupedData['MosfetOverheat']))
+            print("BatteryLow: "+ str(groupedData['BatteryLow']))
+            print("BatteryFull: " + str(groupedData['BatteryFull']))
+            print("12VUnderVoltage: " + str(groupedData['12VUnderVoltage']))
+            print("HWOvercurrent: " + str(groupedData['HWOvercurrent']))
+            print("HWOvervoltage: " + str(groupedData['HWOvervoltage']))
 
         print(f"Timestamp: {parsed_message['timestamp']:.6f}")
         print(f"ID: {parsed_message['arbitration_id']:x}")
         print(f"DLC: {parsed_message['dlc']}")
         print(f"Data: {parsed_message['data_str']}")
         print("-" * 30)
+        print("STATE OF CHARGE: " + str(groupedData['SOC']))
 
         
         # used for sending data, contains all different types of possible categories (mppts, bms, mc)

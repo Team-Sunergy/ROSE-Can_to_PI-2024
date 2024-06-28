@@ -76,7 +76,7 @@ def group_can_data(canId, data: bytearray) -> dict:
                    'Temp': getBits(data, 56, 63)})
     elif(canId == 0x287):
         canData.update({'DataType': 'bmsSOC',
-                   'SOC': get16FloatBits(data, 16)})
+                   'SOC': get16FloatBits(data, 8)})
     # MPPTS InputVoltage and InputCurrent
     elif(canId == 0x600 or canId == 0x610):
         canData.update({'DataType': 'mpptsInput',
