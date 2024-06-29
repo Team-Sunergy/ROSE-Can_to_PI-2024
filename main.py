@@ -8,56 +8,175 @@ from tkinter import ttk
 import queue
 import threading
 from mockDataTransfer import *
+from tkinter import *
+import customtkinter
+import ttkbootstrap as tb
+from PIL import Image
 
 
 
-# window
-mainWin = tk.Tk()
-mainWin.title("raspberry pi interface")
+# definition of main window
+mainWin = customtkinter.CTk(fg_color='#E5E5E5')
+mainWin.title("GUI for Driver Interface")
 mainWin.geometry('800x480')
+secondWin = customtkinter.CTkFrame(master=mainWin, width=800, height=440, corner_radius=10, fg_color='white')
+secondWin.place(relx=0.0,rely=0.095)
 
-# configures columns
-mainWin.columnconfigure(0, weight=1)
-mainWin.columnconfigure(1, weight=1)
-mainWin.rowconfigure(0, weight=1)
+versionLabel = Label(master=mainWin,
+                                       text="version 0.1",
+                                       font=('Gotham', 30),
+                                       )
+versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
 
-# configure left window
-leftWindow = tk.Frame(mainWin, borderwidth=5, relief='raised')
-leftWindow.columnconfigure(0, weight=1)
-leftWindow.columnconfigure(1, weight=10)
-leftWindow.columnconfigure(2, weight=1)
-leftWindow.rowconfigure((0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), weight=1)
-leftWindow.grid_propagate(False) # makes it so grid doesnt expand based on labels inside
+# Fonts
+dashFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=40)
+socFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=10)
 
-rightWindow = tk.Frame(mainWin, borderwidth=5, relief='raised')
-rightWindow.columnconfigure(0, weight=1)
-rightWindow.columnconfigure(1, weight=1)
-rightWindow.columnconfigure(2, weight=1)
-rightWindow.rowconfigure((0, 1, 2, 3, 4, 5, 6, 7, 8, 9), weight=1)
-rightWindow.grid_propagate(False)
+# Speedometer
+speedometerFrame = customtkinter.CTkFrame(secondWin,
+                                          width=500,
+                                          height=500,
+                                          fg_color='transparent',
+                                          )
+speedometerFrame.place(relx=0.5, rely=0.48, anchor='center')
 
-# place widgets
-rightWindow.grid(row=0, column=1, sticky='nsew')
-leftWindow.grid(row=0, column=0, sticky='nsew')
+speedometer = tb.Meter(
+    master=speedometerFrame,
+    metersize=400,
+    meterthickness=50,
+    padding=0,
+    amountused=25,
+    metertype="semi",
+    textfont="-size 100 -weight bold",
+    stripethickness=4,
+    subtext="",
+    subtextfont="-size 0",
+    bootstyle='dark',
+    amounttotal=100,    
+    interactive=True,
+)
+speedometer.place(relx=0.5, rely=0.48, anchor='center')
+# fecd08 sunergy yellow
 
-# place widget in left window
-speedCarLabel = ttk.Label(leftWindow, text="SPEED", font=('Helvetica', '10'))
-speedCarLabel.grid(row=4, column=1, sticky='s')
-speedActual = ttk.Label(leftWindow, text="inf spd", font=("Helvetica", "65", "bold"), borderwidth=2, relief="raised")
-speedActual.grid(row=5, column=1, sticky='n')
+# define SOC frame (top left)
+socFrame = customtkinter.CTkFrame(master=secondWin,
+                                  width=200,
+                                  height=100,
+                                  corner_radius=5,
+                                  fg_color='#E5E5E5',
+                                  border_width=1,
+                                  border_color='black',
+                                  )
+socLabel = customtkinter.CTkLabel(master=socFrame,
+                                text='STATE OF CHARGE',
+                                font=socFont,
+                                text_color='black',
+                                )
+socVal = customtkinter.CTkLabel(master=socFrame,
+                                text='95.5%',
+                                font=dashFont,
+                                text_color='black')
+socVal.place(relx=0.5, rely=0.5, anchor='center')
+socLabel.place(relx=0.5, rely=0.01, anchor='n')
+# place on frame
+socFrame.place(x=5,y=5,anchor='nw')
 
-# right window labels
-socLabel = ttk.Label(rightWindow, text=" SOC ", font=("Helvetica", "15"), borderwidth=2, relief='raised')
-motorCurrentInLabel = ttk.Label(rightWindow, text=" MOTOR CURRENT IN: ", font=("Helvetica", "15"), borderwidth=2, relief='raised')
-motorCurrentOutLabel = ttk.Label(rightWindow, text=" ZACH METER: ", font=("Helvetica", "15"),borderwidth=2, relief='raised')
-deltaVoltageLabel = ttk.Label(rightWindow, text=" DELTA VOLTAGE: ", font=("Helvetica", "15"), borderwidth=2, relief='raised')
-HappinessStatusLabel = ttk.Label(rightWindow, text=" HAPPINESS STATUS: HAPPY!!!", font=("Helvetica", "15"), borderwidth=2, relief='raised')
+# define AMPS frame
+ampsInFrame = customtkinter.CTkFrame(master=secondWin,
+                                  width=200,
+                                  height=100,
+                                  corner_radius=5,
+                                  fg_color='#E5E5E5',
+                                  border_width=1,
+                                  border_color='black',
+                                  )
+ampsInLabel = customtkinter.CTkLabel(master=ampsInFrame,
+                                text='AMPERAGE IN',
+                                font=socFont,
+                                text_color='black',
+                                )
+ampsInValue = customtkinter.CTkLabel(master=ampsInFrame,
+                                     text='3.2AMPS',
+                                     font=dashFont,
+                                     text_color='black'
+                                     )
+ampsInLabel.place(relx=0.5, rely=0.01, anchor='n')
+ampsInValue.place(relx=0.5, rely=0.5, anchor='center')
+ampsInFrame.place(x=5,y=428,anchor='sw')
 
-socLabel.grid(row=2, column=0, sticky='w')
-motorCurrentInLabel.grid(row=3, column=0, sticky='w')
-motorCurrentOutLabel.grid(row=4, column=0, sticky='w')
-deltaVoltageLabel.grid(row=5, column=0, sticky='w')
-HappinessStatusLabel.grid(row=6, column=0, sticky='w')
+# amps out frame
+ampsOutFrame = customtkinter.CTkFrame(master=secondWin,
+                                  width=200,
+                                  height=100,
+                                  corner_radius=5,
+                                  fg_color='#E5E5E5',
+                                  border_width=1,
+                                  border_color='black',
+                                  )
+ampsOutLabel = customtkinter.CTkLabel(master=ampsOutFrame,
+                                text='AMPERAGE OUT',
+                                font=socFont,
+                                text_color='black',
+                                )
+ampsOutValue = customtkinter.CTkLabel(master=ampsOutFrame,
+                                     text='1.9AMPS',
+                                     font=dashFont,
+                                     text_color='black'
+                                     )
+ampsOutValue.place(relx=0.5, rely=0.5, anchor='center')
+ampsOutLabel.place(relx=0.5, rely=0.01, anchor='n')
+ampsOutFrame.place(x=795,y=428,anchor='se')
+
+ampsDiffFrame = customtkinter.CTkFrame(master=secondWin,
+                                    width=300,
+                                    height=75,
+                                    corner_radius=5,
+                                    fg_color='#E5E5E5',
+                                    border_width=1,
+                                    border_color='black',
+                                    )
+ampsDiffLabel = customtkinter.CTkLabel(master=ampsDiffFrame,
+                                     text='AMP IN/AMP OUT',
+                                     font=socFont,
+                                     text_color='black',
+                                    )
+ampsDiffValue = customtkinter.CTkLabel(master=ampsDiffFrame,
+                                     text='1.3A',
+                                     font=customtkinter.CTkFont(family='Gotham', weight='bold', size=35),
+                                     text_color='black'
+                                     )
+ampsDiffValue.place(relx=0.5, rely=0.53, anchor='center')
+ampsDiffLabel.place(relx=0.5, rely=0.02,anchor='n')
+ampsDiffFrame.place(x=400,y=428,anchor='s')
+
+# define error frame
+errorFrame = customtkinter.CTkFrame(master=secondWin,
+                                  width=200,
+                                  height=300,
+                                  corner_radius=5,
+                                  fg_color='#E5E5E5',
+                                  border_width=1,
+                                  border_color='black',)
+errorFrameLabel = customtkinter.CTkLabel(master=errorFrame,
+                                         text="ACTIVE ERRORS",
+                                         font=socFont,
+                                         text_color='black',
+                                         )
+errorFrameVal = customtkinter.CTkLabel(master=errorFrame,
+                                text='none',
+                                font=dashFont,
+                                text_color='black',
+                                )
+errorFrameLabel.place(relx=0.5, rely=0.01, anchor='n')
+errorFrameVal.place(relx=0.5, rely=0.5, anchor='center')
+# place on frame
+errorFrame.place(x=795,y=5,anchor='ne')
+# Sunergy Logo
+sunergyLogo = customtkinter.CTkImage(light_image=Image.open('Logo.png'), size=(104.16, 45.83))
+logoLabel = customtkinter.CTkLabel(mainWin, text="", image=sunergyLogo)
+# place on frame
+logoLabel.place(x=400,y=0,anchor='n')
+
 
 def startGui():
     """starts the gui loop given data"""
@@ -83,26 +202,19 @@ def updateGuiData(dataQueue):
 def update_label(data: dict):
         """private for gui.py, takes data dict
         and updates label"""
-        if data["DataType"] == 'mppt1error' or data['DataType'] == 'mppt0error':
-            print(data["DataType"])
-            print("LowArrayPower: " + str(data['LowArrayPower']))
-            print("MosfetOverheat: " + str(data['MosfetOverheat']))
-            print("BatteryLow: "+ str(data['BatteryLow']))
-            print("BatteryFull: " + str(data['BatteryFull']))
-            print("12VUnderVoltage: " + str(data['12UnderVoltage']))
-            print("HWOvercurrent: " + str(data['HWOvercurrent']))
-            print("HWOvervoltage: " + str(data['HWOvervoltage']))
-
         if data['DataType'] != 'none':
             # update speed with speed
-            speedActual.config(text=str(data['Speed']))
-            socLabel.config(text=" SOC: " + str(data['SOC']))
-            motorCurrentInLabel.config(text=" MOTOR CURRENT IN: " + str(data['MotorCurrentPeakAverage']))
-            motorCurrentOutLabel.config(text= " ZACH METER: " + str(data['FETTemperature']))
-            deltaVoltageLabel.config(text = " DELTA VOLTAGE: " + str(float(data['HighCellVolts']) - float( data['LowCellVolts'])))
+            speedometer.config(amountused=str(data['Speed']))
+            socVal.config(str(data['SOC']))
+            ampsInValue.config(Text=str(data['SOC']))
+            ampsOutValue.config(Text=str(data['SOC']))
+            ampsDiffValue.config(Text=str(data['SOC']))
         else:
-             speedActual.config(text="none")
-             socLabel.config(text="datatype = none")
+             speedometer.config(text="0")
+             socVal.config(Text="not loaded")
+             ampsInValue.config("not loaded")
+             ampsOutValue.config("not loaded")
+             ampsDiffValue.config("not loaded")
 
 def worker_thread(queue, bus):
     """A worker thread that generates canData and puts it on the queue."""
