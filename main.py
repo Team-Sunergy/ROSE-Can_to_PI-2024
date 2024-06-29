@@ -1,29 +1,169 @@
-import tkinter as tk
-import tkinter.font as tkFont
-from tkinter import ttk
+# import tkinter as tk
+# import tkinter.font as tkFont
+# from tkinter import ttk, Canvas
+# import speedometer
+
+# # window
+# mainWin = tk.Tk()
+# mainWin.title("raspberry pi interface")
+# mainWin.geometry('800x480')
+
+# # place widget for speed window
+# speedActual = ttk.Label(mainWin, text="inf spd", font=("Helvetica", "65", "bold"), borderwidth=2, relief="raised")
+# speedActual.place(relx=0.5, rely=0.5, anchor='center')
+
+# # #speedometer
+# # speedometerMeter=Canvas(mainWin,height=500,width=500)
+# # speedometerMeter.place(relx=0.5, rely=0.5, anchor='center')
+# # speedometerMeter.create_oval(0,0,500,500,tag="oval", fill='white')
+# # A=speedometer.Speedometer(speedometerMeter,"oval",Range=(-500,1000))
+# # A.moveto(-500,"oval")
+# # A.changerange(Range=(0,20),rfont=("Verdana",9))
+
+# # right window labels
+# socLabel = ttk.Label(mainWin, text=" SOC: ", font=("Helvetica", "30"), borderwidth=2, )
+# motorCurrentInLabel = ttk.Label(mainWin, text=" MOTOR CURRENT IN: ", font=("Helvetica", "15"), borderwidth=2, relief='raised')
+# motorCurrentOutLabel = ttk.Label(mainWin, text=" ZACH METER: ", font=("Helvetica", "15"),borderwidth=2, relief='raised')
+# deltaVoltageLabel = ttk.Label(mainWin, text=" ΔV:                       \n\n", font=("Helvetica", "15"), borderwidth=2, relief='raised')
+# HappinessStatusLabel = ttk.Label(mainWin, text=" HAPPINESS STATUS: HAPPY!!!", font=("Helvetica", "15"), borderwidth=2, relief='raised')
+
+# socLabel.place(x=0, y=0)
+# motorCurrentInLabel.place(x=0, y=400)
+# motorCurrentOutLabel.place(x=0, y=430)
+# deltaVoltageLabel.place(x=600, y=395)
+# HappinessStatusLabel.place(x=250, y=300)
 
 
-# window
-mainWin = tk.Tk()
-mainWin.title("raspberry pi interface")
+# mainWin.mainloop()
+
+from tkinter import *
+import customtkinter
+import ttkbootstrap as tb
+from PIL import Image
+from ttkbootstrap import Style
+
+
+
+# definition of main window
+mainWin = customtkinter.CTk(fg_color='#E5E5E5')
+mainWin.title("GUI for Driver Interface")
 mainWin.geometry('800x480')
+secondWin = customtkinter.CTkFrame(master=mainWin, width=800, height=440, corner_radius=10, fg_color='white')
+secondWin.place(relx=0.0,rely=0.095)
 
-# place widget for speed window
-speedActual = ttk.Label(mainWin, text="inf spd", font=("Helvetica", "65", "bold"), borderwidth=2, relief="raised")
-speedActual.place(relx=0.5, rely=0.5, anchor='center')
+dashFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=25)
+socFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=10)
 
-# right window labels
-socLabel = ttk.Label(mainWin, text=" SOC: ", font=("Helvetica", "30"), borderwidth=2, )
-motorCurrentInLabel = ttk.Label(mainWin, text=" MOTOR CURRENT IN: ", font=("Helvetica", "15"), borderwidth=2, relief='raised')
-motorCurrentOutLabel = ttk.Label(mainWin, text=" ZACH METER: ", font=("Helvetica", "15"),borderwidth=2, relief='raised')
-deltaVoltageLabel = ttk.Label(mainWin, text=" ΔV:                       \n\n", font=("Helvetica", "15"), borderwidth=2, relief='raised')
-HappinessStatusLabel = ttk.Label(mainWin, text=" HAPPINESS STATUS: HAPPY!!!", font=("Helvetica", "15"), borderwidth=2, relief='raised')
+speedometerFrame = customtkinter.CTkFrame(secondWin,
+                                          width=500,
+                                          height=500,
+                                          fg_color='white')
+speedometerFrame.place(relx=0.5, rely=0.48, anchor='center')
 
-socLabel.place(x=0, y=0)
-motorCurrentInLabel.place(x=0, y=400)
-motorCurrentOutLabel.place(x=0, y=430)
-deltaVoltageLabel.place(x=600, y=395)
-HappinessStatusLabel.place(x=250, y=300)
+
+speedometer = tb.Meter(
+    master=speedometerFrame,
+    metersize=600,
+    meterthickness=50,
+    padding=5,
+    amountused=25,
+    metertype="semi",
+    textfont="-size 100 -weight bold",
+    stripethickness=4,
+    subtext="",
+    subtextfont="-size 30",
+    bootstyle='dark',
+    amounttotal=100,    
+    interactive=True,
+)
+speedometer.place(relx=0.5, rely=0.48, anchor='center')
+# fecd08 sunergy yellow
+# define SOC frame (top left)
+socFrame = customtkinter.CTkFrame(master=secondWin,
+                                  width=200,
+                                  height=100,
+                                  corner_radius=5,
+                                  fg_color='#E5E5E5')
+socVal = customtkinter.CTkLabel(master=socFrame,
+                                text='STATE OF CHARGE',
+                                font=socFont,
+                                text_color='black',
+                                )
+socVal.place(relx=0.5, rely=0.0, anchor='n')
+# place on frame
+socFrame.place(x=5,y=5,anchor='nw')
+
+
+# define AMPS frame
+ampsInFrame = customtkinter.CTkFrame(master=secondWin,
+                                  width=200,
+                                  height=100,
+                                  corner_radius=5,
+                                  fg_color='#E5E5E5')
+ampsInVal = customtkinter.CTkLabel(master=ampsInFrame,
+                                text='AMPERAGE IN',
+                                font=socFont,
+                                text_color='black',
+                                )
+ampsInVal.place(relx=0.5, rely=0.0, anchor='n')
+ampsInFrame.place(x=5,y=428,anchor='sw')
+
+
+ampsOutFrame = customtkinter.CTkFrame(master=secondWin,
+                                  width=200,
+                                  height=100,
+                                  corner_radius=5,
+                                  fg_color='#E5E5E5')
+ampsOutVal = customtkinter.CTkLabel(master=ampsOutFrame,
+                                text='AMPERAGE OUT',
+                                font=socFont,
+                                text_color='black',
+                                )
+ampsOutVal.place(relx=0.5, rely=0.0, anchor='n')
+ampsOutFrame.place(x=795,y=428,anchor='se')
+
+ampsDiffFrame = customtkinter.CTkFrame(master=secondWin,
+                                    width=200,
+                                    height=100,
+                                    corner_radius=5,
+                                    fg_color='#E5E5E5',
+                                    )
+ampsDiffVal = customtkinter.CTkLabel(master=ampsDiffFrame,
+                                     text='amps in/ amps out',
+                                     font=socFont,
+                                     text_color='black',
+                                    )
+ampsDiffVal.place(relx=0.5, rely=0.0)
+ampsDiffFrame.place(x=400,y=460)
+
+
+# define error frame
+errorFrame = customtkinter.CTkFrame(master=secondWin,
+                                  width=200,
+                                  height=300,
+                                  corner_radius=5,
+                                  fg_color='#E5E5E5')
+errorFrameLabel = customtkinter.CTkLabel(master=errorFrame,
+                                         text="ACTIVE ERRORS",
+                                         font=socFont,
+                                         text_color='black',
+                                         )
+errorFrameVal = customtkinter.CTkLabel(master=errorFrame,
+                                text='none',
+                                font=dashFont,
+                                text_color='black',
+                                )
+errorFrameLabel.place(relx=0.5, rely=0.0, anchor='n')
+errorFrameVal.place(relx=0.5, rely=0.5, anchor='center')
+# place on frame
+errorFrame.place(x=795,y=5,anchor='ne')
+
+
+# Sunergy Logo
+sunergyLogo = customtkinter.CTkImage(light_image=Image.open('Logo.png'), size=(104.16, 45.83))
+logoLabel = customtkinter.CTkLabel(mainWin, text="", image=sunergyLogo)
+# place on frame
+logoLabel.place(x=400,y=0,anchor='n')
 
 
 mainWin.mainloop()
