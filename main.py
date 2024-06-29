@@ -51,10 +51,15 @@ mainWin.geometry('800x480')
 secondWin = customtkinter.CTkFrame(master=mainWin, width=800, height=440, corner_radius=10, fg_color='white')
 secondWin.place(relx=0.0,rely=0.095)
 
+versionLabel = Label(master=mainWin,
+                                       text="version 0.1",
+                                       font=('Gotham', 30),
+                                       )
+versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
 
 
 # Fonts
-dashFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=25)
+dashFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=40)
 socFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=10)
 
 
@@ -62,20 +67,21 @@ socFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=10)
 speedometerFrame = customtkinter.CTkFrame(secondWin,
                                           width=500,
                                           height=500,
-                                          fg_color='white')
+                                          fg_color='transparent',
+                                          )
 speedometerFrame.place(relx=0.5, rely=0.48, anchor='center')
 
 speedometer = tb.Meter(
     master=speedometerFrame,
     metersize=400,
     meterthickness=50,
-    padding=5,
+    padding=0,
     amountused=25,
     metertype="semi",
     textfont="-size 100 -weight bold",
     stripethickness=4,
     subtext="",
-    subtextfont="-size 30",
+    subtextfont="-size 0",
     bootstyle='dark',
     amounttotal=100,    
     interactive=True,
@@ -87,13 +93,21 @@ socFrame = customtkinter.CTkFrame(master=secondWin,
                                   width=200,
                                   height=100,
                                   corner_radius=5,
-                                  fg_color='#E5E5E5')
+                                  fg_color='#E5E5E5',
+                                  border_width=1,
+                                  border_color='black',
+                                  )
 socLabel = customtkinter.CTkLabel(master=socFrame,
                                 text='STATE OF CHARGE',
                                 font=socFont,
                                 text_color='black',
                                 )
-socLabel.place(relx=0.5, rely=0.0, anchor='n')
+socVal = customtkinter.CTkLabel(master=socFrame,
+                                text='95.5%',
+                                font=dashFont,
+                                text_color='black')
+socVal.place(relx=0.5, rely=0.5, anchor='center')
+socLabel.place(relx=0.5, rely=0.01, anchor='n')
 # place on frame
 socFrame.place(x=5,y=5,anchor='nw')
 
@@ -103,27 +117,46 @@ ampsInFrame = customtkinter.CTkFrame(master=secondWin,
                                   width=200,
                                   height=100,
                                   corner_radius=5,
-                                  fg_color='#E5E5E5')
-ampsInValLabel = customtkinter.CTkLabel(master=ampsInFrame,
+                                  fg_color='#E5E5E5',
+                                  border_width=1,
+                                  border_color='black',
+                                  )
+ampsInLabel = customtkinter.CTkLabel(master=ampsInFrame,
                                 text='AMPERAGE IN',
                                 font=socFont,
                                 text_color='black',
                                 )
-ampsInValLabel.place(relx=0.5, rely=0.0, anchor='n')
+ampsInValue = customtkinter.CTkLabel(master=ampsInFrame,
+                                     text='3.2AMPS',
+                                     font=dashFont,
+                                     text_color='black'
+                                     )
+ampsInLabel.place(relx=0.5, rely=0.01, anchor='n')
+ampsInValue.place(relx=0.5, rely=0.5, anchor='center')
 ampsInFrame.place(x=5,y=428,anchor='sw')
+
 
 
 ampsOutFrame = customtkinter.CTkFrame(master=secondWin,
                                   width=200,
                                   height=100,
                                   corner_radius=5,
-                                  fg_color='#E5E5E5')
+                                  fg_color='#E5E5E5',
+                                  border_width=1,
+                                  border_color='black',
+                                  )
 ampsOutLabel = customtkinter.CTkLabel(master=ampsOutFrame,
                                 text='AMPERAGE OUT',
                                 font=socFont,
                                 text_color='black',
                                 )
-ampsOutLabel.place(relx=0.5, rely=0.0, anchor='n')
+ampsOutValue = customtkinter.CTkLabel(master=ampsOutFrame,
+                                     text='1.9AMPS',
+                                     font=dashFont,
+                                     text_color='black'
+                                     )
+ampsOutValue.place(relx=0.5, rely=0.5, anchor='center')
+ampsOutLabel.place(relx=0.5, rely=0.01, anchor='n')
 ampsOutFrame.place(x=795,y=428,anchor='se')
 
 ampsDiffFrame = customtkinter.CTkFrame(master=secondWin,
@@ -131,13 +164,21 @@ ampsDiffFrame = customtkinter.CTkFrame(master=secondWin,
                                     height=75,
                                     corner_radius=5,
                                     fg_color='#E5E5E5',
+                                    border_width=1,
+                                    border_color='black',
                                     )
 ampsDiffLabel = customtkinter.CTkLabel(master=ampsDiffFrame,
                                      text='AMP IN/AMP OUT',
                                      font=socFont,
                                      text_color='black',
                                     )
-ampsDiffLabel.place(relx=0.5, rely=0.0,anchor='n')
+ampsDiffValue = customtkinter.CTkLabel(master=ampsDiffFrame,
+                                     text='1.3A',
+                                     font=customtkinter.CTkFont(family='Gotham', weight='bold', size=35),
+                                     text_color='black'
+                                     )
+ampsDiffValue.place(relx=0.5, rely=0.53, anchor='center')
+ampsDiffLabel.place(relx=0.5, rely=0.02,anchor='n')
 ampsDiffFrame.place(x=400,y=428,anchor='s')
 
 
@@ -146,7 +187,9 @@ errorFrame = customtkinter.CTkFrame(master=secondWin,
                                   width=200,
                                   height=300,
                                   corner_radius=5,
-                                  fg_color='#E5E5E5')
+                                  fg_color='#E5E5E5',
+                                  border_width=1,
+                                  border_color='black',)
 errorFrameLabel = customtkinter.CTkLabel(master=errorFrame,
                                          text="ACTIVE ERRORS",
                                          font=socFont,
@@ -157,7 +200,7 @@ errorFrameVal = customtkinter.CTkLabel(master=errorFrame,
                                 font=dashFont,
                                 text_color='black',
                                 )
-errorFrameLabel.place(relx=0.5, rely=0.0, anchor='n')
+errorFrameLabel.place(relx=0.5, rely=0.01, anchor='n')
 errorFrameVal.place(relx=0.5, rely=0.5, anchor='center')
 # place on frame
 errorFrame.place(x=795,y=5,anchor='ne')
