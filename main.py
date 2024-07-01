@@ -53,7 +53,7 @@ secondWin.place(relx=0.0,rely=0.095)
 
 versionLabel = Label(master=mainWin,
                                        text="version 0.1",
-                                       font=('Gotham', 30),
+                                       font=('Gotham', 10),
                                        )
 versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
 
