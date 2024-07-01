@@ -213,6 +213,7 @@ def updateGuiData(dataQueue):
 def update_label(data: dict):
         """private for gui.py, takes data dict
         and updates label"""
+        print("updating label")
         if data['DataType'] != 'none':
             # update speed with speed
             speedometer.config(amountused=str(data['Speed']))
