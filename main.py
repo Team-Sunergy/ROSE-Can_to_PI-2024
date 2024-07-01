@@ -59,7 +59,7 @@ versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
 
 
 # Fonts
-dashFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=40)
+dashFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=35)
 socFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=10)
 
 
