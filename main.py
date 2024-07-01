@@ -20,8 +20,6 @@ import ttkbootstrap as tb
 from PIL import Image
 from ttkbootstrap import Style
 
-
-
 # definition of main window
 mainWin = customtkinter.CTk(fg_color='#E5E5E5')
 mainWin.title("GUI for Driver Interface")
@@ -31,13 +29,13 @@ secondWin.place(relx=0.0,rely=0.095)
 
 versionLabel = Label(master=mainWin,
                                        text="version 0.1",
-                                       font=('Gotham', 30),
+                                       font=('Gotham', 10),
                                        )
 versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
 
 
 # Fonts
-dashFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=40)
+dashFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=35)
 socFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=10)
 
 
@@ -183,11 +181,13 @@ errorFrameVal.place(relx=0.5, rely=0.5, anchor='center')
 # place on frame
 errorFrame.place(x=795,y=5,anchor='ne')
 
+
 # Sunergy Logo
 sunergyLogo = customtkinter.CTkImage(light_image=Image.open('Logo.png'), size=(104.16, 45.83))
 logoLabel = customtkinter.CTkLabel(mainWin, text="", image=sunergyLogo)
 # place on frame
 logoLabel.place(x=400,y=0,anchor='n')
+
 
 def startGui():
     """starts the gui loop given data"""
