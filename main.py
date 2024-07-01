@@ -14,6 +14,13 @@ import ttkbootstrap as tb
 from PIL import Image
 
 
+from tkinter import *
+import customtkinter
+import ttkbootstrap as tb
+from PIL import Image
+from ttkbootstrap import Style
+
+
 
 # definition of main window
 mainWin = customtkinter.CTk(fg_color='#E5E5E5')
@@ -28,9 +35,11 @@ versionLabel = Label(master=mainWin,
                                        )
 versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
 
+
 # Fonts
 dashFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=40)
 socFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=10)
+
 
 # Speedometer
 speedometerFrame = customtkinter.CTkFrame(secondWin,
@@ -57,7 +66,6 @@ speedometer = tb.Meter(
 )
 speedometer.place(relx=0.5, rely=0.48, anchor='center')
 # fecd08 sunergy yellow
-
 # define SOC frame (top left)
 socFrame = customtkinter.CTkFrame(master=secondWin,
                                   width=200,
@@ -80,6 +88,7 @@ socVal.place(relx=0.5, rely=0.5, anchor='center')
 socLabel.place(relx=0.5, rely=0.01, anchor='n')
 # place on frame
 socFrame.place(x=5,y=5,anchor='nw')
+
 
 # define AMPS frame
 ampsInFrame = customtkinter.CTkFrame(master=secondWin,
@@ -104,7 +113,8 @@ ampsInLabel.place(relx=0.5, rely=0.01, anchor='n')
 ampsInValue.place(relx=0.5, rely=0.5, anchor='center')
 ampsInFrame.place(x=5,y=428,anchor='sw')
 
-# amps out frame
+
+
 ampsOutFrame = customtkinter.CTkFrame(master=secondWin,
                                   width=200,
                                   height=100,
@@ -149,6 +159,7 @@ ampsDiffValue.place(relx=0.5, rely=0.53, anchor='center')
 ampsDiffLabel.place(relx=0.5, rely=0.02,anchor='n')
 ampsDiffFrame.place(x=400,y=428,anchor='s')
 
+
 # define error frame
 errorFrame = customtkinter.CTkFrame(master=secondWin,
                                   width=200,
@@ -171,12 +182,12 @@ errorFrameLabel.place(relx=0.5, rely=0.01, anchor='n')
 errorFrameVal.place(relx=0.5, rely=0.5, anchor='center')
 # place on frame
 errorFrame.place(x=795,y=5,anchor='ne')
+
 # Sunergy Logo
 sunergyLogo = customtkinter.CTkImage(light_image=Image.open('Logo.png'), size=(104.16, 45.83))
 logoLabel = customtkinter.CTkLabel(mainWin, text="", image=sunergyLogo)
 # place on frame
 logoLabel.place(x=400,y=0,anchor='n')
-
 
 def startGui():
     """starts the gui loop given data"""
