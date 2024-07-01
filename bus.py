@@ -2,6 +2,13 @@ import can
 
 # Define CAN message filters to specify which CAN messages to receive
 bus_filters = [
+    {"can_id": 0x618, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 1
+    {"can_id": 0x61A, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 1
+    {"can_id": 0x61B, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 1
+    {"can_id": 0x608, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 1
+    {"can_id": 0x60A, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 1
+    {"can_id": 0x60B, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 1
+
     {"can_id": 0x612, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 1
     {"can_id": 0x611, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 1
     {"can_id": 0x602, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 0
@@ -23,7 +30,7 @@ def initialize_bus():
     """
     try:
         bus = can.interface.Bus(
-            channel="can0", bustype="socketcan", can_filters=bus_filters
+            channel="can0", bustype="socketcan" #, can_filters=bus_filters
         )
         print("Initialized bus & Filter")
         return bus
