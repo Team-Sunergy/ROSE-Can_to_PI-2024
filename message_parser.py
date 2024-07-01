@@ -37,15 +37,19 @@ def group_can_data(canId, data: bytearray) -> dict:
            'MotorRotatingSpeed': 'none',
            'PWMDuty': 'none',
            'LeadAngle': 'none',
-           'Speed': 'none',
-           'SOC': 'none',
+           'Speed': 0,
+           'SOC': 0,
            'HighCellVolts': 'none',
            'LowCellVolts': 'none',
            'Temp': 'none',
-           'InputVoltage': 'none',
-           'InputCurrent': 'none',
-           'OutputVoltage': 'none',
-           'OutputCurrent': 'none',
+           'InputVoltage0': 0,
+           'InputCurrent0': 0,
+           'InputVoltage1': 0,
+           'InputCurrent1': 0,
+           'OutputVoltage0': 0,
+           'OutputCurrent0': 0,
+           'OutputVoltage1': 0,
+           'OutputCurrent1': 0,
            'MosfetTemperature': 'none',
            'ControllerTemperature': 'none',
            'LowArrayPower': 'none',
@@ -59,15 +63,15 @@ def group_can_data(canId, data: bytearray) -> dict:
     # motor controllers
     if(canId == 0x0885025 or canId == 0x08850245 or canId == 0x08850265 or canId == 0x08850285):
         canData.update({'DataType': 'mc',
-                'BatteryVoltage': getBits(data, 0, 9) * 0.001,
-                'BatteryCurrent': getBits(data, 10, 18) * 0.001,
+                'BatteryVoltage': getBits(data, 0, 9),
+                'BatteryCurrent': getBits(data, 10, 18),
                 'BatteryCurrentDirection': getBits(data, 19, 19),
                 'MotorCurrentPeakAverage': getBits(data, 20, 29),
                 'FETTemperature': getBits(data, 30, 34),
                 'MotorRotatingSpeed': getBits(data, 35, 46),
                 'PWMDuty': getBits(data, 47, 56),
                 'LeadAngle': getBits(data, 57, 63),
-                'Speed': getSpeed(getBits(data, 20, 29))}),
+                }),
     # bms
     elif(canId == 0x289):
         canData.update({'DataType': 'bms',
@@ -77,14 +81,24 @@ def group_can_data(canId, data: bytearray) -> dict:
     elif(canId == 0x287):
         canData.update({'DataType': 'bmsSOC',
                    'SOC': get16FloatBits(data, 16)})
-    # MPPTS InputVoltage and InputCurrent
-    elif(canId == 0x600 or canId == 0x610):
-        canData.update({'DataType': 'mpptsInput',
-                   'InputVoltage': get32FloatBits(data, 0, 31),
-                   'InputCurrent': get32FloatBits(data, 32, 63)})
-    # MPPTS  out volts and out current
-    elif(canId == 0x601 or canId == 0x611):
-        canData.update({'DataType': 'mpptsOutput',
+    # MPPT0 InputVoltage and InputCurrent
+    elif(canId == 0x600):
+        canData.update({'DataType': 'mppt0Input',
+                   'InputVoltage0': get32FloatBits(data, 0, 31),
+                   'InputCurrent0': get32FloatBits(data, 32, 63)})
+    # MPPT1 InputVoltage and InputCurrent
+    elif(canId == 0x610):
+        canData.update({'DataType': 'mppt1Input',
+                   'InputVoltage1': get32FloatBits(data, 0, 31),
+                   'InputCurrent1': get32FloatBits(data, 32, 63)})
+    # MPPT0 OutputVoltage and OutputCurrent
+    elif(canId == 0x601):
+        canData.update({'DataType': 'mppt0Output',
+                   'OutputVoltage': get32FloatBits(data, 0, 31),
+                   'OutputCurrent': get32FloatBits(data, 32, 63)})
+    # MPPT1 OutputVoltage and OutputCurrent
+    elif(canId == 0x611):
+        canData.update({'DataType': 'mppt1Output',
                    'OutputVoltage': get32FloatBits(data, 0, 31),
                    'OutputCurrent': get32FloatBits(data, 32, 63)})
     # MPPTS temp
@@ -110,6 +124,9 @@ def group_can_data(canId, data: bytearray) -> dict:
                     '12VUnderVoltage': bool(getBits(data, 19, 19)),
                     'HWOvercurrent': bool(getBits(data, 17, 17)),
                     'HWOvervoltage': bool(getBits(data, 16, 16))})
+    elif(canId == 0x69):
+        canData.update({'DataType': 'Speed',
+                        'Speed': getBits(0, 7)})
     
     return canData
 

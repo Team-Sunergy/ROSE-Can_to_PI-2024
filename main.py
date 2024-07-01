@@ -217,9 +217,10 @@ def update_label(data: dict):
             # update speed with speed
             speedometer.config(amountused=str(data['Speed']))
             socVal.config(str(data['SOC']))
-            ampsInValue.config(Text=str(data['SOC']))
-            ampsOutValue.config(Text=str(data['SOC']))
-            ampsDiffValue.config(Text=str(data['SOC']))
+            ampsInValue.config(Text=str(data['InputCurrent0'] + data['InputCurrent1']))
+            ampsOutValue.config(Text=str(data['OutputCurrent0'] + data['OutputCurrent1']))
+            ampsDiffValue.config(Text=str(
+                (data['InputCurrent0'] + data['InputCurrent1']) - (data['OutputCurrent0'] + data['OutputCurrent1'])))
         else:
              speedometer.config(text="0")
              socVal.config(Text="not loaded")
@@ -233,7 +234,7 @@ def worker_thread(queue, bus):
     while True:
         data = canCollection(bus)
         queue.put(data) # puts data in queue
-        time.sleep(1)  # controls the rate of data generation.
+        time.sleep(0.1)  # controls the rate of data generation.
 
 def canCollection(bus):
     print("In the try")
