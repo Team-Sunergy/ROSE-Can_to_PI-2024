@@ -28,7 +28,7 @@ secondWin = customtkinter.CTkFrame(master=mainWin, width=800, height=440, corner
 secondWin.place(relx=0.0,rely=0.095)
 
 versionLabel = Label(master=mainWin,
-                                       text="version 0.1",
+                                       text="version 0.2",
                                        font=('Gotham', 10),
                                        )
 versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
@@ -37,6 +37,10 @@ versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
 # Fonts
 dashFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=35)
 socFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=10)
+errorFont = customtkinter.CTkFont(family='Gotham', weight='normal', size=8)
+errorFont2 = customtkinter.CTkFont(family='Gotham', weight='normal', size=9)
+
+
 
 
 # Speedometer
@@ -158,29 +162,172 @@ ampsDiffLabel.place(relx=0.5, rely=0.02,anchor='n')
 ampsDiffFrame.place(x=400,y=428,anchor='s')
 
 
-# define error frame
+# BELOW ARE ALL THE ANNOYING ERROR FRAME DIAGNOSTICS
 errorFrame = customtkinter.CTkFrame(master=secondWin,
                                   width=200,
-                                  height=300,
+                                  height=175,
                                   corner_radius=5,
                                   fg_color='#E5E5E5',
                                   border_width=1,
                                   border_color='black',)
 errorFrameLabel = customtkinter.CTkLabel(master=errorFrame,
-                                         text="ACTIVE ERRORS",
-                                         font=socFont,
+                                         text="MPPTS Status",
+                                         font=errorFont2,
                                          text_color='black',
                                          )
-errorFrameVal = customtkinter.CTkLabel(master=errorFrame,
-                                text='none',
-                                font=dashFont,
-                                text_color='black',
-                                )
-errorFrameLabel.place(relx=0.5, rely=0.01, anchor='n')
-errorFrameVal.place(relx=0.5, rely=0.5, anchor='center')
+mpptsErrorLabel = customtkinter.CTkLabel(master=errorFrame,
+                                    text="mppt0 | mppt1",
+                                    font=errorFont2,
+                                    text_color='black')
+
+
+mpptHWOverCurrentLabel = customtkinter.CTkLabel(master=errorFrame,
+                                                 text="mpptHWOverCurrent:",
+                                                 font=errorFont,
+                                                 text_color='black',
+                                                 anchor='w',)
+mppt0HWOverCurrent = customtkinter.CTkLabel(master= errorFrame, 
+                                            text="OK",
+                                            font=errorFont,
+                                            text_color='green',
+                                            anchor='w',)
+mppt1HWOverCurrent = customtkinter.CTkLabel(master= errorFrame, 
+                                            text="OK",
+                                            font=errorFont,
+                                            text_color='green',
+                                            anchor='w',)
+
+mpptHWOverVoltageLabel = customtkinter.CTkLabel(master=errorFrame,
+                                                 text="mpptHWOverVoltage:",
+                                                 font=errorFont,
+                                                 text_color='black',
+                                                 anchor='w')
+mppt0HWOverVoltage = customtkinter.CTkLabel(master= errorFrame, 
+                                            text="OK",
+                                            font=errorFont,
+                                            text_color='green',
+                                            anchor='w',)
+mppt1HWOverVoltage = customtkinter.CTkLabel(master= errorFrame, 
+                                            text="OK",
+                                            font=errorFont,
+                                            text_color='green',
+                                            anchor='w',)
+
+mppt12VUnderVoltageLabel = customtkinter.CTkLabel(master=errorFrame,
+                                                   text="mppt12VUnderVoltage:",
+                                                   font=errorFont,
+                                                   text_color='black',
+                                                   anchor='w')
+mppt012VUnderVoltage = customtkinter.CTkLabel(master= errorFrame, 
+                                            text="OK",
+                                            font=errorFont,
+                                            text_color='green',
+                                            anchor='w',)
+mppt112VUnderVoltage = customtkinter.CTkLabel(master= errorFrame, 
+                                            text="OK",
+                                            font=errorFont,
+                                            text_color='green',
+                                            anchor='w',)
+
+mpptBatteryFullLabel = customtkinter.CTkLabel(master=errorFrame,
+                                               text="mpptBatteryFull:",
+                                               font=errorFont,
+                                               text_color='black',
+                                               anchor='w')
+mppt0BatteryFull = customtkinter.CTkLabel(master= errorFrame, 
+                                            text="OK",
+                                            font=errorFont,
+                                            text_color='green',
+                                            anchor='w',)
+mppt1BatteryFull = customtkinter.CTkLabel(master= errorFrame, 
+                                            text="OK",
+                                            font=errorFont,
+                                            text_color='green',
+                                            anchor='w',)
+
+mpptBatteryLowLabel = customtkinter.CTkLabel(master=errorFrame,
+                                              text="mpptBatteryLow:",
+                                              font=errorFont,
+                                              text_color='black',
+                                              anchor='w')
+mppt0BatteryLow = customtkinter.CTkLabel(master= errorFrame, 
+                                            text="OK",
+                                            font=errorFont,
+                                            text_color='green',
+                                            anchor='w',)
+mppt1BatteryLow = customtkinter.CTkLabel(master= errorFrame, 
+                                            text="OK",
+                                            font=errorFont,
+                                            text_color='green',
+                                            anchor='w',)
+
+mpptMosfetOverheatLabel = customtkinter.CTkLabel(master=errorFrame,
+                                                  text="mpptMosfetOverheat:",
+                                                  font=errorFont,
+                                                  text_color='black',
+                                                  anchor='w')
+mppt0MosfetOverheat = customtkinter.CTkLabel(master= errorFrame, 
+                                            text="OK",
+                                            font=errorFont,
+                                            text_color='green',
+                                            anchor='w',)
+mppt1MosfetOverheat = customtkinter.CTkLabel(master= errorFrame, 
+                                            text="OK",
+                                            font=errorFont,
+                                            text_color='green',
+                                            anchor='w',)
+
+mpptLowArrayPowerLabel = customtkinter.CTkLabel(master=errorFrame,
+                                         text="mpptLowArrayPower:",
+                                         font=errorFont,
+                                         text_color='black',
+                                         anchor='w')
+mppt0LowArrayPower = customtkinter.CTkLabel(master= errorFrame, 
+                                            text="OK",
+                                            font=errorFont,
+                                            text_color='green',
+                                            anchor='w',)
+mppt1LowArrayPower = customtkinter.CTkLabel(master= errorFrame, 
+                                            text="OK",
+                                            font=errorFont,
+                                            text_color='green',
+                                            anchor='w',)
+
+
+# placing error labels
+errorFrameLabel.place(relx=0.03, rely=0.006, anchor='nw')
+mpptsErrorLabel.place(relx=0.6, rely=0.006, anchor='nw')
+
+mpptLowArrayPowerLabel.place(relx=0.03, rely=0.22, anchor='w')
+mppt0LowArrayPower.place(relx=0.6, rely=0.22, anchor='w')
+mppt1LowArrayPower.place(relx=0.8, rely=0.22, anchor='w')
+
+mpptMosfetOverheatLabel.place(relx=0.03, rely=0.34, anchor='w')
+mppt0MosfetOverheat.place(relx=0.6, rely=0.34, anchor='w')
+mppt1MosfetOverheat.place(relx=0.8, rely=0.34, anchor='w')
+
+mpptBatteryLowLabel.place(relx=0.03, rely=0.4532, anchor='w')
+mppt0BatteryLow.place(relx=0.6, rely=0.4532, anchor='w')
+mppt1BatteryLow.place(relx=0.8, rely=0.4532, anchor='w')
+
+mpptBatteryFullLabel.place(relx=0.03, rely=0.5648, anchor='w')
+mppt0BatteryFull.place(relx=0.6, rely=0.5648, anchor='w')
+mppt1BatteryFull.place(relx=0.8, rely=0.5648, anchor='w')
+
+mppt12VUnderVoltageLabel.place(relx=0.03, rely=0.6864, anchor='w')
+mppt012VUnderVoltage.place(relx=0.6, rely=0.6864, anchor='w')
+mppt112VUnderVoltage.place(relx=0.8, rely=0.6864, anchor='w')
+
+mpptHWOverVoltageLabel.place(relx=0.03, rely=0.798, anchor='w')
+mppt0HWOverVoltage.place(relx=0.6, rely=0.798, anchor='w')
+mppt1HWOverVoltage.place(relx=0.8, rely=0.798, anchor='w')
+
+mpptHWOverCurrentLabel.place(relx=0.03, rely=0.90, anchor='w')
+mppt0HWOverCurrent.place(relx=0.6, rely= 0.90, anchor='w')
+mppt1HWOverCurrent.place(relx=0.8, rely=0.90, anchor='w')
+
 # place on frame
 errorFrame.place(x=795,y=5,anchor='ne')
-
 
 # Sunergy Logo
 sunergyLogo = customtkinter.CTkImage(light_image=Image.open('Logo.png'), size=(104.16, 45.83))
