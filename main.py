@@ -343,17 +343,19 @@ def startGui():
 
 def updateGuiData(dataQueue):
     """updates gui via a queue system"""
+    print("new data?")
     try:
         # non-blocking get from queue
         data = dataQueue.get_nowait()
     except queue.Empty:
-        # no new data
+        print("no new data")
         pass
     else:
         # data received, update labels
         update_label(data=data)
-
+        print("NEW DATA!!!")
     # schedule next update
+    print("running after method")
     mainWin.after(100, updateGuiData, dataQueue)
 
         
@@ -363,18 +365,14 @@ def update_label(data: dict):
         print("updating label")
         if data['DataType'] != 'none':
             # update speed with speed
-            speedometer.config(amountused=str(data['Speed']))
-            socVal.config(str(data['SOC']))
-            ampsInValue.config(Text=str(data['InputCurrent0'] + data['InputCurrent1']))
-            ampsOutValue.config(Text=str(data['OutputCurrent0'] + data['OutputCurrent1']))
-            ampsDiffValue.config(Text=str(
+            speedometer.configure(amountused=(data['Speed']))
+            socVal.configure(text=str(data['SOC']))
+            ampsInValue.configure(text=str(data['InputCurrent0'] + data['InputCurrent1']))
+            ampsOutValue.configure(text=str(data['OutputCurrent0'] + data['OutputCurrent1']))
+            ampsDiffValue.configure(text=str(
                 (data['InputCurrent0'] + data['InputCurrent1']) - (data['OutputCurrent0'] + data['OutputCurrent1'])))
         else:
-             speedometer.config(text="0")
-             socVal.config(Text="not loaded")
-             ampsInValue.config("not loaded")
-             ampsOutValue.config("not loaded")
-             ampsDiffValue.config("not loaded")
+            pass
 
 def worker_thread(queue, bus):
     """A worker thread that generates canData and puts it on the queue."""
