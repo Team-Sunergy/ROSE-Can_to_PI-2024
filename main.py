@@ -365,7 +365,7 @@ def update_label(data: dict):
             speedometer.configure(amountused=f"{data['Speed']:.1f}")
             socVal.configure(text=f"{data['SOC']:.1f}")
             ampsInValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
-            ampsOutValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
+            ampsOutValue.configure(text=f"{data['PackCurrent'] - (data['OutputCurrent0'] + data['OutputCurrent1']):.1f}")
             ampsDiffValue.configure(text="idk")
         else:
             pass
