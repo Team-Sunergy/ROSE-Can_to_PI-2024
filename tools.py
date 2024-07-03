@@ -27,7 +27,7 @@ def getBits(canMessage: bytearray, low: int, high: int) -> int:
     Extracts bits from `low` to `high` (inclusive) from the given.
     """
     mask = (1 << (high - low + 1)) - 1
-    return (int.from_bytes(canMessage, byteorder='little') >> low) & mask
+    return (int.from_bytes(canMessage, byteorder='big') >> low) & mask
 
 def get32FloatBits(canMessage: bytearray, low: int, high: int) -> float:
     """
@@ -42,10 +42,10 @@ def get32FloatBits(canMessage: bytearray, low: int, high: int) -> float:
     mask = (1 << 32) - 1
 
     # Extract the 32 bits and shift them into position
-    extracted_bits = (int.from_bytes(canMessage, byteorder='little') >> low) & mask
+    extracted_bits = (int.from_bytes(canMessage, byteorder='big') >> low) & mask
     
     # Convert the extracted bits to a 4-byte array
-    float_bytes = extracted_bits.to_bytes(4, byteorder='little')
+    float_bytes = extracted_bits.to_bytes(4, byteorder='big')
     
     # Unpack the 4-byte array as a float
     return struct.unpack('<f', float_bytes)[0]

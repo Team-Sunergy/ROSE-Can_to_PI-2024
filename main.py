@@ -365,14 +365,14 @@ def update_label(data: dict):
         print("updating label")
         if data['DataType'] != 'none':
             # update speed with speed
-            speedometer.configure(amountused=(data['Speed']))
-            socVal.configure(text=str(data['SOC']))
-            ampsInValue.configure(text=str(data['InputCurrent0'] + data['InputCurrent1']))
-            ampsOutValue.configure(text=str(data['OutputCurrent0'] + data['OutputCurrent1']))
-            ampsDiffValue.configure(text=str(
-                (data['InputCurrent0'] + data['InputCurrent1']) - (data['OutputCurrent0'] + data['OutputCurrent1'])))
+            speedometer.configure(amountused=f"{data['Speed']:.1f}")
+            socVal.configure(text=f"{data['SOC']:.1f}")
+            ampsInValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
+            ampsOutValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
+            ampsDiffValue.configure(text="idk")
         else:
             pass
+
 
 def worker_thread(queue, bus):
     """A worker thread that generates canData and puts it on the queue."""

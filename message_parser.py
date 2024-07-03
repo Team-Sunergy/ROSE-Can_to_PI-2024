@@ -20,15 +20,7 @@ def parse_can_message(message, shift_amount=0):
 
     return parsed_data
 
-def group_can_data(canId, data: bytearray) -> dict:
-    """
-    This function, given the data from a CANFrame, organizes all of the data
-    into a dictionary, which can be used to access certain data values given a key.
-    This Data will change depending on what type of CANID is given.
-    You can see the keys for each here.
-    There are also a few other keys that have been added, such as speed.
-    """
-    canData = {'DataType': 'none',
+canData = {'DataType': 'none',
            'BatteryVoltage': 'none',
            'BatteryCurrent': 'none',
            'BatteryCurrentDirection': 'none',
@@ -59,6 +51,16 @@ def group_can_data(canId, data: bytearray) -> dict:
            '12VUnderVoltage': 'none',
            'HWOvercurrent': 'none',
            'HWOvervoltage': 'none'}
+
+def group_can_data(canId, data: bytearray) -> dict:
+    """
+    This function, given the data from a CANFrame, organizes all of the data
+    into a dictionary, which can be used to access certain data values given a key.
+    This Data will change depending on what type of CANID is given.
+    You can see the keys for each here.
+    There are also a few other keys that have been added, such as speed.
+    """
+    
 
     # motor controllers
     if(canId == 0x0885025 or canId == 0x08850245 or canId == 0x08850265 or canId == 0x08850285):
@@ -126,7 +128,7 @@ def group_can_data(canId, data: bytearray) -> dict:
                     'HWOvervoltage': bool(getBits(data, 16, 16))})
     elif(canId == 0x69):
         canData.update({'DataType': 'Speed',
-                        'Speed': getBits(0, 7)})
+                        'Speed': getBits(data, 0, 7)})
     
     return canData
 
