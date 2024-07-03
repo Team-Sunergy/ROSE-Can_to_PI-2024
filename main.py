@@ -343,7 +343,6 @@ def startGui():
 
 def updateGuiData(dataQueue):
     """updates gui via a queue system"""
-    print("new data?")
     try:
         # non-blocking get from queue
         data = dataQueue.get_nowait()
@@ -353,9 +352,7 @@ def updateGuiData(dataQueue):
     else:
         # data received, update labels
         update_label(data=data)
-        print("NEW DATA!!!")
     # schedule next update
-    print("running after method")
     mainWin.after(100, updateGuiData, dataQueue)
 
         
@@ -407,6 +404,7 @@ def canCollection(bus):
         print(f"DLC: {parsed_message['dlc']}")
         print(f"Data: {parsed_message['data_str']}")
         print("-" * 30)
+        print("SOC: " + str(groupedData['SOC']))
 
         
         # used for sending data, contains all different types of possible categories (mppts, bms, mc)
