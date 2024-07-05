@@ -2,6 +2,7 @@ from can_interface import setup_can_interface, shutdown_can_interface
 from bus import initialize_bus
 from message_parser import parse_can_message, group_can_data
 import queue
+import time
 import threading
 from tkinter import *
 from tkinter import Tk, Frame, Label
@@ -342,10 +343,10 @@ def update_label(data: dict):
         if data['DataType'] != 'none':
             # update speed with speed
             speedometerNum.config(amountused=f"{data['Speed']:.1f}")
-            socVal.config(text=f"{data['SOC']:.1f}")
-            ampsInValue.config(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
-            ampsOutValue.config(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
-            ampsDiffValue.config(text="idk")
+            socVal.configure(text=f"{data['SOC']:.1f}")
+            ampsInValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
+            ampsOutValue.configure(text=f"{data['PackCurrent'] - (data['OutputCurrent0'] + data['OutputCurrent1']):.1f}")
+            ampsDiffValue.configure(text="idk")
         else:
             pass
 
