@@ -1,19 +1,9 @@
 from can_interface import setup_can_interface, shutdown_can_interface
 from bus import initialize_bus
 from message_parser import parse_can_message, group_can_data
-from tools import getBits, send_request_frame0_periodically, getSpeed
-import tkinter as tk
-import tkinter.font as tkFont
-from tkinter import ttk
 import queue
 import threading
-from mockDataTransfer import *
 from tkinter import *
-import customtkinter
-import ttkbootstrap as tb
-from PIL import Image
-
-
 from tkinter import Tk, Frame, Label
 from tkinter.font import Font
 from PIL import Image, ImageTk
@@ -407,7 +397,6 @@ def main():
     bus = initialize_bus()
     print("Bus variable is set")
     # this is for motor controllers
-    send_request_frame0_periodically(bus=bus)
     print("Sending request frame0 in main...")
     worker = threading.Thread(target=worker_thread, args=(dataQueue, bus))
     worker.start()
