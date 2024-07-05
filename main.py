@@ -14,102 +14,63 @@ import ttkbootstrap as tb
 from PIL import Image
 
 
-from tkinter import *
-import customtkinter
-import ttkbootstrap as tb
-from PIL import Image
-from ttkbootstrap import Style
+from tkinter import Tk, Frame, Label
+from tkinter.font import Font
+from PIL import Image, ImageTk
 
 # definition of main window
-mainWin = customtkinter.CTk(fg_color='#E5E5E5')
-mainWin.title("GUI for Driver Interface")
-mainWin.geometry('800x480')
-secondWin = customtkinter.CTkFrame(master=mainWin, width=800, height=440, corner_radius=10, fg_color='white')
-secondWin.place(relx=0.0,rely=0.095)
+root = Tk()
+root.title("GUI for Driver Interface")
+root.geometry('800x480')
 
-versionLabel = Label(master=mainWin,
-                                       text="version 0.2",
-                                       font=('Gotham', 10),
-                                       )
+mainWin = Frame(root, bg='#E5E5E5')
+mainWin.pack(fill='both', expand=True)
+
+secondWin = Frame(mainWin, bg='white')
+secondWin.place(relx=0.0, rely=0.095, relwidth=1, relheight=0.905)
+
+versionLabel = Label(mainWin, text="version 0.2", font=('Gotham', 10), background="#E5E5E5")
 versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
 
-
 # Fonts
-dashFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=35)
-socFont = customtkinter.CTkFont(family='Gotham', weight='bold', size=10)
-errorFont = customtkinter.CTkFont(family='Gotham', weight='normal', size=8)
-errorFont2 = customtkinter.CTkFont(family='Gotham', weight='normal', size=9)
+dashFont = Font(family='Gotham', weight='bold', size=30)
+socFont = Font(family='Gotham', weight='bold', size=10)
+speedFont = Font(family='Gotham', weight='bold', size=200)
+errorFont = Font(family='Gotham', size=7)
+errorFont2 = Font(family='Gotham', size=8)
 
+speedometerNum = Label(secondWin, text="25", font=speedFont, bg="white")
+speedometerNum.place(relx=0.5, rely=0.45, anchor='center')
 
-
-
-# Speedometer
-speedometerFrame = customtkinter.CTkFrame(secondWin,
-                                          width=500,
-                                          height=500,
-                                          fg_color='transparent',
-                                          )
-speedometerFrame.place(relx=0.5, rely=0.48, anchor='center')
-
-speedometer = tb.Meter(
-    master=speedometerFrame,
-    metersize=400,
-    meterthickness=50,
-    padding=0,
-    amountused=25,
-    metertype="semi",
-    textfont="-size 100 -weight bold",
-    stripethickness=4,
-    subtext="",
-    subtextfont="-size 0",
-    bootstyle='dark',
-    amounttotal=100,    
-    interactive=True,
-)
-speedometer.place(relx=0.5, rely=0.48, anchor='center')
-# fecd08 sunergy yellow
 # define SOC frame (top left)
-socFrame = customtkinter.CTkFrame(master=secondWin,
-                                  width=200,
-                                  height=100,
-                                  corner_radius=5,
-                                  fg_color='#E5E5E5',
-                                  border_width=1,
-                                  border_color='black',
-                                  )
-socLabel = customtkinter.CTkLabel(master=socFrame,
-                                text='STATE OF CHARGE',
-                                font=socFont,
-                                text_color='black',
-                                )
-socVal = customtkinter.CTkLabel(master=socFrame,
-                                text='95.5%',
-                                font=dashFont,
-                                text_color='black')
-socVal.place(relx=0.5, rely=0.5, anchor='center')
-socLabel.place(relx=0.5, rely=0.01, anchor='n')
-# place on frame
-socFrame.place(x=5,y=5,anchor='nw')
+socFrame = Frame(secondWin, bg='#E5E5E5', relief='raised', borderwidth=1)
+socFrame.place(x=5, y=5, width=200, height=100)
 
+socLabel = Label(socFrame, text='STATE OF CHARGE', font=socFont, background='#E5E5E5',)
+socLabel.place(relx=0.5, rely=0.01, anchor='n')
+
+socVal = Label(socFrame, text='95.5%', font=dashFont, background='#E5E5E5',)
+socVal.place(relx=0.5, rely=0.5, anchor='center')
 
 # define AMPS frame
-ampsInFrame = customtkinter.CTkFrame(master=secondWin,
+ampsInFrame = Frame(master=secondWin,
                                   width=200,
                                   height=100,
-                                  corner_radius=5,
-                                  fg_color='#E5E5E5',
-                                  border_width=1,
-                                  border_color='black',
+                                  background='#E5E5E5',
+                                  borderwidth=1,
+                                  relief='raised',
                                   )
-ampsInLabel = customtkinter.CTkLabel(master=ampsInFrame,
+ampsInLabel = Label(master=ampsInFrame,
                                 text='AMPERAGE IN',
                                 font=socFont,
-                                text_color='black',
+                                foreground='black',
+                                background='#E5E5E5',
                                 )
-ampsInValue = customtkinter.CTkLabel(master=ampsInFrame,
+ampsInValue = Label(master=ampsInFrame,
                                      text='3.2AMPS',
                                      font=dashFont,
-                                     text_color='black'
+                                     foreground='black',
+                                     background='#E5E5E5',
                                      )
 ampsInLabel.place(relx=0.5, rely=0.01, anchor='n')
 ampsInValue.place(relx=0.5, rely=0.5, anchor='center')
@@ -117,186 +78,211 @@ ampsInFrame.place(x=5,y=428,anchor='sw')
 
 
 
-ampsOutFrame = customtkinter.CTkFrame(master=secondWin,
+ampsOutFrame = Frame(master=secondWin,
                                   width=200,
                                   height=100,
-                                  corner_radius=5,
-                                  fg_color='#E5E5E5',
-                                  border_width=1,
-                                  border_color='black',
-                                  )
-ampsOutLabel = customtkinter.CTkLabel(master=ampsOutFrame,
+                                  background='#E5E5E5',
+                                  borderwidth=1,
+                                  relief='raised',
+                                   )
+ampsOutLabel = Label(master=ampsOutFrame,
                                 text='AMPERAGE OUT',
                                 font=socFont,
-                                text_color='black',
+                                foreground='black',
+                                background='#E5E5E5',
                                 )
-ampsOutValue = customtkinter.CTkLabel(master=ampsOutFrame,
+ampsOutValue = Label(master=ampsOutFrame,
                                      text='1.9AMPS',
                                      font=dashFont,
-                                     text_color='black'
+                                     foreground='black',
+                                     background='#E5E5E5',
                                      )
 ampsOutValue.place(relx=0.5, rely=0.5, anchor='center')
 ampsOutLabel.place(relx=0.5, rely=0.01, anchor='n')
 ampsOutFrame.place(x=795,y=428,anchor='se')
 
-ampsDiffFrame = customtkinter.CTkFrame(master=secondWin,
+ampsDiffFrame = Frame(master=secondWin,
                                     width=300,
                                     height=75,
-                                    corner_radius=5,
-                                    fg_color='#E5E5E5',
-                                    border_width=1,
-                                    border_color='black',
+                                    background='#E5E5E5',
+                                    borderwidth=1,
+                                    relief='raised',
                                     )
-ampsDiffLabel = customtkinter.CTkLabel(master=ampsDiffFrame,
+ampsDiffValue = Label(master=ampsDiffFrame,
+                                     text='1.3A',
+                                     font=Font(family='Gotham', weight='bold', size=25),
+                                     foreground='black',
+                                     background='#E5E5E5',
+                                     )
+ampsDiffLabel = Label(master=ampsDiffFrame,
                                      text='AMP IN/AMP OUT',
                                      font=socFont,
-                                     text_color='black',
+                                     foreground='black',
+                                     background='#E5E5E5',
                                     )
-ampsDiffValue = customtkinter.CTkLabel(master=ampsDiffFrame,
-                                     text='1.3A',
-                                     font=customtkinter.CTkFont(family='Gotham', weight='bold', size=35),
-                                     text_color='black'
-                                     )
 ampsDiffValue.place(relx=0.5, rely=0.53, anchor='center')
 ampsDiffLabel.place(relx=0.5, rely=0.02,anchor='n')
 ampsDiffFrame.place(x=400,y=428,anchor='s')
 
 
 # BELOW ARE ALL THE ANNOYING ERROR FRAME DIAGNOSTICS
-errorFrame = customtkinter.CTkFrame(master=secondWin,
+errorFrame = Frame(master=secondWin,
                                   width=200,
                                   height=175,
-                                  corner_radius=5,
-                                  fg_color='#E5E5E5',
-                                  border_width=1,
-                                  border_color='black',)
-errorFrameLabel = customtkinter.CTkLabel(master=errorFrame,
+                                  background='#E5E5E5',
+                                  borderwidth=1,
+                                  relief='raised'
+                                  )
+errorFrameLabel = Label(master=errorFrame,
                                          text="MPPTS Status",
                                          font=errorFont2,
-                                         text_color='black',
+                                         foreground='black',
+                                         background='#E5E5E5',
                                          )
-mpptsErrorLabel = customtkinter.CTkLabel(master=errorFrame,
-                                    text="mppt0 | mppt1",
+mpptsErrorLabel = Label(master=errorFrame,
+                                    text="mppt0 mppt1",
                                     font=errorFont2,
-                                    text_color='black')
+                                    background='#E5E5E5',
+                                    foreground='black')
 
 
-mpptHWOverCurrentLabel = customtkinter.CTkLabel(master=errorFrame,
+mpptHWOverCurrentLabel = Label(master=errorFrame,
                                                  text="mpptHWOverCurrent:",
                                                  font=errorFont,
-                                                 text_color='black',
+                                                 foreground='black',
+                                                 background='#E5E5E5',
                                                  anchor='w',)
-mppt0HWOverCurrent = customtkinter.CTkLabel(master= errorFrame, 
+mppt0HWOverCurrent = Label(master= errorFrame, 
                                             text="OK",
                                             font=errorFont,
-                                            text_color='green',
+                                            foreground='green',
+                                            background='#E5E5E5',
                                             anchor='w',)
-mppt1HWOverCurrent = customtkinter.CTkLabel(master= errorFrame, 
+mppt1HWOverCurrent = Label(master= errorFrame, 
                                             text="OK",
                                             font=errorFont,
-                                            text_color='green',
+                                            foreground='green',
+                                            background='#E5E5E5',
                                             anchor='w',)
 
-mpptHWOverVoltageLabel = customtkinter.CTkLabel(master=errorFrame,
+mpptHWOverVoltageLabel = Label(master=errorFrame,
                                                  text="mpptHWOverVoltage:",
                                                  font=errorFont,
-                                                 text_color='black',
+                                                 foreground='black',
+                                                 background='#E5E5E5',
                                                  anchor='w')
-mppt0HWOverVoltage = customtkinter.CTkLabel(master= errorFrame, 
+mppt0HWOverVoltage = Label(master= errorFrame, 
                                             text="OK",
                                             font=errorFont,
-                                            text_color='green',
+                                            foreground='green',
+                                            background='#E5E5E5',
                                             anchor='w',)
-mppt1HWOverVoltage = customtkinter.CTkLabel(master= errorFrame, 
+mppt1HWOverVoltage = Label(master= errorFrame, 
                                             text="OK",
                                             font=errorFont,
-                                            text_color='green',
+                                            foreground='green',
+                                            background='#E5E5E5',
                                             anchor='w',)
 
-mppt12VUnderVoltageLabel = customtkinter.CTkLabel(master=errorFrame,
+mppt12VUnderVoltageLabel = Label(master=errorFrame,
                                                    text="mppt12VUnderVoltage:",
                                                    font=errorFont,
-                                                   text_color='black',
+                                                   foreground='black',
+                                                   background='#E5E5E5',
                                                    anchor='w')
-mppt012VUnderVoltage = customtkinter.CTkLabel(master= errorFrame, 
+mppt012VUnderVoltage = Label(master= errorFrame, 
                                             text="OK",
                                             font=errorFont,
-                                            text_color='green',
+                                            foreground='green',
+                                            background='#E5E5E5',
                                             anchor='w',)
-mppt112VUnderVoltage = customtkinter.CTkLabel(master= errorFrame, 
+mppt112VUnderVoltage = Label(master= errorFrame, 
                                             text="OK",
                                             font=errorFont,
-                                            text_color='green',
+                                            foreground='green',
+                                            background='#E5E5E5',
                                             anchor='w',)
 
-mpptBatteryFullLabel = customtkinter.CTkLabel(master=errorFrame,
+mpptBatteryFullLabel = Label(master=errorFrame,
                                                text="mpptBatteryFull:",
                                                font=errorFont,
-                                               text_color='black',
+                                               foreground='black',
+                                               background='#E5E5E5',
                                                anchor='w')
-mppt0BatteryFull = customtkinter.CTkLabel(master= errorFrame, 
+mppt0BatteryFull = Label(master= errorFrame, 
                                             text="OK",
                                             font=errorFont,
-                                            text_color='green',
+                                            foreground='green',
+                                            background='#E5E5E5',
                                             anchor='w',)
-mppt1BatteryFull = customtkinter.CTkLabel(master= errorFrame, 
+mppt1BatteryFull = Label(master= errorFrame, 
                                             text="OK",
                                             font=errorFont,
-                                            text_color='green',
+                                            foreground='green',
+                                            background='#E5E5E5',
                                             anchor='w',)
 
-mpptBatteryLowLabel = customtkinter.CTkLabel(master=errorFrame,
+mpptBatteryLowLabel = Label(master=errorFrame,
                                               text="mpptBatteryLow:",
                                               font=errorFont,
-                                              text_color='black',
+                                              foreground='black',
+                                              background='#E5E5E5',
                                               anchor='w')
-mppt0BatteryLow = customtkinter.CTkLabel(master= errorFrame, 
+mppt0BatteryLow = Label(master= errorFrame, 
                                             text="OK",
                                             font=errorFont,
-                                            text_color='green',
+                                            foreground='green',
+                                            background='#E5E5E5',
                                             anchor='w',)
-mppt1BatteryLow = customtkinter.CTkLabel(master= errorFrame, 
+mppt1BatteryLow = Label(master= errorFrame, 
                                             text="OK",
                                             font=errorFont,
-                                            text_color='green',
+                                            foreground='green',
+                                            background='#E5E5E5',
                                             anchor='w',)
 
-mpptMosfetOverheatLabel = customtkinter.CTkLabel(master=errorFrame,
+mpptMosfetOverheatLabel = Label(master=errorFrame,
                                                   text="mpptMosfetOverheat:",
                                                   font=errorFont,
-                                                  text_color='black',
+                                                  foreground='black',
+                                                  background='#E5E5E5',
                                                   anchor='w')
-mppt0MosfetOverheat = customtkinter.CTkLabel(master= errorFrame, 
+mppt0MosfetOverheat = Label(master= errorFrame, 
                                             text="OK",
                                             font=errorFont,
-                                            text_color='green',
+                                            foreground='green',
+                                            background='#E5E5E5',
                                             anchor='w',)
-mppt1MosfetOverheat = customtkinter.CTkLabel(master= errorFrame, 
+mppt1MosfetOverheat = Label(master= errorFrame, 
                                             text="OK",
                                             font=errorFont,
-                                            text_color='green',
+                                            foreground='green',
+                                            background='#E5E5E5',
                                             anchor='w',)
 
-mpptLowArrayPowerLabel = customtkinter.CTkLabel(master=errorFrame,
+mpptLowArrayPowerLabel = Label(master=errorFrame,
                                          text="mpptLowArrayPower:",
                                          font=errorFont,
-                                         text_color='black',
+                                         foreground='black',
+                                         background='#E5E5E5',
                                          anchor='w')
-mppt0LowArrayPower = customtkinter.CTkLabel(master= errorFrame, 
+mppt0LowArrayPower = Label(master= errorFrame, 
                                             text="OK",
                                             font=errorFont,
-                                            text_color='green',
+                                            foreground='green',
+                                            background='#E5E5E5',
                                             anchor='w',)
-mppt1LowArrayPower = customtkinter.CTkLabel(master= errorFrame, 
+mppt1LowArrayPower = Label(master= errorFrame, 
                                             text="OK",
                                             font=errorFont,
-                                            text_color='green',
+                                            foreground='green',
+                                            background='#E5E5E5',
                                             anchor='w',)
 
 
 # placing error labels
 errorFrameLabel.place(relx=0.03, rely=0.006, anchor='nw')
-mpptsErrorLabel.place(relx=0.6, rely=0.006, anchor='nw')
+mpptsErrorLabel.place(relx=0.59, rely=0.006, anchor='nw')
 
 mpptLowArrayPowerLabel.place(relx=0.03, rely=0.22, anchor='w')
 mppt0LowArrayPower.place(relx=0.6, rely=0.22, anchor='w')
@@ -326,20 +312,23 @@ mpptHWOverCurrentLabel.place(relx=0.03, rely=0.90, anchor='w')
 mppt0HWOverCurrent.place(relx=0.6, rely= 0.90, anchor='w')
 mppt1HWOverCurrent.place(relx=0.8, rely=0.90, anchor='w')
 
+
+
 # place on frame
 errorFrame.place(x=795,y=5,anchor='ne')
 
-# Sunergy Logo
-sunergyLogo = customtkinter.CTkImage(light_image=Image.open('Logo.png'), size=(104.16, 45.83))
-logoLabel = customtkinter.CTkLabel(mainWin, text="", image=sunergyLogo)
-# place on frame
-logoLabel.place(x=400,y=0,anchor='n')
 
+img = Image.open('Logo.png')
+img = img.resize((84, 37))
+sunergyLogo = ImageTk.PhotoImage(img)
+logoLabel = Label(mainWin, image=sunergyLogo, background='#E5E5E5')
+logoLabel.image = sunergyLogo  
+logoLabel.place(x=400, y=0, anchor='n')
 
 def startGui():
     """starts the gui loop given data"""
     print("Starting gui")
-    mainWin.mainloop()
+    root.mainloop()
 
 def updateGuiData(dataQueue):
     """updates gui via a queue system"""
@@ -362,11 +351,11 @@ def update_label(data: dict):
         print("updating label")
         if data['DataType'] != 'none':
             # update speed with speed
-            speedometer.configure(amountused=f"{data['Speed']:.1f}")
-            socVal.configure(text=f"{data['SOC']:.1f}")
-            ampsInValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
-            ampsOutValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
-            ampsDiffValue.configure(text="idk")
+            speedometerNum.config(amountused=f"{data['Speed']:.1f}")
+            socVal.config(text=f"{data['SOC']:.1f}")
+            ampsInValue.config(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
+            ampsOutValue.config(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
+            ampsDiffValue.config(text="idk")
         else:
             pass
 
@@ -389,16 +378,6 @@ def canCollection(bus):
         groupedData = group_can_data(parsed_message['arbitration_id'], data=data)
         # used for seeing can frames
         
-        if groupedData["DataType"] == 'mppt1error' or groupedData['DataType'] == 'mppt0error':
-            print(groupedData["DataType"])
-            print("LowArrayPower: " + str(groupedData['LowArrayPower']))
-            print("MosfetOverheat: " + str(groupedData['MosfetOverheat']))
-            print("BatteryLow: "+ str(groupedData['BatteryLow']))
-            print("BatteryFull: " + str(groupedData['BatteryFull']))
-            print("12VUnderVoltage: " + str(groupedData['12VUnderVoltage']))
-            print("HWOvercurrent: " + str(groupedData['HWOvercurrent']))
-            print("HWOvervoltage: " + str(groupedData['HWOvervoltage']))
-
         print(f"Timestamp: {parsed_message['timestamp']:.6f}")
         print(f"ID: {parsed_message['arbitration_id']:x}")
         print(f"DLC: {parsed_message['dlc']}")
@@ -432,7 +411,7 @@ def main():
     print("Sending request frame0 in main...")
     worker = threading.Thread(target=worker_thread, args=(dataQueue, bus))
     worker.start()
-    mainWin.after(100, updateGuiData, dataQueue)
+    root.after(100, updateGuiData, dataQueue)
     startGui()
 
 if __name__ == "__main__":
