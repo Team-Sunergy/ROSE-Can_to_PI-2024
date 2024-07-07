@@ -106,6 +106,8 @@ def send_requests_frame0(bus):
     # except can.CanError:
     #     print("Failed to send request for Frame0 RR1")
 
+def returnErrorColor(bit):
+    pass
 
 def send_request_frame0_periodically(bus):
     def send_requests():

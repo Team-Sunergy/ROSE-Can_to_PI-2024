@@ -14,8 +14,6 @@ root = Tk()
 root.title("GUI for Driver Interface")
 root.geometry('800x480')
 
-sillyMeter = True
-
 mainWin = Frame(root, bg='#E5E5E5')
 mainWin.pack(fill='both', expand=True)
 
@@ -28,9 +26,10 @@ versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
 # Fonts
 dashFont = Font(family='Gotham', weight='bold', size=30)
 socFont = Font(family='Gotham', weight='bold', size=10)
+faultFont = Font(family='Gotham', weight='bold', size=30)
 speedFont = Font(family='Gotham', weight='bold', size=200)
 errorFont = Font(family='Gotham', size=7)
-errorFont2 = Font(family='Gotham', size=8)
+errorFont2 = Font(family='Gotham', size=10)
 
 speedometerNum = Label(secondWin, text="25", font=speedFont, bg="white")
 speedometerNum.place(relx=0.5, rely=0.45, anchor='center')
@@ -44,6 +43,13 @@ socLabel.place(relx=0.5, rely=0.01, anchor='n')
 
 socVal = Label(socFrame, text='95.5%', font=dashFont, background='#E5E5E5',)
 socVal.place(relx=0.5, rely=0.5, anchor='center')
+
+# define fault frame (middle left)
+stateFrame = Frame(secondWin, bg='#E5E5E5', relief='raised', borderwidth=1)
+stateFrame.place(relx=0.5, y=5, width=325, height=75, anchor='n')
+indicatorLabel = Label(stateFrame, text='FAULT', font=faultFont, background='#E5E5E5', foreground='black')
+indicatorLabel.place(relx=0.5, rely=0.47, anchor='center')
+
 
 # define AMPS frame
 ampsInFrame = Frame(master=secondWin,
@@ -69,7 +75,14 @@ ampsInLabel.place(relx=0.5, rely=0.01, anchor='n')
 ampsInValue.place(relx=0.5, rely=0.5, anchor='center')
 ampsInFrame.place(x=5,y=428,anchor='sw')
 
-
+#define fault code frame
+faultCodeFrame = Frame(master=secondWin, 
+                       width=100,
+                       height=100,
+                       background='#E5E5E5',
+                       borderwidth=1,
+                       relief='raised',
+                       )
 
 ampsOutFrame = Frame(master=secondWin,
                                   width=200,
@@ -77,7 +90,7 @@ ampsOutFrame = Frame(master=secondWin,
                                   background='#E5E5E5',
                                   borderwidth=1,
                                   relief='raised',
-                                   )
+                                  )
 ampsOutLabel = Label(master=ampsOutFrame,
                                 text='AMPERAGE OUT',
                                 font=socFont,
@@ -126,186 +139,125 @@ errorFrame = Frame(master=secondWin,
                                   borderwidth=1,
                                   relief='raised'
                                   )
-errorFrameLabel = Label(master=errorFrame,
-                                         text="MPPTS Status",
-                                         font=errorFont2,
-                                         foreground='black',
-                                         background='#E5E5E5',
-                                         )
-mpptsErrorLabel = Label(master=errorFrame,
-                                    text="mppt0 mppt1",
+mppts0ErrorLabel = Label(master=errorFrame,
+                                    text="mppt0",
                                     font=errorFont2,
                                     background='#E5E5E5',
                                     foreground='black')
-
-
-mpptHWOverCurrentLabel = Label(master=errorFrame,
-                                                 text="mpptHWOverCurrent:",
+mppts1ErrorLabel = Label(master=errorFrame,
+                                    text="mppt1",
+                                    font=errorFont2,
+                                    background='#E5E5E5',
+                                    foreground='black')
+mppt0HWOverCurrentLabel = Label(master=errorFrame,
+                                text="M0HWOverCurrent",
+                                font=errorFont,
+                                foreground='#d7d7d7',
+                                background='#E5E5E5',
+                                anchor='w',)
+mppt1HWOverCurrentLabel = Label(master=errorFrame,
+                                text="M1HWOverCurrent",
+                                font=errorFont,
+                                foreground='#d7d7d7',
+                                background='#E5E5E5',
+                                anchor='w',)
+mppt0HWOverVoltageLabel = Label(master=errorFrame,
+                                                 text="M0HWOverVoltage",
                                                  font=errorFont,
-                                                 foreground='black',
-                                                 background='#E5E5E5',
-                                                 anchor='w',)
-mppt0HWOverCurrent = Label(master= errorFrame, 
-                                            text="OK",
-                                            font=errorFont,
-                                            foreground='green',
-                                            background='#E5E5E5',
-                                            anchor='w',)
-mppt1HWOverCurrent = Label(master= errorFrame, 
-                                            text="OK",
-                                            font=errorFont,
-                                            foreground='green',
-                                            background='#E5E5E5',
-                                            anchor='w',)
-
-mpptHWOverVoltageLabel = Label(master=errorFrame,
-                                                 text="mpptHWOverVoltage:",
-                                                 font=errorFont,
-                                                 foreground='black',
+                                                 foreground='#d7d7d7',
                                                  background='#E5E5E5',
                                                  anchor='w')
-mppt0HWOverVoltage = Label(master= errorFrame, 
-                                            text="OK",
-                                            font=errorFont,
-                                            foreground='green',
-                                            background='#E5E5E5',
-                                            anchor='w',)
-mppt1HWOverVoltage = Label(master= errorFrame, 
-                                            text="OK",
-                                            font=errorFont,
-                                            foreground='green',
-                                            background='#E5E5E5',
-                                            anchor='w',)
-
-mppt12VUnderVoltageLabel = Label(master=errorFrame,
-                                                   text="mppt12VUnderVoltage:",
+mppt1HWOverVoltageLabel = Label(master=errorFrame,
+                                                 text="M1HWOverVoltage",
+                                                 font=errorFont,
+                                                 foreground='#d7d7d7',
+                                                 background='#E5E5E5',
+                                                 anchor='w')
+mppt012VUnderVoltageLabel = Label(master=errorFrame,
+                                                   text="M0VUnderVoltage",
                                                    font=errorFont,
-                                                   foreground='black',
+                                                   foreground='#d7d7d7',
                                                    background='#E5E5E5',
                                                    anchor='w')
-mppt012VUnderVoltage = Label(master= errorFrame, 
-                                            text="OK",
-                                            font=errorFont,
-                                            foreground='green',
-                                            background='#E5E5E5',
-                                            anchor='w',)
-mppt112VUnderVoltage = Label(master= errorFrame, 
-                                            text="OK",
-                                            font=errorFont,
-                                            foreground='green',
-                                            background='#E5E5E5',
-                                            anchor='w',)
-
-mpptBatteryFullLabel = Label(master=errorFrame,
-                                               text="mpptBatteryFull:",
+mppt112VUnderVoltageLabel = Label(master=errorFrame,
+                                                   text="M1VUnderVoltage",
+                                                   font=errorFont,
+                                                   foreground='#d7d7d7',
+                                                   background='#E5E5E5',
+                                                   anchor='w')
+mppt0BatteryFullLabel = Label(master=errorFrame,
+                                               text="M0BatteryFull",
                                                font=errorFont,
-                                               foreground='black',
+                                               foreground='#d7d7d7',
                                                background='#E5E5E5',
                                                anchor='w')
-mppt0BatteryFull = Label(master= errorFrame, 
-                                            text="OK",
-                                            font=errorFont,
-                                            foreground='green',
-                                            background='#E5E5E5',
-                                            anchor='w',)
-mppt1BatteryFull = Label(master= errorFrame, 
-                                            text="OK",
-                                            font=errorFont,
-                                            foreground='green',
-                                            background='#E5E5E5',
-                                            anchor='w',)
-
-mpptBatteryLowLabel = Label(master=errorFrame,
-                                              text="mpptBatteryLow:",
+mppt1BatteryFullLabel = Label(master=errorFrame,
+                                               text="M1BatteryFull",
+                                               font=errorFont,
+                                               foreground='#d7d7d7',
+                                               background='#E5E5E5',
+                                               anchor='w')
+mppt0BatteryLowLabel = Label(master=errorFrame,
+                                              text="M0BatteryLow",
                                               font=errorFont,
-                                              foreground='black',
+                                              foreground='#d7d7d7',
                                               background='#E5E5E5',
                                               anchor='w')
-mppt0BatteryLow = Label(master= errorFrame, 
-                                            text="OK",
-                                            font=errorFont,
-                                            foreground='green',
-                                            background='#E5E5E5',
-                                            anchor='w',)
-mppt1BatteryLow = Label(master= errorFrame, 
-                                            text="OK",
-                                            font=errorFont,
-                                            foreground='green',
-                                            background='#E5E5E5',
-                                            anchor='w',)
-
-mpptMosfetOverheatLabel = Label(master=errorFrame,
-                                                  text="mpptMosfetOverheat:",
+mppt1BatteryLowLabel = Label(master=errorFrame,
+                                              text="M1BatteryLow",
+                                              font=errorFont,
+                                              foreground='#d7d7d7',
+                                              background='#E5E5E5',
+                                              anchor='w')
+mppt0MosfetOverheatLabel = Label(master=errorFrame,
+                                                  text="M0MosfetOverheat",
                                                   font=errorFont,
-                                                  foreground='black',
+                                                  foreground='#d7d7d7',
                                                   background='#E5E5E5',
                                                   anchor='w')
-mppt0MosfetOverheat = Label(master= errorFrame, 
-                                            text="OK",
-                                            font=errorFont,
-                                            foreground='green',
-                                            background='#E5E5E5',
-                                            anchor='w',)
-mppt1MosfetOverheat = Label(master= errorFrame, 
-                                            text="OK",
-                                            font=errorFont,
-                                            foreground='green',
-                                            background='#E5E5E5',
-                                            anchor='w',)
-
-mpptLowArrayPowerLabel = Label(master=errorFrame,
-                                         text="mpptLowArrayPower:",
+mppt1MosfetOverheatLabel = Label(master=errorFrame,
+                                                  text="M1MosfetOverheat",
+                                                  font=errorFont,
+                                                  foreground='#d7d7d7',
+                                                  background='#E5E5E5',
+                                                  anchor='w')
+mppt0LowArrayPowerLabel = Label(master=errorFrame,
+                                         text="M0LowArrayPower",
                                          font=errorFont,
-                                         foreground='black',
+                                         foreground='#d7d7d7',
                                          background='#E5E5E5',
                                          anchor='w')
-mppt0LowArrayPower = Label(master= errorFrame, 
-                                            text="OK",
-                                            font=errorFont,
-                                            foreground='green',
-                                            background='#E5E5E5',
-                                            anchor='w',)
-mppt1LowArrayPower = Label(master= errorFrame, 
-                                            text="OK",
-                                            font=errorFont,
-                                            foreground='green',
-                                            background='#E5E5E5',
-                                            anchor='w',)
-
+mppt1LowArrayPowerLabel = Label(master=errorFrame,
+                                         text="M1LowArrayPower",
+                                         font=errorFont,
+                                         foreground='#d7d7d7',
+                                         background='#E5E5E5',
+                                         anchor='w')
 
 # placing error labels
-errorFrameLabel.place(relx=0.03, rely=0.006, anchor='nw')
-mpptsErrorLabel.place(relx=0.59, rely=0.006, anchor='nw')
+mppts0ErrorLabel.place(relx=0.02, rely=0.03, anchor='nw')
+mppts1ErrorLabel.place(relx=0.52, rely=0.03, anchor='nw')
 
-mpptLowArrayPowerLabel.place(relx=0.03, rely=0.22, anchor='w')
-mppt0LowArrayPower.place(relx=0.6, rely=0.22, anchor='w')
-mppt1LowArrayPower.place(relx=0.8, rely=0.22, anchor='w')
+mppt0LowArrayPowerLabel.place(relx=0.02, rely=0.22, anchor='w')
+mppt1LowArrayPowerLabel.place(relx=0.52, rely=0.22, anchor='w')
 
-mpptMosfetOverheatLabel.place(relx=0.03, rely=0.34, anchor='w')
-mppt0MosfetOverheat.place(relx=0.6, rely=0.34, anchor='w')
-mppt1MosfetOverheat.place(relx=0.8, rely=0.34, anchor='w')
+mppt0MosfetOverheatLabel.place(relx=0.02, rely=0.34, anchor='w')
+mppt1MosfetOverheatLabel.place(relx=0.52, rely=0.34, anchor='w')
 
-mpptBatteryLowLabel.place(relx=0.03, rely=0.4532, anchor='w')
-mppt0BatteryLow.place(relx=0.6, rely=0.4532, anchor='w')
-mppt1BatteryLow.place(relx=0.8, rely=0.4532, anchor='w')
+mppt0BatteryLowLabel.place(relx=0.02, rely=0.4532, anchor='w')
+mppt1BatteryLowLabel.place(relx=0.52, rely=0.4532, anchor='w')
 
-mpptBatteryFullLabel.place(relx=0.03, rely=0.5648, anchor='w')
-mppt0BatteryFull.place(relx=0.6, rely=0.5648, anchor='w')
-mppt1BatteryFull.place(relx=0.8, rely=0.5648, anchor='w')
+mppt0BatteryFullLabel.place(relx=0.02, rely=0.5648, anchor='w')
+mppt1BatteryFullLabel.place(relx=0.52, rely=0.5648, anchor='w')
 
-mppt12VUnderVoltageLabel.place(relx=0.03, rely=0.6864, anchor='w')
-mppt012VUnderVoltage.place(relx=0.6, rely=0.6864, anchor='w')
-mppt112VUnderVoltage.place(relx=0.8, rely=0.6864, anchor='w')
+mppt012VUnderVoltageLabel.place(relx=0.02, rely=0.6864, anchor='w')
+mppt112VUnderVoltageLabel.place(relx=0.52, rely=0.6864, anchor='w')
 
-mpptHWOverVoltageLabel.place(relx=0.03, rely=0.798, anchor='w')
-mppt0HWOverVoltage.place(relx=0.6, rely=0.798, anchor='w')
-mppt1HWOverVoltage.place(relx=0.8, rely=0.798, anchor='w')
+mppt0HWOverVoltageLabel.place(relx=0.02, rely=0.798, anchor='w')
+mppt1HWOverVoltageLabel.place(relx=0.52, rely=0.798, anchor='w')
 
-mpptHWOverCurrentLabel.place(relx=0.03, rely=0.90, anchor='w')
-mppt0HWOverCurrent.place(relx=0.6, rely= 0.90, anchor='w')
-mppt1HWOverCurrent.place(relx=0.8, rely=0.90, anchor='w')
-
-
+mppt0HWOverCurrentLabel.place(relx=0.02, rely=0.90, anchor='w')
+mppt1HWOverCurrentLabel.place(relx=0.52, rely=0.90, anchor='w')
 
 # place on frame
 errorFrame.place(x=795,y=5,anchor='ne')
@@ -342,18 +294,15 @@ def update_label(data: dict):
         """private for gui.py, takes data dict
         and updates label"""
         print("updating label")
+        if data['DataType'] == 'mppt0error':           
+            print("error")
+
         if data['DataType'] != 'none':
             # update speed with speed
             speedometerNum.config(text=f"{data['Speed']:.1f}")
             socVal.configure(text=f"{data['SOC']:.1f}")
             ampsInValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
             #ampsOutValue.configure(text=f"{data['PackCurrent'] - (data['OutputCurrent0'] + data['OutputCurrent1']):.1f}")
-            if(sillyMeter == True):
-                ampsDiffValue.configure(text="idk")
-                sillyMeter = False
-            else:
-                sillyMeter = True
-                ampsDiffValue.config(text="idk maybe")
         else:
             pass
 
@@ -373,15 +322,15 @@ def canCollection(bus):
         parsed_message = parse_can_message(message) # recieves parsed message
         data = parsed_message['data']
         # group up data into a table
-        groupedData = group_can_data(parsed_message['arbitration_id'], data=data)
+        groupedData = group_can_data(parsed_message['arbitration_id'], data=data) # updates data with new data
         # used for seeing can frames
         
-        print(f"Timestamp: {parsed_message['timestamp']:.6f}")
-        print(f"ID: {parsed_message['arbitration_id']:x}")
-        print(f"DLC: {parsed_message['dlc']}")
-        print(f"Data: {parsed_message['data_str']}")
-        print("-" * 30)
-        print("SOC: " + str(groupedData['SOC']))
+        # print(f"Timestamp: {parsed_message['timestamp']:.6f}")
+        # print(f"ID: {parsed_message['arbitration_id']:x}")
+        # print(f"DLC: {parsed_message['dlc']}")
+        # print(f"Data: {parsed_message['data_str']}")
+        # print("-" * 30)
+        # print("SOC: " + str(groupedData['SOC']))
 
         
         # used for sending data, contains all different types of possible categories (mppts, bms, mc)
