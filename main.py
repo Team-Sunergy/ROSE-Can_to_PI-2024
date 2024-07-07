@@ -14,6 +14,8 @@ root = Tk()
 root.title("GUI for Driver Interface")
 root.geometry('800x480')
 
+sillyMeter = True
+
 mainWin = Frame(root, bg='#E5E5E5')
 mainWin.pack(fill='both', expand=True)
 
@@ -342,11 +344,16 @@ def update_label(data: dict):
         print("updating label")
         if data['DataType'] != 'none':
             # update speed with speed
-            speedometerNum.config(amountused=f"{data['Speed']:.1f}")
+            speedometerNum.config(text=f"{data['Speed']:.1f}")
             socVal.configure(text=f"{data['SOC']:.1f}")
             ampsInValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
-            ampsOutValue.configure(text=f"{data['PackCurrent'] - (data['OutputCurrent0'] + data['OutputCurrent1']):.1f}")
-            ampsDiffValue.configure(text="idk")
+            #ampsOutValue.configure(text=f"{data['PackCurrent'] - (data['OutputCurrent0'] + data['OutputCurrent1']):.1f}")
+            if(sillyMeter == True):
+                ampsDiffValue.configure(text="idk")
+                sillyMeter = False
+            else:
+                sillyMeter = True
+                ampsDiffValue.config(text="idk maybe")
         else:
             pass
 
