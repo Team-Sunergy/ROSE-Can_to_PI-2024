@@ -8,6 +8,7 @@ from tkinter import *
 from tkinter import Tk, Frame, Label
 from tkinter.font import Font
 from PIL import Image, ImageTk
+from tools import returnErrorColor
 
 # definition of main window
 root = Tk()
@@ -294,8 +295,22 @@ def update_label(data: dict):
         """private for gui.py, takes data dict
         and updates label"""
         print("updating label")
-        if data['DataType'] == 'mppt0error':           
-            print("error")
+        if data['DataType'] == 'mppt0error':
+            mppt0LowArrayPowerLabel.config(returnErrorColor(data['LowArrayPower']))
+            mppt0MosfetOverheatLabel.config(returnErrorColor(data['MosfetOverheat']))
+            mppt0BatteryLowLabel.config(returnErrorColor(data['BatteryLow']))
+            mppt0BatteryFullLabel.config(returnErrorColor(data['BatteryFull']))
+            mppt012VUnderVoltageLabel.config(returnErrorColor(data['12VUnderVoltage']))
+            mppt0HWOverCurrentLabel.config(returnErrorColor(data['HWOverCurrent']))
+            mppt0HWOverVoltageLabel.config(returnErrorColor(data['HWOverVoltage']))
+        elif data['DataType'] == 'mppt1error':
+            mppt1LowArrayPowerLabel.config(returnErrorColor(data['LowArrayPower']))
+            mppt1MosfetOverheatLabel.config(returnErrorColor(data['MosfetOverheat']))
+            mppt1BatteryLowLabel.config(returnErrorColor(data['BatteryLow']))
+            mppt1BatteryFullLabel.config(returnErrorColor(data['BatteryFull']))
+            mppt112VUnderVoltageLabel.config(returnErrorColor(data['12VUnderVoltage']))
+            mppt1HWOverCurrentLabel.config(returnErrorColor(data['HWOverCurrent']))
+            mppt1HWOverVoltageLabel.config(returnErrorColor(data['HWOverVoltage']))
 
         if data['DataType'] != 'none':
             # update speed with speed

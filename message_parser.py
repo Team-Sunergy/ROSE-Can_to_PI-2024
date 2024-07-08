@@ -115,8 +115,8 @@ def group_can_data(canId, data: bytearray) -> dict:
                     'BatteryLow': bool(getBits(data, 21, 21)),
                     'BatteryFull': bool(getBits(data, 20, 20)),
                     '12VUnderVoltage': bool(getBits(data, 19, 19)),
-                    'HWOvercurrent': bool(getBits(data, 17, 17)),
-                    'HWOvervoltage': bool(getBits(data, 16, 16))})
+                    'HWOverCurrent': bool(getBits(data, 17, 17)),
+                    'HWOverVoltage': bool(getBits(data, 16, 16))})
     elif(canId == 0x615):
         canData.update({'DataType': 'mppt1error',
                     'LowArrayPower': bool(getBits(data, 23, 23)), #adding the 'bool' here simply makes it so it turns the 1 or 0 into a bool
