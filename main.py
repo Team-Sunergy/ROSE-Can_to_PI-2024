@@ -8,7 +8,7 @@ from tkinter import *
 from tkinter import Tk, Frame, Label
 from tkinter.font import Font
 from PIL import Image, ImageTk
-from tools import returnErrorColor
+from tools import getDisplayColor, getMPPTErrors
 
 # definition of main window
 root = Tk()
@@ -317,32 +317,30 @@ def updateGuiData(dataQueue):
 def update_label(data: dict):
         """private for gui.py, takes data dict
         and updates label"""
-        print("updating label")
         if data['DataType'] == 'mppt0error':
-            mppt0OnLabel.itemconfig(standby0, fill=returnErrorColor(data['Mode']))
-            mppt0LowArrayPowerLabel.config(returnErrorColor(data['LowArrayPower']))
-            mppt0MosfetOverheatLabel.config(returnErrorColor(data['MosfetOverheat']))
-            mppt0BatteryLowLabel.config(returnErrorColor(data['BatteryLow']))
-            mppt0BatteryFullLabel.config(returnErrorColor(data['BatteryFull']))
-            mppt012VUnderVoltageLabel.config(returnErrorColor(data['12VUnderVoltage']))
-            mppt0HWOverCurrentLabel.config(returnErrorColor(data['HWOverCurrent']))
-            mppt0HWOverVoltageLabel.config(returnErrorColor(data['HWOverVoltage']))
+            mppt0OnLabel.itemconfig(standby0, fill=getDisplayColor(data['Mode']))
+            mppt0LowArrayPowerLabel.config(getMPPTErrors(data['LowArrayPower']))
+            mppt0MosfetOverheatLabel.config(getMPPTErrors(data['MosfetOverheat']))
+            mppt0BatteryLowLabel.config(getMPPTErrors(data['BatteryLow']))
+            mppt0BatteryFullLabel.config(getMPPTErrors(data['BatteryFull']))
+            mppt012VUnderVoltageLabel.config(getMPPTErrors(data['12VUnderVoltage']))
+            mppt0HWOverCurrentLabel.config(getMPPTErrors(data['HWOverCurrent']))
+            mppt0HWOverVoltageLabel.config(getMPPTErrors(data['HWOverVoltage']))
         elif data['DataType'] == 'mppt1error':
-            mppt1OnLabel.itemconfig(standby1, fill=returnErrorColor(data['Mode']))
-            mppt1LowArrayPowerLabel.config(returnErrorColor(data['LowArrayPower']))
-            mppt1MosfetOverheatLabel.config(returnErrorColor(data['MosfetOverheat']))
-            mppt1BatteryLowLabel.config(returnErrorColor(data['BatteryLow']))
-            mppt1BatteryFullLabel.config(returnErrorColor(data['BatteryFull']))
-            mppt112VUnderVoltageLabel.config(returnErrorColor(data['12VUnderVoltage']))
-            mppt1HWOverCurrentLabel.config(returnErrorColor(data['HWOverCurrent']))
-            mppt1HWOverVoltageLabel.config(returnErrorColor(data['HWOverVoltage']))
-
-        if data['DataType'] != 'none':
+            mppt1OnLabel.itemconfig(standby1, fill=getDisplayColor(data['Mode']))
+            mppt1LowArrayPowerLabel.config(getMPPTErrors(data['LowArrayPower']))
+            mppt1MosfetOverheatLabel.config(getMPPTErrors(data['MosfetOverheat']))
+            mppt1BatteryLowLabel.config(getMPPTErrors(data['BatteryLow']))
+            mppt1BatteryFullLabel.config(getMPPTErrors(data['BatteryFull']))
+            mppt112VUnderVoltageLabel.config(getMPPTErrors(data['12VUnderVoltage']))
+            mppt1HWOverCurrentLabel.config(getMPPTErrors(data['HWOverCurrent']))
+            mppt1HWOverVoltageLabel.config(getMPPTErrors(data['HWOverVoltage']))
+        elif data['DataType'] != 'none': # might change
             # update speed with speed
             speedometerNum.config(text=data['Speed'])
             socVal.configure(text=f"{data['SOC']:.1f}")
             ampsInValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
-            #ampsOutValue.configure(text=f"{data['PackCurrent'] - (data['OutputCurrent0'] + data['OutputCurrent1']):.1f}")
+            ampsOutValue.configure(text=f"{data['PackCurrent'] - (data['OutputCurrent0'] + data['OutputCurrent1']):.1f}")
         else:
             pass
 

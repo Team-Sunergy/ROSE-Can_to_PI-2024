@@ -107,7 +107,7 @@ def send_requests_frame0(bus):
     #     print("Failed to send request for Frame0 RR1")
 
 # for display colors for whether a component is on
-def returnDisplayColor(bit):
+def getDisplayColor(bit):
     if(bit == 0):
         return 'lime'
     else: # if bit == 1
@@ -127,3 +127,8 @@ def send_request_frame0_periodically(bus):
 
     threading.Thread(target=send_requests).start()
     print("Started thread to send request frame0...")
+
+
+stateArr = ['OFF', 'ACC', 'IGN', 'DCDC', 'ON', 'CHARGE', 'FAULT']
+def getState(num):
+    return stateArr[num]
