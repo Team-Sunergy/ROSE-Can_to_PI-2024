@@ -52,7 +52,8 @@ canData = {'DataType': 'none',
            'BatteryFull': 'none',
            '12VUnderVoltage': 'none',
            'HWOvercurrent': 'none',
-           'HWOvervoltage': 'none'}
+           'HWOvervoltage': 'none',
+           'PackCurrent': 0}
 
 def group_can_data(canId, data: bytearray) -> dict:
     """

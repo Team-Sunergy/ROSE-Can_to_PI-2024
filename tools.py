@@ -106,11 +106,18 @@ def send_requests_frame0(bus):
     # except can.CanError:
     #     print("Failed to send request for Frame0 RR1")
 
-def returnErrorColor(bit):
+# for display colors for whether a component is on
+def returnDisplayColor(bit):
     if(bit == 0):
         return 'lime'
     else: # if bit == 1
         return 'yellow'
+
+def getMPPTErrors(boolean):
+    if boolean:
+        return 'black'
+    else:
+        return '#E5E5E5'
 
 def send_request_frame0_periodically(bus):
     def send_requests():
