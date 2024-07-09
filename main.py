@@ -8,7 +8,7 @@ from tkinter import *
 from tkinter import Tk, Frame, Label
 from tkinter.font import Font
 from PIL import Image, ImageTk
-from tools import getDisplayColor, getMPPTErrors
+from tools import getDisplayColor, getMPPTErrors, getState
 
 # definition of main window
 root = Tk()
@@ -335,6 +335,9 @@ def update_label(data: dict):
             mppt112VUnderVoltageLabel.config(getMPPTErrors(data['12VUnderVoltage']))
             mppt1HWOverCurrentLabel.config(getMPPTErrors(data['HWOverCurrent']))
             mppt1HWOverVoltageLabel.config(getMPPTErrors(data['HWOverVoltage']))
+        elif data['DataType'] == 'STM':
+            faultCodeLabel.config(text=getState(data['State']))
+            faultCodeValue.config(text=data['FaultID'])
         elif data['DataType'] != 'none': # might change
             # update speed with speed
             speedometerNum.config(text=data['Speed'])
@@ -351,7 +354,6 @@ def worker_thread(queue, bus):
     while True:
         data = canCollection(bus)
         queue.put(data) # puts data in queue
-        time.sleep(0.1)  # controls the rate of data generation.
 
 def canCollection(bus):
     print("In the try")

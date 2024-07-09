@@ -21,8 +21,8 @@ def parse_can_message(message, shift_amount=0):
     return parsed_data
 
 canData = {'DataType': 'none',
-           'BatteryVoltage': 'none',
-           'BatteryCurrent': 'none',
+           'BatteryVoltage': 0,
+           'BatteryCurrent': 0,
            'BatteryCurrentDirection': 'none',
            'MotorCurrentPeakAverage': 'none',
            'FETTemperature': 'none',
@@ -53,7 +53,9 @@ canData = {'DataType': 'none',
            '12VUnderVoltage': 'none',
            'HWOvercurrent': 'none',
            'HWOvervoltage': 'none',
-           'PackCurrent': 0}
+           'PackCurrent': 0,
+           'State': 0,
+           'FaultID': 0}
 
 def group_can_data(canId, data: bytearray) -> dict:
     """
