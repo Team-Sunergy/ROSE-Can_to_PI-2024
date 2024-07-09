@@ -44,6 +44,7 @@ canData = {'DataType': 'none',
            'OutputVoltage1': 0,
            'OutputCurrent1': 0,
            'MosfetTemperature': 'none',
+           'Mode': 0, 
            'ControllerTemperature': 'none',
            'LowArrayPower': 'none',
            'MosfetOverheat': 'none',
@@ -73,8 +74,7 @@ def group_can_data(canId, data: bytearray) -> dict:
                 'FETTemperature': getBits(data, 30, 34),
                 'MotorRotatingSpeed': getBits(data, 35, 46),
                 'PWMDuty': getBits(data, 47, 56),
-                'LeadAngle': getBits(data, 57, 63),
-                }),
+                'LeadAngle': getBits(data, 57, 63)})
     # bms
     elif(canId == 0x289):
         canData.update({'DataType': 'bms',
@@ -110,6 +110,7 @@ def group_can_data(canId, data: bytearray) -> dict:
                    'ControllerTemperature': get32FloatBits(data, 32, 63)})
     elif(canId == 0x605):
         canData.update({'DataType': 'mppt0error',
+                    'Mode': getBits(data, 40, 40),
                     'LowArrayPower': bool(getBits(data, 23, 23)),
                     'MosfetOverheat': bool(getBits(data, 22, 22)),
                     'BatteryLow': bool(getBits(data, 21, 21)),
@@ -119,16 +120,21 @@ def group_can_data(canId, data: bytearray) -> dict:
                     'HWOverVoltage': bool(getBits(data, 16, 16))})
     elif(canId == 0x615):
         canData.update({'DataType': 'mppt1error',
+                    'Mode': getBits(data, 40, 40),
                     'LowArrayPower': bool(getBits(data, 23, 23)), #adding the 'bool' here simply makes it so it turns the 1 or 0 into a bool
                     'MosfetOverheat': bool(getBits(data, 22, 22)),
                     'BatteryLow': bool(getBits(data, 21, 21)),
                     'BatteryFull': bool(getBits(data, 20, 20)),
                     '12VUnderVoltage': bool(getBits(data, 19, 19)),
-                    'HWOvercurrent': bool(getBits(data, 17, 17)),
-                    'HWOvervoltage': bool(getBits(data, 16, 16))})
+                    'HWOverCurrent': bool(getBits(data, 17, 17)),
+                    'HWOverVoltage': bool(getBits(data, 16, 16))})
     elif(canId == 0x69):
         canData.update({'DataType': 'Speed',
-                        'Speed': getBits(data, 0, 7),})
+                        'Speed': getBits(data, 0, 7)})
+    elif(canId == 0x420):
+        canData.update({'DataType': 'STM',
+                        'State': getBits(data, 0, 7),
+                        'FaultID': getBits(data, 8, 15)})
     
     return canData
 

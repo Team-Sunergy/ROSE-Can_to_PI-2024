@@ -21,13 +21,14 @@ mainWin.pack(fill='both', expand=True)
 secondWin = Frame(mainWin, bg='white')
 secondWin.place(relx=0.0, rely=0.095, relwidth=1, relheight=0.905)
 
-versionLabel = Label(mainWin, text="version 0.2", font=('Gotham', 10), background="#E5E5E5")
+versionLabel = Label(mainWin, text="version 0.21", font=('Gotham', 10), background="#E5E5E5")
 versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
 
 # Fonts
 dashFont = Font(family='Gotham', weight='bold', size=30)
 socFont = Font(family='Gotham', weight='bold', size=10)
-faultFont = Font(family='Gotham', weight='bold', size=30)
+faultFont = Font(family='Gotham', weight='bold', size=32)
+faultFont2 = Font(family='Gotham', weight='bold', size=20)
 speedFont = Font(family='Gotham', weight='bold', size=200)
 errorFont = Font(family='Gotham', size=7)
 errorFont2 = Font(family='Gotham', size=10)
@@ -37,19 +38,19 @@ speedometerNum.place(relx=0.5, rely=0.45, anchor='center')
 
 # define SOC frame (top left)
 socFrame = Frame(secondWin, bg='#E5E5E5', relief='raised', borderwidth=1)
-socFrame.place(x=5, y=5, width=200, height=100)
+socFrame.place(x=5, y=5, width=200, height=85)
 
 socLabel = Label(socFrame, text='STATE OF CHARGE', font=socFont, background='#E5E5E5',)
 socLabel.place(relx=0.5, rely=0.01, anchor='n')
 
 socVal = Label(socFrame, text='95.5%', font=dashFont, background='#E5E5E5',)
-socVal.place(relx=0.5, rely=0.5, anchor='center')
+socVal.place(relx=0.5, rely=0.55, anchor='center')
 
 # define fault frame (middle left)
 stateFrame = Frame(secondWin, bg='#E5E5E5', relief='raised', borderwidth=1)
 stateFrame.place(relx=0.5, y=5, width=325, height=75, anchor='n')
 indicatorLabel = Label(stateFrame, text='FAULT', font=faultFont, background='#E5E5E5', foreground='black')
-indicatorLabel.place(relx=0.5, rely=0.47, anchor='center')
+indicatorLabel.place(relx=0.075, rely=0.475, anchor='w')
 
 
 # define AMPS frame
@@ -77,13 +78,26 @@ ampsInValue.place(relx=0.5, rely=0.5, anchor='center')
 ampsInFrame.place(x=5,y=428,anchor='sw')
 
 #define fault code frame
-faultCodeFrame = Frame(master=secondWin, 
+faultCodeFrame = Frame(master=stateFrame, 
                        width=100,
-                       height=100,
+                       height=50,
                        background='#E5E5E5',
                        borderwidth=1,
-                       relief='raised',
+                       relief='sunken',
                        )
+faultCodeFrame.place(relx=0.93, rely=0.5, anchor='e')
+faultCodeLabel = Label(master=faultCodeFrame,
+                       text='FAULT CODE: ',
+                       font=errorFont,
+                       foreground='black',
+                       background='#E5E5E5')
+faultCodeLabel.place(relx=0.0, rely=0.0, anchor='nw')
+faultCodeValue = Label(master=faultCodeFrame,
+                       text='0x51',
+                       font=faultFont2, 
+                       background='#E5E5E5'
+                       )
+faultCodeValue.place(relx=.9, rely=0.62, anchor='e')
 
 ampsOutFrame = Frame(master=secondWin,
                                   width=200,
@@ -122,7 +136,7 @@ ampsDiffValue = Label(master=ampsDiffFrame,
                                      background='#E5E5E5',
                                      )
 ampsDiffLabel = Label(master=ampsDiffFrame,
-                                     text='AMP IN/AMP OUT',
+                                     text='NET AMPS',
                                      font=socFont,
                                      foreground='black',
                                      background='#E5E5E5',
@@ -145,6 +159,16 @@ mppts0ErrorLabel = Label(master=errorFrame,
                                     font=errorFont2,
                                     background='#E5E5E5',
                                     foreground='black')
+
+# on labels
+mppt0OnLabel = Canvas(master=errorFrame, width=20, height=20, background='#E5E5E5', bd=0, highlightthickness=0,)
+standby0 = mppt0OnLabel.create_oval(15, 15, 5, 5, fill='yellow')
+mppt0OnLabel.place(relx=0.31, rely=0.03, anchor='n')
+
+mppt1OnLabel = Canvas(master=errorFrame, width=20, height=20, background='#E5E5E5', bd=0, highlightthickness=0,)
+standby1 = mppt1OnLabel.create_oval(15, 15, 5, 5, fill='lime')
+mppt1OnLabel.place(relx=0.8, rely=0.03, anchor='n')
+
 mppts1ErrorLabel = Label(master=errorFrame,
                                     text="mppt1",
                                     font=errorFont2,
@@ -282,7 +306,6 @@ def updateGuiData(dataQueue):
         # non-blocking get from queue
         data = dataQueue.get_nowait()
     except queue.Empty:
-        print("no new data")
         pass
     else:
         # data received, update labels
@@ -296,6 +319,7 @@ def update_label(data: dict):
         and updates label"""
         print("updating label")
         if data['DataType'] == 'mppt0error':
+            mppt0OnLabel.itemconfig(standby0, fill=returnErrorColor(data['Mode']))
             mppt0LowArrayPowerLabel.config(returnErrorColor(data['LowArrayPower']))
             mppt0MosfetOverheatLabel.config(returnErrorColor(data['MosfetOverheat']))
             mppt0BatteryLowLabel.config(returnErrorColor(data['BatteryLow']))
@@ -304,6 +328,7 @@ def update_label(data: dict):
             mppt0HWOverCurrentLabel.config(returnErrorColor(data['HWOverCurrent']))
             mppt0HWOverVoltageLabel.config(returnErrorColor(data['HWOverVoltage']))
         elif data['DataType'] == 'mppt1error':
+            mppt1OnLabel.itemconfig(standby1, fill=returnErrorColor(data['Mode']))
             mppt1LowArrayPowerLabel.config(returnErrorColor(data['LowArrayPower']))
             mppt1MosfetOverheatLabel.config(returnErrorColor(data['MosfetOverheat']))
             mppt1BatteryLowLabel.config(returnErrorColor(data['BatteryLow']))
@@ -314,7 +339,7 @@ def update_label(data: dict):
 
         if data['DataType'] != 'none':
             # update speed with speed
-            speedometerNum.config(text=f"{data['Speed']:.1f}")
+            speedometerNum.config(text=data['Speed'])
             socVal.configure(text=f"{data['SOC']:.1f}")
             ampsInValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
             #ampsOutValue.configure(text=f"{data['PackCurrent'] - (data['OutputCurrent0'] + data['OutputCurrent1']):.1f}")
