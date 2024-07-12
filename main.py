@@ -21,7 +21,7 @@ mainWin.pack(fill='both', expand=True)
 secondWin = Frame(mainWin, bg='white')
 secondWin.place(relx=0.0, rely=0.095, relwidth=1, relheight=0.905)
 
-versionLabel = Label(mainWin, text="version 0.21", font=('Gotham', 10), background="#E5E5E5")
+versionLabel = Label(mainWin, text="version 0.4", font=('Gotham', 10), background="#E5E5E5")
 versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
 
 # Fonts
