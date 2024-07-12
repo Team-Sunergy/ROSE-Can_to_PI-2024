@@ -16,12 +16,13 @@ root.title("GUI for Driver Interface")
 root.geometry('800x480')
 
 mainWin = Frame(root, bg='#E5E5E5')
+root.attributes('-fullscreen', True)
 mainWin.pack(fill='both', expand=True)
 
 secondWin = Frame(mainWin, bg='white')
 secondWin.place(relx=0.0, rely=0.095, relwidth=1, relheight=0.905)
 
-versionLabel = Label(mainWin, text="version 0.21", font=('Gotham', 10), background="#E5E5E5")
+versionLabel = Label(mainWin, text="version 0.4", font=('Gotham', 10), background="#E5E5E5")
 versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
 
 # Fonts
@@ -43,13 +44,13 @@ socFrame.place(x=5, y=5, width=200, height=85)
 socLabel = Label(socFrame, text='STATE OF CHARGE', font=socFont, background='#E5E5E5',)
 socLabel.place(relx=0.5, rely=0.01, anchor='n')
 
-socVal = Label(socFrame, text='95.5%', font=dashFont, background='#E5E5E5',)
+socVal = Label(socFrame, text='-1%', font=dashFont, background='#E5E5E5',)
 socVal.place(relx=0.5, rely=0.55, anchor='center')
 
 # define fault frame (middle left)
 stateFrame = Frame(secondWin, bg='#E5E5E5', relief='raised', borderwidth=1)
 stateFrame.place(relx=0.5, y=5, width=325, height=75, anchor='n')
-indicatorLabel = Label(stateFrame, text='FAULT', font=faultFont, background='#E5E5E5', foreground='black')
+indicatorLabel = Label(stateFrame, text='TEST FAULT', font=faultFont, background='#E5E5E5', foreground='black')
 indicatorLabel.place(relx=0.075, rely=0.475, anchor='w')
 
 
@@ -68,7 +69,7 @@ ampsInLabel = Label(master=ampsInFrame,
                                 background='#E5E5E5',
                                 )
 ampsInValue = Label(master=ampsInFrame,
-                                     text='3.2AMPS',
+                                     text='-1 AMPS',
                                      font=dashFont,
                                      foreground='black',
                                      background='#E5E5E5',
@@ -93,7 +94,7 @@ faultCodeLabel = Label(master=faultCodeFrame,
                        background='#E5E5E5')
 faultCodeLabel.place(relx=0.0, rely=0.0, anchor='nw')
 faultCodeValue = Label(master=faultCodeFrame,
-                       text='0x51',
+                       text='0x69',
                        font=faultFont2, 
                        background='#E5E5E5'
                        )
@@ -113,7 +114,7 @@ ampsOutLabel = Label(master=ampsOutFrame,
                                 background='#E5E5E5',
                                 )
 ampsOutValue = Label(master=ampsOutFrame,
-                                     text='1.9AMPS',
+                                     text='-1 AMPS',
                                      font=dashFont,
                                      foreground='black',
                                      background='#E5E5E5',
@@ -130,7 +131,7 @@ ampsDiffFrame = Frame(master=secondWin,
                                     relief='raised',
                                     )
 ampsDiffValue = Label(master=ampsDiffFrame,
-                                     text='1.3A',
+                                     text='-1AMPS',
                                      font=Font(family='Gotham', weight='bold', size=25),
                                      foreground='black',
                                      background='#E5E5E5',
@@ -144,6 +145,14 @@ ampsDiffLabel = Label(master=ampsDiffFrame,
 ampsDiffValue.place(relx=0.5, rely=0.53, anchor='center')
 ampsDiffLabel.place(relx=0.5, rely=0.02,anchor='n')
 ampsDiffFrame.place(x=400,y=428,anchor='s')
+
+chargCurrFrame = Frame(master=secondFrame,
+                       width=200,
+                       height=200,
+                       background='#E5E5E5')
+disCurrLimitLabel = Label(master = chargCurrFrame,
+                          text=
+
 
 
 # BELOW ARE ALL THE ANNOYING ERROR FRAME DIAGNOSTICS
@@ -166,7 +175,7 @@ standby0 = mppt0OnLabel.create_oval(15, 15, 5, 5, fill='yellow')
 mppt0OnLabel.place(relx=0.31, rely=0.03, anchor='n')
 
 mppt1OnLabel = Canvas(master=errorFrame, width=20, height=20, background='#E5E5E5', bd=0, highlightthickness=0,)
-standby1 = mppt1OnLabel.create_oval(15, 15, 5, 5, fill='lime')
+standby1 = mppt1OnLabel.create_oval(15, 15, 5, 5, fill='yellow')
 mppt1OnLabel.place(relx=0.8, rely=0.03, anchor='n')
 
 mppts1ErrorLabel = Label(master=errorFrame,
@@ -319,22 +328,22 @@ def update_label(data: dict):
         and updates label"""
         if data['DataType'] == 'mppt0error':
             mppt0OnLabel.itemconfig(standby0, fill=getDisplayColor(data['Mode']))
-            mppt0LowArrayPowerLabel.config(getMPPTErrors(data['LowArrayPower']))
-            mppt0MosfetOverheatLabel.config(getMPPTErrors(data['MosfetOverheat']))
-            mppt0BatteryLowLabel.config(getMPPTErrors(data['BatteryLow']))
-            mppt0BatteryFullLabel.config(getMPPTErrors(data['BatteryFull']))
-            mppt012VUnderVoltageLabel.config(getMPPTErrors(data['12VUnderVoltage']))
-            mppt0HWOverCurrentLabel.config(getMPPTErrors(data['HWOverCurrent']))
-            mppt0HWOverVoltageLabel.config(getMPPTErrors(data['HWOverVoltage']))
+            mppt0LowArrayPowerLabel.config(foreground=getMPPTErrors(data['LowArrayPower']))
+            mppt0MosfetOverheatLabel.config(foreground=getMPPTErrors(data['MosfetOverheat']))
+            mppt0BatteryLowLabel.config(foreground=getMPPTErrors(data['BatteryLow']))
+            mppt0BatteryFullLabel.config(foreground=getMPPTErrors(data['BatteryFull']))
+            mppt012VUnderVoltageLabel.config(foreground=getMPPTErrors(data['12VUnderVoltage']))
+            mppt0HWOverCurrentLabel.config(foreground=getMPPTErrors(data['HWOverCurrent']))
+            mppt0HWOverVoltageLabel.config(foreground=getMPPTErrors(data['HWOverVoltage']))
         elif data['DataType'] == 'mppt1error':
             mppt1OnLabel.itemconfig(standby1, fill=getDisplayColor(data['Mode']))
-            mppt1LowArrayPowerLabel.config(getMPPTErrors(data['LowArrayPower']))
-            mppt1MosfetOverheatLabel.config(getMPPTErrors(data['MosfetOverheat']))
-            mppt1BatteryLowLabel.config(getMPPTErrors(data['BatteryLow']))
-            mppt1BatteryFullLabel.config(getMPPTErrors(data['BatteryFull']))
-            mppt112VUnderVoltageLabel.config(getMPPTErrors(data['12VUnderVoltage']))
-            mppt1HWOverCurrentLabel.config(getMPPTErrors(data['HWOverCurrent']))
-            mppt1HWOverVoltageLabel.config(getMPPTErrors(data['HWOverVoltage']))
+            mppt1LowArrayPowerLabel.config(foreground=getMPPTErrors(data['LowArrayPower']))
+            mppt1MosfetOverheatLabel.config(foreground=getMPPTErrors(data['MosfetOverheat']))
+            mppt1BatteryLowLabel.config(foreground=getMPPTErrors(data['BatteryLow']))
+            mppt1BatteryFullLabel.config(foreground=getMPPTErrors(data['BatteryFull']))
+            mppt112VUnderVoltageLabel.config(foreground=getMPPTErrors(data['12VUnderVoltage']))
+            mppt1HWOverCurrentLabel.config(foreground=getMPPTErrors(data['HWOverCurrent']))
+            mppt1HWOverVoltageLabel.config(foreground=getMPPTErrors(data['HWOverVoltage']))
         elif data['DataType'] == 'STM':
             faultCodeLabel.config(text=getState(data['State']))
             faultCodeValue.config(text=data['FaultID'])
