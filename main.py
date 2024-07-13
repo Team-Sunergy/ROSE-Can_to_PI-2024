@@ -378,6 +378,9 @@ def update_label(data: dict):
         elif data['DataType'] == 'STM':
             faultCodeLabel.config(text=getState(data['State']))
             faultCodeValue.config(text=data['FaultID'])
+        elif data['DataType'] == 'bmsData':
+            disCurrLimitVal.config(text=data['PackDCL'])
+            charCurrLimitVal.config(text=data['PackCCL'])
         elif data['DataType'] != 'none': # might change
             # update speed with speed
             speedometerNum.config(text=data['Speed'])

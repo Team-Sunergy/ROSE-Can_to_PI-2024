@@ -129,6 +129,7 @@ def send_request_frame0_periodically(bus):
     print("Started thread to send request frame0...")
 
 
+
 stateArr = ['OFF', 'ACC', 'IGN', 'DCDC', 'ON', 'CHARGE', 'FAULT']
 def getState(num):
     return stateArr[num]
