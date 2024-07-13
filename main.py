@@ -27,6 +27,7 @@ versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
 
 # Fonts
 dashFont = Font(family='Gotham', weight='bold', size=30)
+dashFontSmall = Font(family='Gotham', weight='bold', size=28)
 socFont = Font(family='Gotham', weight='bold', size=10)
 faultFont = Font(family='Gotham', weight='bold', size=32)
 faultFont2 = Font(family='Gotham', weight='bold', size=20)
@@ -35,7 +36,7 @@ errorFont = Font(family='Gotham', size=7)
 errorFont2 = Font(family='Gotham', size=10)
 
 speedometerNum = Label(secondWin, text="25", font=speedFont, bg="white")
-speedometerNum.place(relx=0.5, rely=0.45, anchor='center')
+speedometerNum.place(relx=0.5, rely=0.5, anchor='center')
 
 # define SOC frame (top left)
 socFrame = Frame(secondWin, bg='#E5E5E5', relief='raised', borderwidth=1)
@@ -50,7 +51,7 @@ socVal.place(relx=0.5, rely=0.55, anchor='center')
 # define fault frame (middle left)
 stateFrame = Frame(secondWin, bg='#E5E5E5', relief='raised', borderwidth=1)
 stateFrame.place(relx=0.5, y=5, width=325, height=75, anchor='n')
-indicatorLabel = Label(stateFrame, text='TEST FAULT', font=faultFont, background='#E5E5E5', foreground='black')
+indicatorLabel = Label(stateFrame, text='FAULT', font=faultFont, background='#E5E5E5', foreground='black')
 indicatorLabel.place(relx=0.075, rely=0.475, anchor='w')
 
 
@@ -78,7 +79,7 @@ ampsInLabel.place(relx=0.5, rely=0.01, anchor='n')
 ampsInValue.place(relx=0.5, rely=0.5, anchor='center')
 ampsInFrame.place(x=5,y=428,anchor='sw')
 
-#define fault code frame
+# define fault code frame
 faultCodeFrame = Frame(master=stateFrame, 
                        width=100,
                        height=50,
@@ -146,14 +147,44 @@ ampsDiffValue.place(relx=0.5, rely=0.53, anchor='center')
 ampsDiffLabel.place(relx=0.5, rely=0.02,anchor='n')
 ampsDiffFrame.place(x=400,y=428,anchor='s')
 
-chargCurrFrame = Frame(master=secondFrame,
-                       width=200,
-                       height=200,
-                       background='#E5E5E5')
-disCurrLimitLabel = Label(master = chargCurrFrame,
-                          text=
+
+# discharge and charge limits
+#line
+chargCurrFrame = Frame(master=secondWin, width=200, height=210, background='#E5E5E5', borderwidth=1, relief='raised')
+line = Canvas(master=chargCurrFrame, width=190, height=50,
+              background='#E5E5E5', bd=0, highlightthickness=0)
+line.place(relx=0.49, rely=0.5, anchor='center')
+line.create_line(5, 25, 200, 25)
 
 
+
+disCurrLimitLabel = Label(master=chargCurrFrame,
+                          text="DIS. CURR LIM",
+                          font=socFont,
+                          foreground='black',
+                          background='#E5E5E5')
+chargCurrFrame.place(x=5, y=105)
+disCurrLimitLabel.place(relx=0.5, rely=0.10, anchor='center')
+disCurrLimitVal = Label(master=chargCurrFrame,
+                        text="-1AMPS",
+                        font=dashFont,
+                        foreground='black',
+                        background='#E5E5E5')
+disCurrLimitVal.place(relx=0.5, rely=0.30, anchor='center')
+charCurrLimitLabel = Label(master=chargCurrFrame,
+                           text='CHAR. CURR LIM',
+                           font=socFont,
+                           foreground='black',
+                           background='#E5E5E5')
+charCurrLimitVal = Label(master=chargCurrFrame,
+                         text="-1AMPS",
+                         font=dashFont,
+                         foreground='black',
+                         background='#E5E5E5')
+charCurrLimitVal.place(relx=0.5, rely=0.80, anchor='center')
+charCurrLimitLabel.place(relx=0.5, rely=0.60, anchor='center')
+
+#line for neatness
 
 # BELOW ARE ALL THE ANNOYING ERROR FRAME DIAGNOSTICS
 errorFrame = Frame(master=secondWin,
