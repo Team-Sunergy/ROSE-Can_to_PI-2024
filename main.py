@@ -335,13 +335,20 @@ logoLabel = Label(mainWin, image=sunergyLogo, background='#E5E5E5')
 logoLabel.image = sunergyLogo  
 logoLabel.place(x=400, y=0, anchor='n')
 
+# seconds elapsed
+secondsElapsed = 0.0
+totalMiles = 0.0
+currentMPH = 0
+
 def startGui():
     """starts the gui loop given data"""
     print("Starting gui")
     root.mainloop()
 
+
 def updateGuiData(dataQueue):
     """updates gui via a queue system"""
+    data = None
     try:
         # non-blocking get from queue
         data = dataQueue.get_nowait()
@@ -350,6 +357,17 @@ def updateGuiData(dataQueue):
     else:
         # data received, update labels
         update_label(data=data)
+
+    # seconds elapsed
+    global secondsElapsed
+    secondsElapsed += 0.1
+    print(secondsElapsed)
+
+    global totalMiles
+    global currentMPH
+    totalMiles = (currentMPH * secondsElapsed/3600) + totalMiles
+    print(currentMPH)
+
     # schedule next update
     mainWin.after(100, updateGuiData, dataQueue)
 
@@ -388,8 +406,16 @@ def update_label(data: dict):
             ampsInValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
             ampsOutValue.configure(text=f"{data['PackCurrent'] - (data['OutputCurrent0'] + data['OutputCurrent1']):.1f}")
         else:
-            pass
+            pass 
 
+        # update current MPH
+        global currentMPH
+        currentMPH = data['Speed']
+
+        global secondsElapsed
+        global totalMiles
+        avgMPH = totalMiles/(secondsElapsed/3600)
+        print(avgMPH)
 
 def worker_thread(queue, bus):
     """A worker thread that generates canData and puts it on the queue."""
@@ -418,6 +444,7 @@ def canCollection(bus):
         
         # used for sending data, contains all different types of possible categories (mppts, bms, mc)
         # depending on what CAN frame ID is
+        print(secondsElapsed)
         return groupedData
     
     except KeyboardInterrupt:
@@ -433,6 +460,7 @@ def main():
     receive and parse CAN messages until interrupted by user.
     """
     setup_can_interface()
+    secondsElapsed = 0.0
     print("The setup_can_interface done")
     bus = initialize_bus()
     print("Bus variable is set")
