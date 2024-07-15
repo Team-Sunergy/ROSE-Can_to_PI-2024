@@ -136,7 +136,7 @@ def group_can_data(canId, data: bytearray) -> dict:
                     'HWOverVoltage': bool(getBits(data, 24, 24))})
     elif(canId == 0x69):
         canData.update({'DataType': 'Speed',
-                        'Speed': getBits(data, 0, 7)})
+                        'Speed': get32FloatBits(data, 0, 31)})
     elif(canId == 0x420):
         canData.update({'DataType': 'STM',
                         'State': getBits(data, 0, 7),
