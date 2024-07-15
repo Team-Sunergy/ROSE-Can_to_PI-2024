@@ -16,6 +16,7 @@ root.title("GUI for Driver Interface")
 root.geometry('800x480')
 
 mainWin = Frame(root, bg='#E5E5E5')
+root.attributes('-fullscreen', True)
 mainWin.pack(fill='both', expand=True)
 
 secondWin = Frame(mainWin, bg='white')
@@ -26,6 +27,7 @@ versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
 
 # Fonts
 dashFont = Font(family='Gotham', weight='bold', size=30)
+dashFontSmall = Font(family='Gotham', weight='bold', size=28)
 socFont = Font(family='Gotham', weight='bold', size=10)
 faultFont = Font(family='Gotham', weight='bold', size=32)
 faultFont2 = Font(family='Gotham', weight='bold', size=20)
@@ -34,7 +36,7 @@ errorFont = Font(family='Gotham', size=7)
 errorFont2 = Font(family='Gotham', size=10)
 
 speedometerNum = Label(secondWin, text="25", font=speedFont, bg="white")
-speedometerNum.place(relx=0.5, rely=0.45, anchor='center')
+speedometerNum.place(relx=0.5, rely=0.5, anchor='center')
 
 # define SOC frame (top left)
 socFrame = Frame(secondWin, bg='#E5E5E5', relief='raised', borderwidth=1)
@@ -43,7 +45,7 @@ socFrame.place(x=5, y=5, width=200, height=85)
 socLabel = Label(socFrame, text='STATE OF CHARGE', font=socFont, background='#E5E5E5',)
 socLabel.place(relx=0.5, rely=0.01, anchor='n')
 
-socVal = Label(socFrame, text='95.5%', font=dashFont, background='#E5E5E5',)
+socVal = Label(socFrame, text='-1%', font=dashFont, background='#E5E5E5',)
 socVal.place(relx=0.5, rely=0.55, anchor='center')
 
 # define fault frame (middle left)
@@ -68,7 +70,7 @@ ampsInLabel = Label(master=ampsInFrame,
                                 background='#E5E5E5',
                                 )
 ampsInValue = Label(master=ampsInFrame,
-                                     text='3.2AMPS',
+                                     text='-1 AMPS',
                                      font=dashFont,
                                      foreground='black',
                                      background='#E5E5E5',
@@ -77,7 +79,7 @@ ampsInLabel.place(relx=0.5, rely=0.01, anchor='n')
 ampsInValue.place(relx=0.5, rely=0.5, anchor='center')
 ampsInFrame.place(x=5,y=428,anchor='sw')
 
-#define fault code frame
+# define fault code frame
 faultCodeFrame = Frame(master=stateFrame, 
                        width=100,
                        height=50,
@@ -93,7 +95,7 @@ faultCodeLabel = Label(master=faultCodeFrame,
                        background='#E5E5E5')
 faultCodeLabel.place(relx=0.0, rely=0.0, anchor='nw')
 faultCodeValue = Label(master=faultCodeFrame,
-                       text='0x51',
+                       text='0x69',
                        font=faultFont2, 
                        background='#E5E5E5'
                        )
@@ -113,7 +115,7 @@ ampsOutLabel = Label(master=ampsOutFrame,
                                 background='#E5E5E5',
                                 )
 ampsOutValue = Label(master=ampsOutFrame,
-                                     text='1.9AMPS',
+                                     text='-1 AMPS',
                                      font=dashFont,
                                      foreground='black',
                                      background='#E5E5E5',
@@ -130,7 +132,7 @@ ampsDiffFrame = Frame(master=secondWin,
                                     relief='raised',
                                     )
 ampsDiffValue = Label(master=ampsDiffFrame,
-                                     text='1.3A',
+                                     text='-1AMPS',
                                      font=Font(family='Gotham', weight='bold', size=25),
                                      foreground='black',
                                      background='#E5E5E5',
@@ -145,6 +147,44 @@ ampsDiffValue.place(relx=0.5, rely=0.53, anchor='center')
 ampsDiffLabel.place(relx=0.5, rely=0.02,anchor='n')
 ampsDiffFrame.place(x=400,y=428,anchor='s')
 
+
+# discharge and charge limits
+#line
+chargCurrFrame = Frame(master=secondWin, width=200, height=210, background='#E5E5E5', borderwidth=1, relief='raised')
+line = Canvas(master=chargCurrFrame, width=190, height=50,
+              background='#E5E5E5', bd=0, highlightthickness=0)
+line.place(relx=0.49, rely=0.5, anchor='center')
+line.create_line(5, 25, 200, 25)
+
+
+
+disCurrLimitLabel = Label(master=chargCurrFrame,
+                          text="DIS. CURR LIM",
+                          font=socFont,
+                          foreground='black',
+                          background='#E5E5E5')
+chargCurrFrame.place(x=5, y=105)
+disCurrLimitLabel.place(relx=0.5, rely=0.10, anchor='center')
+disCurrLimitVal = Label(master=chargCurrFrame,
+                        text="-1AMPS",
+                        font=dashFont,
+                        foreground='black',
+                        background='#E5E5E5')
+disCurrLimitVal.place(relx=0.5, rely=0.30, anchor='center')
+charCurrLimitLabel = Label(master=chargCurrFrame,
+                           text='CHAR. CURR LIM',
+                           font=socFont,
+                           foreground='black',
+                           background='#E5E5E5')
+charCurrLimitVal = Label(master=chargCurrFrame,
+                         text="-1AMPS",
+                         font=dashFont,
+                         foreground='black',
+                         background='#E5E5E5')
+charCurrLimitVal.place(relx=0.5, rely=0.80, anchor='center')
+charCurrLimitLabel.place(relx=0.5, rely=0.60, anchor='center')
+
+#line for neatness
 
 # BELOW ARE ALL THE ANNOYING ERROR FRAME DIAGNOSTICS
 errorFrame = Frame(master=secondWin,
@@ -166,7 +206,7 @@ standby0 = mppt0OnLabel.create_oval(15, 15, 5, 5, fill='yellow')
 mppt0OnLabel.place(relx=0.31, rely=0.03, anchor='n')
 
 mppt1OnLabel = Canvas(master=errorFrame, width=20, height=20, background='#E5E5E5', bd=0, highlightthickness=0,)
-standby1 = mppt1OnLabel.create_oval(15, 15, 5, 5, fill='lime')
+standby1 = mppt1OnLabel.create_oval(15, 15, 5, 5, fill='yellow')
 mppt1OnLabel.place(relx=0.8, rely=0.03, anchor='n')
 
 mppts1ErrorLabel = Label(master=errorFrame,
@@ -295,13 +335,20 @@ logoLabel = Label(mainWin, image=sunergyLogo, background='#E5E5E5')
 logoLabel.image = sunergyLogo  
 logoLabel.place(x=400, y=0, anchor='n')
 
+# seconds elapsed
+secondsElapsed = 0.0
+totalMiles = 0.0
+currentMPH = 0
+
 def startGui():
     """starts the gui loop given data"""
     print("Starting gui")
     root.mainloop()
 
+
 def updateGuiData(dataQueue):
     """updates gui via a queue system"""
+    data = None
     try:
         # non-blocking get from queue
         data = dataQueue.get_nowait()
@@ -310,6 +357,17 @@ def updateGuiData(dataQueue):
     else:
         # data received, update labels
         update_label(data=data)
+
+    # seconds elapsed
+    global secondsElapsed
+    secondsElapsed += 0.1
+    print(secondsElapsed)
+
+    global totalMiles
+    global currentMPH
+    totalMiles = (currentMPH * secondsElapsed/3600) + totalMiles
+    print(currentMPH)
+
     # schedule next update
     mainWin.after(100, updateGuiData, dataQueue)
 
@@ -319,25 +377,28 @@ def update_label(data: dict):
         and updates label"""
         if data['DataType'] == 'mppt0error':
             mppt0OnLabel.itemconfig(standby0, fill=getDisplayColor(data['Mode']))
-            mppt0LowArrayPowerLabel.config(getMPPTErrors(data['LowArrayPower']))
-            mppt0MosfetOverheatLabel.config(getMPPTErrors(data['MosfetOverheat']))
-            mppt0BatteryLowLabel.config(getMPPTErrors(data['BatteryLow']))
-            mppt0BatteryFullLabel.config(getMPPTErrors(data['BatteryFull']))
-            mppt012VUnderVoltageLabel.config(getMPPTErrors(data['12VUnderVoltage']))
-            mppt0HWOverCurrentLabel.config(getMPPTErrors(data['HWOverCurrent']))
-            mppt0HWOverVoltageLabel.config(getMPPTErrors(data['HWOverVoltage']))
+            mppt0LowArrayPowerLabel.config(foreground=getMPPTErrors(data['LowArrayPower']))
+            mppt0MosfetOverheatLabel.config(foreground=getMPPTErrors(data['MosfetOverheat']))
+            mppt0BatteryLowLabel.config(foreground=getMPPTErrors(data['BatteryLow']))
+            mppt0BatteryFullLabel.config(foreground=getMPPTErrors(data['BatteryFull']))
+            mppt012VUnderVoltageLabel.config(foreground=getMPPTErrors(data['12VUnderVoltage']))
+            mppt0HWOverCurrentLabel.config(foreground=getMPPTErrors(data['HWOverCurrent']))
+            mppt0HWOverVoltageLabel.config(foreground=getMPPTErrors(data['HWOverVoltage']))
         elif data['DataType'] == 'mppt1error':
             mppt1OnLabel.itemconfig(standby1, fill=getDisplayColor(data['Mode']))
-            mppt1LowArrayPowerLabel.config(getMPPTErrors(data['LowArrayPower']))
-            mppt1MosfetOverheatLabel.config(getMPPTErrors(data['MosfetOverheat']))
-            mppt1BatteryLowLabel.config(getMPPTErrors(data['BatteryLow']))
-            mppt1BatteryFullLabel.config(getMPPTErrors(data['BatteryFull']))
-            mppt112VUnderVoltageLabel.config(getMPPTErrors(data['12VUnderVoltage']))
-            mppt1HWOverCurrentLabel.config(getMPPTErrors(data['HWOverCurrent']))
-            mppt1HWOverVoltageLabel.config(getMPPTErrors(data['HWOverVoltage']))
+            mppt1LowArrayPowerLabel.config(foreground=getMPPTErrors(data['LowArrayPower']))
+            mppt1MosfetOverheatLabel.config(foreground=getMPPTErrors(data['MosfetOverheat']))
+            mppt1BatteryLowLabel.config(foreground=getMPPTErrors(data['BatteryLow']))
+            mppt1BatteryFullLabel.config(foreground=getMPPTErrors(data['BatteryFull']))
+            mppt112VUnderVoltageLabel.config(foreground=getMPPTErrors(data['12VUnderVoltage']))
+            mppt1HWOverCurrentLabel.config(foreground=getMPPTErrors(data['HWOverCurrent']))
+            mppt1HWOverVoltageLabel.config(foreground=getMPPTErrors(data['HWOverVoltage']))
         elif data['DataType'] == 'STM':
             faultCodeLabel.config(text=getState(data['State']))
             faultCodeValue.config(text=data['FaultID'])
+        elif data['DataType'] == 'bmsData':
+            disCurrLimitVal.config(text=data['PackDCL'])
+            charCurrLimitVal.config(text=data['PackCCL'])
         elif data['DataType'] != 'none': # might change
             # update speed with speed
             speedometerNum.config(text=data['Speed'])
@@ -345,8 +406,16 @@ def update_label(data: dict):
             ampsInValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
             ampsOutValue.configure(text=f"{data['PackCurrent'] - (data['OutputCurrent0'] + data['OutputCurrent1']):.1f}")
         else:
-            pass
+            pass 
 
+        # update current MPH
+        global currentMPH
+        currentMPH = data['Speed']
+
+        global secondsElapsed
+        global totalMiles
+        avgMPH = totalMiles/(secondsElapsed/3600)
+        print(avgMPH)
 
 def worker_thread(queue, bus):
     """A worker thread that generates canData and puts it on the queue."""
@@ -375,6 +444,7 @@ def canCollection(bus):
         
         # used for sending data, contains all different types of possible categories (mppts, bms, mc)
         # depending on what CAN frame ID is
+        print(secondsElapsed)
         return groupedData
     
     except KeyboardInterrupt:
@@ -390,6 +460,7 @@ def main():
     receive and parse CAN messages until interrupted by user.
     """
     setup_can_interface()
+    secondsElapsed = 0.0
     print("The setup_can_interface done")
     bus = initialize_bus()
     print("Bus variable is set")
