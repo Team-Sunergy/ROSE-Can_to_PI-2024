@@ -16,7 +16,7 @@ def worker_thread(queue, bus):
     while True:
         data = canCollection(bus)
         queue.put(data) # puts data in queue
-        time.sleep(0.1)  # controls the rate of data generation.
+        #time.sleep(0.1)  # controls the rate of data generation.
 
 def canCollection(bus):
     print("In the try")
