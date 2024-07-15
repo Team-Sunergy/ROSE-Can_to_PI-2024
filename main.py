@@ -12,8 +12,6 @@ from tools import getDisplayColor, getMPPTErrors, getState
 
 # definition of main window
 root = Tk()
-# definition of main window
-root = Tk()
 root.title("GUI for Driver Interface")
 root.geometry('800x480')
 
