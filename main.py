@@ -1,8 +1,6 @@
-from tkinter import Tk, Frame, Label, Canvas
+from tkinter import Tk, Frame, Label, Canvas, Button
 from tkinter.font import Font
 from PIL import Image, ImageTk
-
-
 
 # definition of main window
 root = Tk()
@@ -10,16 +8,18 @@ root.title("GUI for Driver Interface")
 root.geometry('800x480')
 
 mainWin = Frame(root, bg='#E5E5E5')
+root.attributes('-fullscreen', False)
 mainWin.pack(fill='both', expand=True)
 
 secondWin = Frame(mainWin, bg='white')
 secondWin.place(relx=0.0, rely=0.095, relwidth=1, relheight=0.905)
 
-versionLabel = Label(mainWin, text="version 0.21", font=('Gotham', 10), background="#E5E5E5")
+versionLabel = Label(mainWin, text="version 0.4", font=('Gotham', 10), background="#E5E5E5")
 versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
 
 # Fonts
 dashFont = Font(family='Gotham', weight='bold', size=30)
+dashFontSmall = Font(family='Gotham', weight='bold', size=28)
 socFont = Font(family='Gotham', weight='bold', size=10)
 faultFont = Font(family='Gotham', weight='bold', size=32)
 faultFont2 = Font(family='Gotham', weight='bold', size=20)
@@ -28,7 +28,7 @@ errorFont = Font(family='Gotham', size=7)
 errorFont2 = Font(family='Gotham', size=10)
 
 speedometerNum = Label(secondWin, text="25", font=speedFont, bg="white")
-speedometerNum.place(relx=0.5, rely=0.45, anchor='center')
+speedometerNum.place(relx=0.5, rely=0.5, anchor='center')
 
 # define SOC frame (top left)
 socFrame = Frame(secondWin, bg='#E5E5E5', relief='raised', borderwidth=1)
@@ -37,7 +37,7 @@ socFrame.place(x=5, y=5, width=200, height=85)
 socLabel = Label(socFrame, text='STATE OF CHARGE', font=socFont, background='#E5E5E5',)
 socLabel.place(relx=0.5, rely=0.01, anchor='n')
 
-socVal = Label(socFrame, text='95.5%', font=dashFont, background='#E5E5E5',)
+socVal = Label(socFrame, text='-1%', font=dashFont, background='#E5E5E5',)
 socVal.place(relx=0.5, rely=0.55, anchor='center')
 
 # define fault frame (middle left)
@@ -62,7 +62,7 @@ ampsInLabel = Label(master=ampsInFrame,
                                 background='#E5E5E5',
                                 )
 ampsInValue = Label(master=ampsInFrame,
-                                     text='3.2AMPS',
+                                     text='-1 AMPS',
                                      font=dashFont,
                                      foreground='black',
                                      background='#E5E5E5',
@@ -71,7 +71,7 @@ ampsInLabel.place(relx=0.5, rely=0.01, anchor='n')
 ampsInValue.place(relx=0.5, rely=0.5, anchor='center')
 ampsInFrame.place(x=5,y=428,anchor='sw')
 
-#define fault code frame
+# define fault code frame
 faultCodeFrame = Frame(master=stateFrame, 
                        width=100,
                        height=50,
@@ -87,7 +87,7 @@ faultCodeLabel = Label(master=faultCodeFrame,
                        background='#E5E5E5')
 faultCodeLabel.place(relx=0.0, rely=0.0, anchor='nw')
 faultCodeValue = Label(master=faultCodeFrame,
-                       text='0x51',
+                       text='0x69',
                        font=faultFont2, 
                        background='#E5E5E5'
                        )
@@ -107,7 +107,7 @@ ampsOutLabel = Label(master=ampsOutFrame,
                                 background='#E5E5E5',
                                 )
 ampsOutValue = Label(master=ampsOutFrame,
-                                     text='1.9AMPS',
+                                     text='-1 AMPS',
                                      font=dashFont,
                                      foreground='black',
                                      background='#E5E5E5',
@@ -124,7 +124,7 @@ ampsDiffFrame = Frame(master=secondWin,
                                     relief='raised',
                                     )
 ampsDiffValue = Label(master=ampsDiffFrame,
-                                     text='1.3A',
+                                     text='-1AMPS',
                                      font=Font(family='Gotham', weight='bold', size=25),
                                      foreground='black',
                                      background='#E5E5E5',
@@ -139,6 +139,55 @@ ampsDiffValue.place(relx=0.5, rely=0.53, anchor='center')
 ampsDiffLabel.place(relx=0.5, rely=0.02,anchor='n')
 ampsDiffFrame.place(x=400,y=428,anchor='s')
 
+# discharge and charge limits
+#line
+chargCurrFrame = Frame(master=secondWin, width=200, height=210, background='#E5E5E5', borderwidth=1, relief='raised')
+line = Canvas(master=chargCurrFrame, width=190, height=50,
+              background='#E5E5E5', bd=0, highlightthickness=0)
+line.place(relx=0.49, rely=0.5, anchor='center')
+line.create_line(5, 25, 200, 25)
+
+disCurrLimitLabel = Label(master=chargCurrFrame,
+                          text="DIS. CURR LIM",
+                          font=socFont,
+                          foreground='black',
+                          background='#E5E5E5')
+chargCurrFrame.place(x=5, y=105)
+disCurrLimitLabel.place(relx=0.5, rely=0.10, anchor='center')
+disCurrLimitVal = Label(master=chargCurrFrame,
+                        text="-1AMPS",
+                        font=dashFont,
+                        foreground='black',
+                        background='#E5E5E5')
+disCurrLimitVal.place(relx=0.5, rely=0.30, anchor='center')
+charCurrLimitLabel = Label(master=chargCurrFrame,
+                           text='CHAR. CURR LIM',
+                           font=socFont,
+                           foreground='black',
+                           background='#E5E5E5')
+charCurrLimitVal = Label(master=chargCurrFrame,
+                         text="-1AMPS",
+                         font=dashFont,
+                         foreground='black',
+                         background='#E5E5E5')
+charCurrLimitVal.place(relx=0.5, rely=0.80, anchor='center')
+charCurrLimitLabel.place(relx=0.5, rely=0.60, anchor='center')
+
+
+# frame for button
+avgMilesFrame = Frame(master=secondWin,
+                      width=200, height=100,
+                      background='#E5E5E5',
+                      borderwidth=1, relief='raised')
+avgMilesFrame.place(x=795, y=200, anchor='ne')
+avgMilesStartButton = Button(master=avgMilesFrame, 
+                                text="Click",
+                                )
+avgMilesStartButton.place(relx=0.5, rely=0.5)
+
+# def setTimeToZero():
+#     global secondsElapsed
+#     secondsElapsed = 0
 
 # BELOW ARE ALL THE ANNOYING ERROR FRAME DIAGNOSTICS
 errorFrame = Frame(master=secondWin,
@@ -154,13 +203,14 @@ mppts0ErrorLabel = Label(master=errorFrame,
                                     background='#E5E5E5',
                                     foreground='black')
 
+
 # on labels
 mppt0OnLabel = Canvas(master=errorFrame, width=20, height=20, background='#E5E5E5', bd=0, highlightthickness=0,)
-standby = mppt0OnLabel.create_oval(15, 15, 5, 5, fill='yellow')
+standby0 = mppt0OnLabel.create_oval(15, 15, 5, 5, fill='yellow')
 mppt0OnLabel.place(relx=0.31, rely=0.03, anchor='n')
 
 mppt1OnLabel = Canvas(master=errorFrame, width=20, height=20, background='#E5E5E5', bd=0, highlightthickness=0,)
-standby = mppt1OnLabel.create_oval(15, 15, 5, 5, fill='lime')
+standby1 = mppt1OnLabel.create_oval(15, 15, 5, 5, fill='yellow')
 mppt1OnLabel.place(relx=0.8, rely=0.03, anchor='n')
 
 mppts1ErrorLabel = Label(master=errorFrame,
@@ -278,9 +328,6 @@ mppt1HWOverVoltageLabel.place(relx=0.52, rely=0.798, anchor='w')
 mppt0HWOverCurrentLabel.place(relx=0.02, rely=0.90, anchor='w')
 mppt1HWOverCurrentLabel.place(relx=0.52, rely=0.90, anchor='w')
 
-
-
-
 # place on frame
 errorFrame.place(x=795,y=5,anchor='ne')
 
@@ -291,4 +338,5 @@ sunergyLogo = ImageTk.PhotoImage(img)
 logoLabel = Label(mainWin, image=sunergyLogo, background='#E5E5E5')
 logoLabel.image = sunergyLogo  
 logoLabel.place(x=400, y=0, anchor='n')
+
 root.mainloop()
