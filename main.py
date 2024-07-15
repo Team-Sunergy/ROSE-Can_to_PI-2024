@@ -2,6 +2,7 @@ from tkinter import Tk, Frame, Label, Canvas, Button
 from tkinter.font import Font
 from PIL import Image, ImageTk
 
+
 # definition of main window
 root = Tk()
 root.title("GUI for Driver Interface")
@@ -42,7 +43,7 @@ socVal.place(relx=0.5, rely=0.55, anchor='center')
 
 # define fault frame (middle left)
 stateFrame = Frame(secondWin, bg='#E5E5E5', relief='raised', borderwidth=1)
-stateFrame.place(relx=0.5, y=5, width=325, height=75, anchor='n')
+stateFrame.place(relx=0.5, y=5, width=375, height=75, anchor='n')
 indicatorLabel = Label(stateFrame, text='FAULT', font=faultFont, background='#E5E5E5', foreground='black')
 indicatorLabel.place(relx=0.075, rely=0.475, anchor='w')
 
@@ -110,40 +111,17 @@ ampsOutLabel = Label(master=ampsOutFrame,
                                 )
 ampsOutValue = Label(master=ampsOutFrame,
                                      text='-1 AMPS',
-                                     font=dashFont,
+                                     font=dashFontSmall,
                                      foreground='black',
                                      background='#E5E5E5',
                                      )
-ampsOutValue.place(relx=0.5, rely=0.5, anchor='center')
+ampsOutValue.place(relx=0.5, rely=0.55, anchor='center')
 ampsOutLabel.place(relx=0.5, rely=0.01, anchor='n')
 ampsOutFrame.place(x=795,y=428,anchor='se')
 
-ampsDiffFrame = Frame(master=secondWin,
-                                    width=300,
-                                    height=75,
-                                    background='#E5E5E5',
-                                    borderwidth=1,
-                                    relief='raised',
-                                    )
-ampsDiffValue = Label(master=ampsDiffFrame,
-                                     text='-1AMPS',
-                                     font=Font(family='Gotham', weight='bold', size=25),
-                                     foreground='black',
-                                     background='#E5E5E5',
-                                     )
-ampsDiffLabel = Label(master=ampsDiffFrame,
-                                     text='NET AMPS',
-                                     font=socFont,
-                                     foreground='black',
-                                     background='#E5E5E5',
-                                    )
-ampsDiffValue.place(relx=0.5, rely=0.53, anchor='center')
-ampsDiffLabel.place(relx=0.5, rely=0.02,anchor='n')
-ampsDiffFrame.place(x=400,y=428,anchor='s')
-
 # discharge and charge limits
 #line
-chargCurrFrame = Frame(master=secondWin, width=200, height=210, background='#E5E5E5', borderwidth=1, relief='raised')
+chargCurrFrame = Frame(master=secondWin, width=200, height=85, background='#E5E5E5', borderwidth=1, relief='raised')
 line = Canvas(master=chargCurrFrame, width=190, height=50,
               background='#E5E5E5', bd=0, highlightthickness=0)
 line.place(relx=0.49, rely=0.5, anchor='center')
@@ -154,7 +132,7 @@ disCurrLimitLabel = Label(master=chargCurrFrame,
                           font=socFont,
                           foreground='black',
                           background='#E5E5E5')
-chargCurrFrame.place(x=5, y=105)
+#chargCurrFrame.place(x=5, y=105)
 disCurrLimitLabel.place(relx=0.5, rely=0.10, anchor='center')
 disCurrLimitVal = Label(master=chargCurrFrame,
                         text="-1AMPS",
@@ -178,23 +156,29 @@ charCurrLimitLabel.place(relx=0.5, rely=0.60, anchor='center')
 
 # frame for button
 avgMilesFrame = Frame(master=secondWin,
-                      width=200, height=100,
+                      width=125, height=75,
                       background='#E5E5E5',
                       borderwidth=1, relief='raised')
-avgMilesFrame.place(x=795, y=200, anchor='ne')
-avgMilesStartButton = Button(master=avgMilesFrame, 
-                                text="Click",
-                                )
-avgMilesStartButton.place(relx=0.5, rely=0.5)
+avgMilesFrame.place(x=275,y=428,anchor='s')
 
-# def setTimeToZero():
-#     global secondsElapsed
-#     secondsElapsed = 0
+
+def setTimeToZero():
+    global secondsElapsed
+    global totalMiles
+    secondsElapsed = 0
+    totalMiles = 0
+
+avgMilesStartButton = Button(master=avgMilesFrame, 
+                                text="55mi",
+                                font=dashFontSmall,
+                                command=setTimeToZero,
+                                )
+avgMilesStartButton.place(relx=0.5, rely=0.5, width=115, height=65, anchor='center')
 
 # BELOW ARE ALL THE ANNOYING ERROR FRAME DIAGNOSTICS
 errorFrame = Frame(master=secondWin,
                                   width=200,
-                                  height=175,
+                                  height=207,
                                   background='#E5E5E5',
                                   borderwidth=1,
                                   relief='raised'
@@ -209,7 +193,7 @@ mppts0ErrorLabel = Label(master=errorFrame,
 # on labels
 mppt0OnLabel = Canvas(master=errorFrame, width=20, height=20, background='#E5E5E5', bd=0, highlightthickness=0,)
 standby0 = mppt0OnLabel.create_oval(15, 15, 5, 5, fill='yellow')
-mppt0OnLabel.place(relx=0.31, rely=0.03, anchor='n')
+mppt0OnLabel.place(relx=0.31, rely=0.03, anchor='n') #31
 
 mppt1OnLabel = Canvas(master=errorFrame, width=20, height=20, background='#E5E5E5', bd=0, highlightthickness=0,)
 standby1 = mppt1OnLabel.create_oval(15, 15, 5, 5, fill='yellow')
@@ -309,30 +293,165 @@ mppt1LowArrayPowerLabel = Label(master=errorFrame,
 mppts0ErrorLabel.place(relx=0.02, rely=0.03, anchor='nw')
 mppts1ErrorLabel.place(relx=0.52, rely=0.03, anchor='nw')
 
-mppt0LowArrayPowerLabel.place(relx=0.02, rely=0.22, anchor='w')
-mppt1LowArrayPowerLabel.place(relx=0.52, rely=0.22, anchor='w')
+mppt0LowArrayPowerLabel.place(relx=0.02, rely=0.20, anchor='w') #0.22
+mppt1LowArrayPowerLabel.place(relx=0.52, rely=0.20, anchor='w')
 
-mppt0MosfetOverheatLabel.place(relx=0.02, rely=0.34, anchor='w')
-mppt1MosfetOverheatLabel.place(relx=0.52, rely=0.34, anchor='w')
+mppt0MosfetOverheatLabel.place(relx=0.02, rely=0.32, anchor='w')
+mppt1MosfetOverheatLabel.place(relx=0.52, rely=0.32, anchor='w')
 
-mppt0BatteryLowLabel.place(relx=0.02, rely=0.4532, anchor='w')
-mppt1BatteryLowLabel.place(relx=0.52, rely=0.4532, anchor='w')
+mppt0BatteryLowLabel.place(relx=0.02, rely=0.4332, anchor='w')
+mppt1BatteryLowLabel.place(relx=0.52, rely=0.4332, anchor='w')
 
-mppt0BatteryFullLabel.place(relx=0.02, rely=0.5648, anchor='w')
-mppt1BatteryFullLabel.place(relx=0.52, rely=0.5648, anchor='w')
+mppt0BatteryFullLabel.place(relx=0.02, rely=0.5448, anchor='w')
+mppt1BatteryFullLabel.place(relx=0.52, rely=0.5448, anchor='w')
 
-mppt012VUnderVoltageLabel.place(relx=0.02, rely=0.6864, anchor='w')
-mppt112VUnderVoltageLabel.place(relx=0.52, rely=0.6864, anchor='w')
+mppt012VUnderVoltageLabel.place(relx=0.02, rely=0.6664, anchor='w')
+mppt112VUnderVoltageLabel.place(relx=0.52, rely=0.6664, anchor='w')
 
-mppt0HWOverVoltageLabel.place(relx=0.02, rely=0.798, anchor='w')
-mppt1HWOverVoltageLabel.place(relx=0.52, rely=0.798, anchor='w')
+mppt0HWOverVoltageLabel.place(relx=0.02, rely=0.778, anchor='w')
+mppt1HWOverVoltageLabel.place(relx=0.52, rely=0.778, anchor='w')
 
-mppt0HWOverCurrentLabel.place(relx=0.02, rely=0.90, anchor='w')
-mppt1HWOverCurrentLabel.place(relx=0.52, rely=0.90, anchor='w')
+mppt0HWOverCurrentLabel.place(relx=0.02, rely=0.88, anchor='w')
+mppt1HWOverCurrentLabel.place(relx=0.52, rely=0.88, anchor='w')
 
 # place on frame
-errorFrame.place(x=795,y=5,anchor='ne')
+errorFrame.place(x=5, y=105)  #x=795,y=5,anchor='ne') 
 
+
+
+# BELOW ARE ALL THE ANNOYING ERROR FRAME DIAGNOSTICS part 2
+flagFrame = Frame(master=secondWin,
+                                  width=200,
+                                  height=207,
+                                  background='#E5E5E5',
+                                  borderwidth=1,
+                                  relief='raised'
+                                  )
+
+mppts0ErrorLabel = Label(master=flagFrame,
+                                    text="mppt0",
+                                    font=errorFont2,
+                                    background='#E5E5E5',
+                                    foreground='black')
+mppt0OnLabel.place(relx=0.31, rely=0.03, anchor='n')
+
+mppts1ErrorLabel = Label(master=flagFrame,
+                                    text="mppt1",
+                                    font=errorFont2,
+                                    background='#E5E5E5',
+                                    foreground='black')
+mppt0HWOverCurrentLabel = Label(master=flagFrame,
+                                text="M0HWOverCurrent",
+                                font=errorFont,
+                                foreground='#d7d7d7',
+                                background='#E5E5E5',
+                                anchor='w',)
+mppt1HWOverCurrentLabel = Label(master=flagFrame,
+                                text="M1HWOverCurrent",
+                                font=errorFont,
+                                foreground='#d7d7d7',
+                                background='#E5E5E5',
+                                anchor='w',)
+mppt0HWOverVoltageLabel = Label(master=flagFrame,
+                                                 text="M0HWOverVoltage",
+                                                 font=errorFont,
+                                                 foreground='#d7d7d7',
+                                                 background='#E5E5E5',
+                                                 anchor='w')
+mppt1HWOverVoltageLabel = Label(master=flagFrame,
+                                                 text="M1HWOverVoltage",
+                                                 font=errorFont,
+                                                 foreground='#d7d7d7',
+                                                 background='#E5E5E5',
+                                                 anchor='w')
+mppt012VUnderVoltageLabel = Label(master=flagFrame,
+                                                   text="M0VUnderVoltage",
+                                                   font=errorFont,
+                                                   foreground='#d7d7d7',
+                                                   background='#E5E5E5',
+                                                   anchor='w')
+mppt112VUnderVoltageLabel = Label(master=flagFrame,
+                                                   text="M1VUnderVoltage",
+                                                   font=errorFont,
+                                                   foreground='#d7d7d7',
+                                                   background='#E5E5E5',
+                                                   anchor='w')
+mppt0BatteryFullLabel = Label(master=flagFrame,
+                                               text="M0BatteryFull",
+                                               font=errorFont,
+                                               foreground='#d7d7d7',
+                                               background='#E5E5E5',
+                                               anchor='w')
+mppt1BatteryFullLabel = Label(master=flagFrame,
+                                               text="M1BatteryFull",
+                                               font=errorFont,
+                                               foreground='#d7d7d7',
+                                               background='#E5E5E5',
+                                               anchor='w')
+mppt0BatteryLowLabel = Label(master=flagFrame,
+                                              text="M0BatteryLow",
+                                              font=errorFont,
+                                              foreground='#d7d7d7',
+                                              background='#E5E5E5',
+                                              anchor='w')
+mppt1BatteryLowLabel = Label(master=flagFrame,
+                                              text="M1BatteryLow",
+                                              font=errorFont,
+                                              foreground='#d7d7d7',
+                                              background='#E5E5E5',
+                                              anchor='w')
+mppt0MosfetOverheatLabel = Label(master=flagFrame,
+                                                  text="M0MosfetOverheat",
+                                                  font=errorFont,
+                                                  foreground='#d7d7d7',
+                                                  background='#E5E5E5',
+                                                  anchor='w')
+mppt1MosfetOverheatLabel = Label(master=flagFrame,
+                                                  text="M1MosfetOverheat",
+                                                  font=errorFont,
+                                                  foreground='#d7d7d7',
+                                                  background='#E5E5E5',
+                                                  anchor='w')
+mppt0LowArrayPowerLabel = Label(master=flagFrame,
+                                         text="M0LowArrayPower",
+                                         font=errorFont,
+                                         foreground='#d7d7d7',
+                                         background='#E5E5E5',
+                                         anchor='w')
+mppt1LowArrayPowerLabel = Label(master=flagFrame,
+                                         text="M1LowArrayPower",
+                                         font=errorFont,
+                                         foreground='#d7d7d7',
+                                         background='#E5E5E5',
+                                         anchor='w')
+
+# placing error labels
+# placing error labels
+mppts0ErrorLabel.place(relx=0.02, rely=0.03, anchor='nw')
+mppts1ErrorLabel.place(relx=0.52, rely=0.03, anchor='nw')
+
+mppt0LowArrayPowerLabel.place(relx=0.02, rely=0.20, anchor='w') #0.22
+mppt1LowArrayPowerLabel.place(relx=0.52, rely=0.20, anchor='w')
+
+mppt0MosfetOverheatLabel.place(relx=0.02, rely=0.32, anchor='w')
+mppt1MosfetOverheatLabel.place(relx=0.52, rely=0.32, anchor='w')
+
+mppt0BatteryLowLabel.place(relx=0.02, rely=0.4332, anchor='w')
+mppt1BatteryLowLabel.place(relx=0.52, rely=0.4332, anchor='w')
+
+mppt0BatteryFullLabel.place(relx=0.02, rely=0.5448, anchor='w')
+mppt1BatteryFullLabel.place(relx=0.52, rely=0.5448, anchor='w')
+
+mppt012VUnderVoltageLabel.place(relx=0.02, rely=0.6664, anchor='w')
+mppt112VUnderVoltageLabel.place(relx=0.52, rely=0.6664, anchor='w')
+
+mppt0HWOverVoltageLabel.place(relx=0.02, rely=0.778, anchor='w')
+mppt1HWOverVoltageLabel.place(relx=0.52, rely=0.778, anchor='w')
+
+mppt0HWOverCurrentLabel.place(relx=0.02, rely=0.88, anchor='w')
+mppt1HWOverCurrentLabel.place(relx=0.52, rely=0.88, anchor='w')
+# place on frame
+flagFrame.place(x=795,y=105, anchor='ne')
 
 img = Image.open('Logo.png')
 img = img.resize((84, 37))
@@ -340,5 +459,6 @@ sunergyLogo = ImageTk.PhotoImage(img)
 logoLabel = Label(mainWin, image=sunergyLogo, background='#E5E5E5')
 logoLabel.image = sunergyLogo  
 logoLabel.place(x=400, y=0, anchor='n')
+
 
 root.mainloop()
