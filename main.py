@@ -376,14 +376,13 @@ def updateGuiData(dataQueue):
         update_label(data=data)
 
     # seconds elapsed
-    global secondsElapsed
+    global secondsElapsed # get seconds elapsed
     secondsElapsed += 0.1
-    print(secondsElapsed)
-
-    global totalMiles
+    global totalMiles # gets total miles
     global currentMPH
-    totalMiles = (currentMPH * secondsElapsed/3600) + totalMiles
-    print(currentMPH)
+    totalMiles = (currentMPH * secondsElapsed/3600) + totalMiles # get total miles
+    avgMPH = totalMiles/(secondsElapsed/3600) # get average mph
+    avgMilesStartButton.config(text=secondsElapsed) # sets button to avgMiles
 
     # schedule next update
     mainWin.after(100, updateGuiData, dataQueue)
@@ -428,11 +427,6 @@ def update_label(data: dict):
         # update current MPH
         global currentMPH
         currentMPH = data['Speed']
-
-        global secondsElapsed
-        global totalMiles
-        avgMPH = totalMiles/(secondsElapsed/3600)
-        avgMilesStartButton.config(text=avgMPH)
 
 def worker_thread(queue, bus):
     """A worker thread that generates canData and puts it on the queue."""
