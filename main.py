@@ -93,6 +93,8 @@ faultCodeValue = Label(master=faultCodeFrame,
                        )
 faultCodeValue.place(relx=.9, rely=0.62, anchor='e')
 
+
+
 ampsOutFrame = Frame(master=secondWin,
                                   width=200,
                                   height=100,
