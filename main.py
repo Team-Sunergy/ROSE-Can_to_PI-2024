@@ -196,10 +196,11 @@ def setTimeToZero():
     secondsElapsed = 0
 
 avgMilesStartButton = Button(master=avgMilesFrame, 
-                                text="Click",
+                                text="START",
+                                font=dashFontSmall,
                                 command=setTimeToZero,
                                 )
-avgMilesStartButton.place(relx=0.5, rely=0.5)
+avgMilesStartButton.place(relx=0.5, rely=0.5, width=175, height=90, anchor='center')
 
 # BELOW ARE ALL THE ANNOYING ERROR FRAME DIAGNOSTICS
 errorFrame = Frame(master=secondWin,
@@ -382,7 +383,7 @@ def updateGuiData(dataQueue):
     global currentMPH
     totalMiles = (currentMPH * secondsElapsed/3600) + totalMiles # get total miles
     avgMPH = totalMiles/(secondsElapsed/3600) # get average mph
-    avgMilesStartButton.config(text=secondsElapsed) # sets button to avgMiles
+    avgMilesStartButton.config(text=f"{avgMPH:.1f}" + "AVG") # sets button to avgMiles
 
     # schedule next update
     mainWin.after(100, updateGuiData, dataQueue)
