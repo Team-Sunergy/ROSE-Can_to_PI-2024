@@ -16,7 +16,7 @@ root.title("GUI for Driver Interface")
 root.geometry('800x480')
 
 mainWin = Frame(root, bg='#E5E5E5')
-root.attributes('-fullscreen', False)
+root.attributes('-fullscreen', True)
 mainWin.pack(fill='both', expand=True)
 
 secondWin = Frame(mainWin, bg='white')
@@ -190,14 +190,16 @@ avgMilesFrame = Frame(master=secondWin,
                       background='#E5E5E5',
                       borderwidth=1, relief='raised')
 avgMilesFrame.place(x=795, y=200, anchor='ne')
-avgMilesStartButton = Button(master=avgMilesFrame, 
-                                text="Click",
-                                )
-avgMilesStartButton.place(relx=0.5, rely=0.5)
 
 def setTimeToZero():
     global secondsElapsed
     secondsElapsed = 0
+
+avgMilesStartButton = Button(master=avgMilesFrame, 
+                                text="Click",
+                                command=setTimeToZero,
+                                )
+avgMilesStartButton.place(relx=0.5, rely=0.5)
 
 # BELOW ARE ALL THE ANNOYING ERROR FRAME DIAGNOSTICS
 errorFrame = Frame(master=secondWin,
