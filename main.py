@@ -383,7 +383,7 @@ def updateGuiData(dataQueue):
     secondsElapsed += 0.1
     global totalMiles # gets total miles
     global currentMPH
-    totalMiles = (currentMPH * secondsElapsed/3600) + totalMiles # get total miles
+    totalMiles = (currentMPH * 0.1/3600) + totalMiles # get total miles
     avgMPH = totalMiles/(secondsElapsed/3600) # get average mph
     avgMilesStartButton.config(text=f"{avgMPH:.1f}" + "AVG") # sets button to avgMiles
 
