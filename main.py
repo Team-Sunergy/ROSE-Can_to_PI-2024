@@ -16,7 +16,7 @@ root.title("GUI for Driver Interface")
 root.geometry('800x480')
 
 mainWin = Frame(root, bg='#E5E5E5')
-root.attributes('-fullscreen', True)
+root.attributes('-fullscreen', False)
 mainWin.pack(fill='both', expand=True)
 
 secondWin = Frame(mainWin, bg='white')
@@ -193,7 +193,9 @@ avgMilesFrame.place(x=795, y=200, anchor='ne')
 
 def setTimeToZero():
     global secondsElapsed
+    global totalMiles
     secondsElapsed = 0
+    totalMiles = 0
 
 avgMilesStartButton = Button(master=avgMilesFrame, 
                                 text="START",
@@ -445,7 +447,11 @@ def canCollection(bus):
         # group up data into a table
         groupedData = group_can_data(parsed_message['arbitration_id'], data=data) # updates data with new data
         # used for seeing can frames
-        
+        print("MOSFET:" + str(groupedData['MosfetTemperature']))
+        print("CONTROLLER TEMP:" + str(groupedData['ControllerTemperature']))
+        print("CURRENT AMPS:" + str(groupedData['OutputCurrent0'] + groupedData['OutputCurrent1']))
+        print("CURRENT VOLTAGE:" + str(groupedData['OutputVoltage0']))
+
         # print(f"Timestamp: {parsed_message['timestamp']:.6f}")
         # print(f"ID: {parsed_message['arbitration_id']:x}")
         # print(f"DLC: {parsed_message['dlc']}")

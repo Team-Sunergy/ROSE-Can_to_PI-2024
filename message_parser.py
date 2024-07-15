@@ -24,8 +24,8 @@ canData = {'DataType': 'none',
            'BatteryVoltage': 0,
            'BatteryCurrent': 0,
            'BatteryCurrentDirection': 'none',
-           'MotorCurrentPeakAverage': 'none',
-           'FETTemperature': 'none',
+           'MotorCurrentPeakAverage': 0,
+           'FETTemperature': 0,
            'MotorRotatingSpeed': 'none',
            'PWMDuty': 'none',
            'LeadAngle': 'none',
@@ -43,9 +43,9 @@ canData = {'DataType': 'none',
            'OutputCurrent0': 0,
            'OutputVoltage1': 0,
            'OutputCurrent1': 0,
-           'MosfetTemperature': 'none',
+           'MosfetTemperature': 0,
            'Mode': 0, 
-           'ControllerTemperature': 'none',
+           'ControllerTemperature': 0,
            'LowArrayPower': 'none',
            'MosfetOverheat': 'none',
            'BatteryLow': 'none',
@@ -92,23 +92,23 @@ def group_can_data(canId, data: bytearray) -> dict:
     # MPPT0 InputVoltage and InputCurrent
     elif(canId == 0x600):
         canData.update({'DataType': 'mppt0Input',
-                   'InputVoltage0': get32FloatBits(data, 0, 31),
-                   'InputCurrent0': get32FloatBits(data, 32, 63)})
+                   'InputVoltage0': get32FloatBits(data, 32, 63),
+                   'InputCurrent0': get32FloatBits(data, 0, 31)})
     # MPPT1 InputVoltage and InputCurrent
     elif(canId == 0x610):
         canData.update({'DataType': 'mppt1Input',
-                   'InputVoltage1': get32FloatBits(data, 0, 31),
-                   'InputCurrent1': get32FloatBits(data, 32, 63)})
+                   'InputVoltage1': get32FloatBits(data, 32, 63),
+                   'InputCurrent1': get32FloatBits(data, 0, 31)})
     # MPPT0 OutputVoltage and OutputCurrent
     elif(canId == 0x601):
         canData.update({'DataType': 'mppt0Output',
-                   'OutputVoltage': get32FloatBits(data, 0, 31),
-                   'OutputCurrent': get32FloatBits(data, 32, 63)})
+                   'OutputVoltage0': get32FloatBits(data, 32, 63),
+                   'OutputCurrent0': get32FloatBits(data, 0, 31)})
     # MPPT1 OutputVoltage and OutputCurrent
     elif(canId == 0x611):
         canData.update({'DataType': 'mppt1Output',
-                   'OutputVoltage': get32FloatBits(data, 0, 31),
-                   'OutputCurrent': get32FloatBits(data, 32, 63)})
+                   'OutputVoltage0': get32FloatBits(data, 32, 63),
+                   'OutputCurrent1': get32FloatBits(data, 0, 31)})
     # MPPTS temp
     elif(canId == 0x602 or canId == 0x612):
         canData.update({'DataType': 'mpptsTemp',
@@ -117,23 +117,23 @@ def group_can_data(canId, data: bytearray) -> dict:
     elif(canId == 0x605):
         canData.update({'DataType': 'mppt0error',
                     'Mode': getBits(data, 40, 40),
-                    'LowArrayPower': bool(getBits(data, 23, 23)),
-                    'MosfetOverheat': bool(getBits(data, 22, 22)),
-                    'BatteryLow': bool(getBits(data, 21, 21)),
-                    'BatteryFull': bool(getBits(data, 20, 20)),
-                    '12VUnderVoltage': bool(getBits(data, 19, 19)),
-                    'HWOverCurrent': bool(getBits(data, 17, 17)),
-                    'HWOverVoltage': bool(getBits(data, 16, 16))})
+                    'LowArrayPower': bool(getBits(data, 31, 31)),
+                    'MosfetOverheat': bool(getBits(data, 30, 30)),
+                    'BatteryLow': bool(getBits(data, 29, 29)),
+                    'BatteryFull': bool(getBits(data, 28, 28)),
+                    '12VUnderVoltage': bool(getBits(data, 27, 27)),
+                    'HWOverCurrent': bool(getBits(data, 25, 25)),
+                    'HWOverVoltage': bool(getBits(data, 24, 24))})
     elif(canId == 0x615):
         canData.update({'DataType': 'mppt1error',
                     'Mode': getBits(data, 40, 40),
-                    'LowArrayPower': bool(getBits(data, 23, 23)), #adding the 'bool' here simply makes it so it turns the 1 or 0 into a bool
-                    'MosfetOverheat': bool(getBits(data, 22, 22)),
-                    'BatteryLow': bool(getBits(data, 21, 21)),
-                    'BatteryFull': bool(getBits(data, 20, 20)),
-                    '12VUnderVoltage': bool(getBits(data, 19, 19)),
-                    'HWOverCurrent': bool(getBits(data, 17, 17)),
-                    'HWOverVoltage': bool(getBits(data, 16, 16))})
+                    'LowArrayPower': bool(getBits(data, 31, 31)), #adding the 'bool' here simply makes it so it turns the 1 or 0 into a bool
+                    'MosfetOverheat': bool(getBits(data, 30, 30)),
+                    'BatteryLow': bool(getBits(data, 29, 29)),
+                    'BatteryFull': bool(getBits(data, 28, 28)),
+                    '12VUnderVoltage': bool(getBits(data, 27, 27)),
+                    'HWOverCurrent': bool(getBits(data, 25, 25)),
+                    'HWOverVoltage': bool(getBits(data, 24, 24))})
     elif(canId == 0x69):
         canData.update({'DataType': 'Speed',
                         'Speed': getBits(data, 0, 7)})
