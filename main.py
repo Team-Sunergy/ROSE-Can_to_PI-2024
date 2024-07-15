@@ -12,11 +12,13 @@ from tools import getDisplayColor, getMPPTErrors, getState
 
 # definition of main window
 root = Tk()
+# definition of main window
+root = Tk()
 root.title("GUI for Driver Interface")
 root.geometry('800x480')
 
 mainWin = Frame(root, bg='#E5E5E5')
-root.attributes('-fullscreen', True)
+root.attributes('-fullscreen', False)
 mainWin.pack(fill='both', expand=True)
 
 secondWin = Frame(mainWin, bg='white')
@@ -101,6 +103,8 @@ faultCodeValue = Label(master=faultCodeFrame,
                        )
 faultCodeValue.place(relx=.9, rely=0.62, anchor='e')
 
+
+
 ampsOutFrame = Frame(master=secondWin,
                                   width=200,
                                   height=100,
@@ -147,7 +151,6 @@ ampsDiffValue.place(relx=0.5, rely=0.53, anchor='center')
 ampsDiffLabel.place(relx=0.5, rely=0.02,anchor='n')
 ampsDiffFrame.place(x=400,y=428,anchor='s')
 
-
 # discharge and charge limits
 #line
 chargCurrFrame = Frame(master=secondWin, width=200, height=210, background='#E5E5E5', borderwidth=1, relief='raised')
@@ -155,8 +158,6 @@ line = Canvas(master=chargCurrFrame, width=190, height=50,
               background='#E5E5E5', bd=0, highlightthickness=0)
 line.place(relx=0.49, rely=0.5, anchor='center')
 line.create_line(5, 25, 200, 25)
-
-
 
 disCurrLimitLabel = Label(master=chargCurrFrame,
                           text="DIS. CURR LIM",
@@ -184,7 +185,21 @@ charCurrLimitVal = Label(master=chargCurrFrame,
 charCurrLimitVal.place(relx=0.5, rely=0.80, anchor='center')
 charCurrLimitLabel.place(relx=0.5, rely=0.60, anchor='center')
 
-#line for neatness
+
+# frame for button
+avgMilesFrame = Frame(master=secondWin,
+                      width=200, height=100,
+                      background='#E5E5E5',
+                      borderwidth=1, relief='raised')
+avgMilesFrame.place(x=795, y=200, anchor='ne')
+avgMilesStartButton = Button(master=avgMilesFrame, 
+                                text="Click",
+                                )
+avgMilesStartButton.place(relx=0.5, rely=0.5)
+
+def setTimeToZero():
+    global secondsElapsed
+    secondsElapsed = 0
 
 # BELOW ARE ALL THE ANNOYING ERROR FRAME DIAGNOSTICS
 errorFrame = Frame(master=secondWin,
@@ -199,6 +214,7 @@ mppts0ErrorLabel = Label(master=errorFrame,
                                     font=errorFont2,
                                     background='#E5E5E5',
                                     foreground='black')
+
 
 # on labels
 mppt0OnLabel = Canvas(master=errorFrame, width=20, height=20, background='#E5E5E5', bd=0, highlightthickness=0,)
@@ -335,6 +351,7 @@ logoLabel = Label(mainWin, image=sunergyLogo, background='#E5E5E5')
 logoLabel.image = sunergyLogo  
 logoLabel.place(x=400, y=0, anchor='n')
 
+
 # seconds elapsed
 secondsElapsed = 0.0
 totalMiles = 0.0
@@ -415,7 +432,7 @@ def update_label(data: dict):
         global secondsElapsed
         global totalMiles
         avgMPH = totalMiles/(secondsElapsed/3600)
-        print(avgMPH)
+        avgMilesStartButton.config(text=avgMPH)
 
 def worker_thread(queue, bus):
     """A worker thread that generates canData and puts it on the queue."""
