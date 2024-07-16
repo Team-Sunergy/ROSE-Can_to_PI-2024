@@ -15,7 +15,7 @@ root.title("GUI for Driver Interface")
 root.geometry('800x480')
 
 mainWin = Frame(root, bg='#E5E5E5')
-root.attributes('-fullscreen', False)
+root.attributes('-fullscreen', True)
 mainWin.pack(fill='both', expand=True)
 
 secondWin = Frame(mainWin, bg='white')
