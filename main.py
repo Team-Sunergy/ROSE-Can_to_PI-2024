@@ -544,12 +544,9 @@ def update_label(data: dict):
             mppt112VUnderVoltageLabel.config(foreground=getMPPTErrors(data['12VUnderVoltage']))
             mppt1HWOverCurrentLabel.config(foreground=getMPPTErrors(data['HWOverCurrent']))
             mppt1HWOverVoltageLabel.config(foreground=getMPPTErrors(data['HWOverVoltage']))
-        elif data['DataType'] == 'STM':
-            faultCodeLabel.config(text=getState(data['State']))
-            faultCodeValue.config(text=data['FaultID'])
         elif data['DataType'] == 'bmsData':
-            disCurrLimitVal.config(text=data['PackDCL'])
-            charCurrLimitVal.config(text=data['PackCCL'])
+            disVal.config(text=data['PackDCL'])
+            charVal.config(text=data['PackCCL'])
         elif data['DataType'] != 'none': # might change
             # update speed with speed
             speedometerNum.config(text=data['Speed'])
