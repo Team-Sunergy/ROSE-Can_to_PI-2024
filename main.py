@@ -60,7 +60,7 @@ netVal.place(relx=0.5, rely=0.55, anchor='center')
 # define fault frame (middle left)
 stateFrame = Frame(secondWin, bg='#E5E5E5', relief='raised', borderwidth=1)
 stateFrame.place(relx=0.5, y=5, width=375, height=75, anchor='n')
-indicatorLabel = Label(stateFrame, text='AVERAGE:', font=dashFontSmall, background='#E5E5E5', foreground='black')
+indicatorLabel = Label(stateFrame, text='AVG:', font=dashFontSmall, background='#E5E5E5', foreground='black')
 indicatorLabel.place(relx=0.075, rely=0.475, anchor='w')
 
 
@@ -88,23 +88,13 @@ ampsInLabel.place(relx=0.5, rely=0.01, anchor='n')
 ampsInValue.place(relx=0.5, rely=0.5, anchor='center')
 ampsInFrame.place(x=5,y=428,anchor='sw')
 
-# define fault code frame
-avgSpeedFrame = Frame(master=stateFrame, 
-                       width=100,
-                       height=50,
-                       background='#E5E5E5',
-                       borderwidth=1,
-                       relief='sunken',
-                       )
-avgSpeedFrame.place(relx=0.93, rely=0.5, anchor='e')
-
 def setTimeToZero():
     global secondsElapsed
     global totalMiles
     secondsElapsed = 0
     totalMiles = 0
 
-avgMilesStartButton = Button(master=avgSpeedFrame, 
+avgMilesStartButton = Button(master=stateFrame, 
                                 text="55mi",
                                 font=dashFontSmall,
                                 command=setTimeToZero,
@@ -198,7 +188,7 @@ chargCurrFrame.place(relx=0.5, y=428, anchor='s')
 #                                 font=dashFontSmall,
 #                                 command=setTimeToZero,
 #                                 )
-avgMilesStartButton.place(relx=0.5, rely=0.5, width=115, height=50, anchor='center')
+avgMilesStartButton.place(relx=0.7, rely=0.5, width=200, height=50, anchor='center')
 
 # BELOW ARE ALL THE ANNOYING ERROR FRAME DIAGNOSTICS
 errorFrame = Frame(master=secondWin,
@@ -533,7 +523,7 @@ def updateGuiData(dataQueue):
     global currentMPH
     totalMiles = (currentMPH * 0.1/3600) + totalMiles # get total miles
     avgMPH = totalMiles/(secondsElapsed/3600) # get average mph
-    avgMilesStartButton.config(text=f"{avgMPH:.1f}" + "AVG") # sets button to avgMiles
+    avgMilesStartButton.config(text=f"{avgMPH:.1f}" + "mph") # sets button to avgMiles
 
     # schedule next update
     mainWin.after(100, updateGuiData, dataQueue)

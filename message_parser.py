@@ -85,9 +85,9 @@ def group_can_data(canId, data: bytearray) -> dict:
                    'Temp': getBits(data, 0, 7)})
     elif(canId == 0x302):
         canData.update({'DataType': 'bmsData',
-                   'PackCurrent': getBits(data, 56, 63), #/10, #byte 0
-                   'PackDCL': getBits(data, 48, 55), #byte 1
-                   'PackCCL': getBits(data, 40, 47)}) #byte 2
+                   'PackCurrent': getBits(data, 16, 23)/10, #/10, #byte 0
+                   'PackDCL': getBits(data, 8, 15), #byte 1
+                   'PackCCL': getBits(data, 0, 7)}) #byte 2
 
     # MPPT0 InputVoltage and InputCurrent
     elif(canId == 0x600):
