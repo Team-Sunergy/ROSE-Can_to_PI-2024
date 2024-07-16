@@ -44,6 +44,7 @@ def canCollection(bus):
         print(f"Data: {parsed_message['data_str']}")
         print("-" * 30)
         print("STATE OF CHARGE: " + str(groupedData['SOC']))
+        print("Current: " + str(groupedData['PackCurrent']))
 
         
         # used for sending data, contains all different types of possible categories (mppts, bms, mc)

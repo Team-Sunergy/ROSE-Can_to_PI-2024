@@ -21,6 +21,7 @@ def parse_can_message(message, shift_amount=0):
     return parsed_data
 
 canData = {'DataType': 'none',
+        'PackCurrent': 0,
         'BatteryVoltage': 'none',
         'BatteryCurrent': 'none',
         'BatteryCurrentDirection': 'none',
@@ -78,7 +79,10 @@ def group_can_data(canId, data: bytearray) -> dict:
                    'Temp': getBits(data, 56, 63)})
     elif(canId == 0x287):
         canData.update({'DataType': 'bmsSOC',
-                   'SOC': get16FloatBits(data, 8)})
+                   'SOC': getBits(data, 32, 63)})
+    elif(canId == 0x302):
+        canData.update({'DataType': 'bmsPackCurrent',
+                   'PackCurrent': getBits(data, 0, 7)/10})
     # MPPTS InputVoltage and InputCurrent
     elif(canId == 0x600 or canId == 0x610):
         canData.update({'DataType': 'mpptsInput',
