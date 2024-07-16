@@ -582,6 +582,8 @@ def update_label(data: dict):
             mppt1GlobalMPPTLabel.config(foreground=getMPPTErrors(data['GlobalMPPT']))
 
         elif data['DataType'] == 'bmsData':
+            netVal.config(text=data['PackCurrent'])
+            netVal.config(text=str(data['PackCurrent']) + "AMPS")
             disVal.config(text=data['PackDCL'])
             charVal.config(text=data['PackCCL'])
         elif data['DataType'] != 'none': # might change
@@ -590,7 +592,6 @@ def update_label(data: dict):
             socVal.configure(text=f"{data['SOC']:.1f}")
             ampsInValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
             ampsOutValue.configure(text=f"{data['PackCurrent'] - (data['OutputCurrent0'] + data['OutputCurrent1']):.1f}")
-            netVal.config(text=str(data['PackCurrent']) + "AMPS")
         else:
             pass 
 
@@ -616,7 +617,7 @@ def canCollection(bus):
         # used for seeing can frames
         print("MOSFET:" + str(groupedData['MosfetTemperature']))
         print("CONTROLLER TEMP:" + str(groupedData['ControllerTemperature']))
-        print("CURRENT AMPS:" + str(groupedData['PackCurrent']))
+        print(groupedData['PackCurrent'])
         print("CURRENT VOLTAGE:" + str(groupedData['OutputVoltage0']))
               
         # print(f"Timestamp: {parsed_message['timestamp']:.6f}")

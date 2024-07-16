@@ -11,6 +11,7 @@ bus_filters = [
     {"can_id": 0x289, "can_mask": 0x1FFFFFFF, "extended": False},       #BMS 
     {"can_id": 0x069, "can_mask": 0x1FFFFFFF, "extended": False},   	#Motor Speed
     {"can_id": 0x420, "can_mask": 0x1FFFFFFF, "extended": False},	#STM32 
+    {"can_id": 0x302, "can_mask": 0x1FFFFFFF, "extended": False},	#bms2 
 ]
 
 
@@ -21,7 +22,7 @@ def initialize_bus():
     """
     try:
         bus = can.interface.Bus(
-            channel = "can0", bustype = "socketcan", can_filters = bus_filters
+            channel = "can0", bustype = "socketcan",  can_filters = bus_filters
         )
         print("Initialized bus & Filter")
         return bus
