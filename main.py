@@ -3,6 +3,7 @@ from tkinter.font import Font
 from PIL import Image, ImageTk
 
 
+
 # definition of main window
 root = Tk()
 root.title("GUI for Driver Interface")
@@ -41,10 +42,20 @@ socLabel.place(relx=0.5, rely=0.01, anchor='n')
 socVal = Label(socFrame, text='-1%', font=dashFont, background='#E5E5E5',)
 socVal.place(relx=0.5, rely=0.55, anchor='center')
 
+# define NET Amps frame (top right)
+netFrame = Frame(secondWin, bg='#E5E5E5', relief='raised', borderwidth=1)
+netFrame.place(x=595, y=5, width=200, height=85)
+
+netLabel = Label(netFrame, text='NET AMPERAGE', font=socFont, background='#E5E5E5',)
+netLabel.place(relx=0.5, rely=0.01, anchor='n')
+
+netVal = Label(netFrame, text='-1%', font=dashFont, background='#E5E5E5',)
+netVal.place(relx=0.5, rely=0.55, anchor='center')
+
 # define fault frame (middle left)
 stateFrame = Frame(secondWin, bg='#E5E5E5', relief='raised', borderwidth=1)
 stateFrame.place(relx=0.5, y=5, width=375, height=75, anchor='n')
-indicatorLabel = Label(stateFrame, text='FAULT', font=faultFont, background='#E5E5E5', foreground='black')
+indicatorLabel = Label(stateFrame, text='AVERAGE:', font=dashFontSmall, background='#E5E5E5', foreground='black')
 indicatorLabel.place(relx=0.075, rely=0.475, anchor='w')
 
 
@@ -73,26 +84,26 @@ ampsInValue.place(relx=0.5, rely=0.5, anchor='center')
 ampsInFrame.place(x=5,y=428,anchor='sw')
 
 # define fault code frame
-faultCodeFrame = Frame(master=stateFrame, 
+avgSpeedFrame = Frame(master=stateFrame, 
                        width=100,
                        height=50,
                        background='#E5E5E5',
                        borderwidth=1,
                        relief='sunken',
                        )
-faultCodeFrame.place(relx=0.93, rely=0.5, anchor='e')
-faultCodeLabel = Label(master=faultCodeFrame,
-                       text='FAULT CODE: ',
-                       font=errorFont,
-                       foreground='black',
-                       background='#E5E5E5')
-faultCodeLabel.place(relx=0.0, rely=0.0, anchor='nw')
-faultCodeValue = Label(master=faultCodeFrame,
-                       text='0x69',
-                       font=faultFont2, 
-                       background='#E5E5E5'
-                       )
-faultCodeValue.place(relx=.9, rely=0.62, anchor='e')
+avgSpeedFrame.place(relx=0.93, rely=0.5, anchor='e')
+
+def setTimeToZero():
+    global secondsElapsed
+    global totalMiles
+    secondsElapsed = 0
+    totalMiles = 0
+
+avgMilesStartButton = Button(master=avgSpeedFrame, 
+                                text="55mi",
+                                font=dashFontSmall,
+                                command=setTimeToZero,
+                                )
 
 
 
@@ -121,59 +132,68 @@ ampsOutFrame.place(x=795,y=428,anchor='se')
 
 # discharge and charge limits
 #line
-chargCurrFrame = Frame(master=secondWin, width=200, height=85, background='#E5E5E5', borderwidth=1, relief='raised')
-line = Canvas(master=chargCurrFrame, width=190, height=50,
-              background='#E5E5E5', bd=0, highlightthickness=0)
-line.place(relx=0.49, rely=0.5, anchor='center')
-line.create_line(5, 25, 200, 25)
 
-disCurrLimitLabel = Label(master=chargCurrFrame,
-                          text="DIS. CURR LIM",
+chargCurrFrame = Frame(master=secondWin, width=250, height=65, background='#E5E5E5', borderwidth=1, relief='raised')
+disFrame = Frame(master=chargCurrFrame, 
+                    width=250, height=32.5,
+                    background='#E5E5E5',
+                    borderwidth=1,
+                    relief='raised')
+chaFrame = Frame(master=chargCurrFrame,
+                    width=250, height=32.5,
+                    background='#E5E5E5',
+                    borderwidth=1,
+                    relief='raised',
+                    )
+disCurrLimitLabel = Label(master=disFrame,
+                          text="DCL:",
                           font=socFont,
                           foreground='black',
-                          background='#E5E5E5')
-#chargCurrFrame.place(x=5, y=105)
-disCurrLimitLabel.place(relx=0.5, rely=0.10, anchor='center')
-disCurrLimitVal = Label(master=chargCurrFrame,
-                        text="-1AMPS",
-                        font=dashFont,
-                        foreground='black',
-                        background='#E5E5E5')
-disCurrLimitVal.place(relx=0.5, rely=0.30, anchor='center')
-charCurrLimitLabel = Label(master=chargCurrFrame,
-                           text='CHAR. CURR LIM',
+                          background='#E5E5E5'
+                          )
+charCurrLimitLabel = Label(master=chaFrame,
+                           text='CCL:',
                            font=socFont,
                            foreground='black',
-                           background='#E5E5E5')
-charCurrLimitVal = Label(master=chargCurrFrame,
-                         text="-1AMPS",
-                         font=dashFont,
-                         foreground='black',
-                         background='#E5E5E5')
-charCurrLimitVal.place(relx=0.5, rely=0.80, anchor='center')
-charCurrLimitLabel.place(relx=0.5, rely=0.60, anchor='center')
+                           background='#E5E5E5',
+                           )
+disVal = Label(master=disFrame,
+               text="-1amp",
+               font=socFont,
+               foreground='black',
+               background='#E5E5E5',
+               )
+charVal = Label(master=chaFrame,
+               text="-1amp",
+               font=socFont,
+               foreground='black',
+               background='#E5E5E5')
+
+disCurrLimitLabel.place(relx=0.5, rely=0.5, anchor='center')
+charCurrLimitLabel.place(relx=0.5, rely=0.5, anchor='center')
+disFrame.place(relx=0.4, rely=0.0, anchor='n')
+chaFrame.place(relx=0.4, rely=1.0, anchor='s')
+disVal.place(relx=0.7, rely=0.5, anchor='center')
+charVal.place(relx=0.7, rely=0.5, anchor='center')
+chargCurrFrame.place(relx=0.5, y=428, anchor='s')
 
 
-# frame for button
-avgMilesFrame = Frame(master=secondWin,
-                      width=125, height=75,
-                      background='#E5E5E5',
-                      borderwidth=1, relief='raised')
-avgMilesFrame.place(x=275,y=428,anchor='s')
+
+# # frame for button
+# avgMilesFrame = Frame(master=secondWin,
+#                       width=125, height=65,
+#                       background='#E5E5E5',
+#                       borderwidth=1, relief='raised')
+# avgMilesFrame.place(x=275,y=428,anchor='s')
 
 
-def setTimeToZero():
-    global secondsElapsed
-    global totalMiles
-    secondsElapsed = 0
-    totalMiles = 0
 
-avgMilesStartButton = Button(master=avgMilesFrame, 
-                                text="55mi",
-                                font=dashFontSmall,
-                                command=setTimeToZero,
-                                )
-avgMilesStartButton.place(relx=0.5, rely=0.5, width=115, height=65, anchor='center')
+# avgMilesStartButton = Button(master=avgMilesFrame, 
+#                                 text="55mi",
+#                                 font=dashFontSmall,
+#                                 command=setTimeToZero,
+#                                 )
+avgMilesStartButton.place(relx=0.5, rely=0.5, width=115, height=50, anchor='center')
 
 # BELOW ARE ALL THE ANNOYING ERROR FRAME DIAGNOSTICS
 errorFrame = Frame(master=secondWin,
