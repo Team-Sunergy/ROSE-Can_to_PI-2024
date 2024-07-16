@@ -339,6 +339,7 @@ mppt1HWOverVoltageLabel.place(relx=0.52, rely=0.778, anchor='w')
 mppt0HWOverCurrentLabel.place(relx=0.02, rely=0.88, anchor='w')
 mppt1HWOverCurrentLabel.place(relx=0.52, rely=0.88, anchor='w')
 
+
 # place on frame
 errorFrame.place(x=5, y=105)  #x=795,y=5,anchor='ne') 
 
@@ -365,116 +366,130 @@ mppts1ErrorLabel = Label(master=flagFrame,
                                     font=errorFont2,
                                     background='#E5E5E5',
                                     foreground='black')
-mppt0HWOverCurrentLabel = Label(master=flagFrame,
-                                text="M0HWOverCurrent",
+mppt0InputCurrentMinLabel = Label(master=flagFrame,
+                                text="M0InCurrentMin",
                                 font=errorFont,
                                 foreground='#d7d7d7',
                                 background='#E5E5E5',
                                 anchor='w',)
-mppt1HWOverCurrentLabel = Label(master=flagFrame,
-                                text="M1HWOverCurrent",
+mppt1InputCurrentMinLabel = Label(master=flagFrame,
+                                text="M1HInCurrentMin",
                                 font=errorFont,
                                 foreground='#d7d7d7',
                                 background='#E5E5E5',
                                 anchor='w',)
-mppt0HWOverVoltageLabel = Label(master=flagFrame,
-                                                 text="M0HWOverVoltage",
+mppt0InputCurrentMaxLabel = Label(master=flagFrame,
+                                                 text="M0InCurrentMax",
                                                  font=errorFont,
                                                  foreground='#d7d7d7',
                                                  background='#E5E5E5',
                                                  anchor='w')
-mppt1HWOverVoltageLabel = Label(master=flagFrame,
-                                                 text="M1HWOverVoltage",
+mppt1InputCurrentMaxLabel = Label(master=flagFrame,
+                                                 text="M1InCurrentMax",
                                                  font=errorFont,
                                                  foreground='#d7d7d7',
                                                  background='#E5E5E5',
                                                  anchor='w')
-mppt012VUnderVoltageLabel = Label(master=flagFrame,
-                                                   text="M0VUnderVoltage",
+mppt0OutputVoltageMaxLabel = Label(master=flagFrame,
+                                                   text="M0OutVoltageMax",
                                                    font=errorFont,
                                                    foreground='#d7d7d7',
                                                    background='#E5E5E5',
                                                    anchor='w')
-mppt112VUnderVoltageLabel = Label(master=flagFrame,
-                                                   text="M1VUnderVoltage",
+mppt1OutputVoltageMaxLabel = Label(master=flagFrame,
+                                                   text="M1OutVoltageMax",
                                                    font=errorFont,
                                                    foreground='#d7d7d7',
                                                    background='#E5E5E5',
                                                    anchor='w')
-mppt0BatteryFullLabel = Label(master=flagFrame,
-                                               text="M0BatteryFull",
+mppt0MosfetTemperatureMPPTLabel = Label(master=flagFrame,
+                                               text="M0MosTempMPPT",
                                                font=errorFont,
                                                foreground='#d7d7d7',
                                                background='#E5E5E5',
                                                anchor='w')
-mppt1BatteryFullLabel = Label(master=flagFrame,
-                                               text="M1BatteryFull",
+mppt1MosfetTemperatureMPPTLabel = Label(master=flagFrame,
+                                               text="M1MosTempMPPT",
                                                font=errorFont,
                                                foreground='#d7d7d7',
                                                background='#E5E5E5',
                                                anchor='w')
-mppt0BatteryLowLabel = Label(master=flagFrame,
-                                              text="M0BatteryLow",
+mppt0DutyCycleMin = Label(master=flagFrame,
+                                              text="M0DutyCycleMin",
                                               font=errorFont,
                                               foreground='#d7d7d7',
                                               background='#E5E5E5',
                                               anchor='w')
-mppt1BatteryLowLabel = Label(master=flagFrame,
-                                              text="M1BatteryLow",
+mppt1DutyCycleMin = Label(master=flagFrame,
+                                              text="M1DutyCycleMin",
                                               font=errorFont,
                                               foreground='#d7d7d7',
                                               background='#E5E5E5',
                                               anchor='w')
-mppt0MosfetOverheatLabel = Label(master=flagFrame,
-                                                  text="M0MosfetOverheat",
+mppt0DutyCycleMax = Label(master=flagFrame,
+                                                  text="M0DutyCycleMax",
                                                   font=errorFont,
                                                   foreground='#d7d7d7',
                                                   background='#E5E5E5',
                                                   anchor='w')
-mppt1MosfetOverheatLabel = Label(master=flagFrame,
-                                                  text="M1MosfetOverheat",
+mppt1DutyCycleMax = Label(master=flagFrame,
+                                                  text="M1DutyCycleMax",
                                                   font=errorFont,
                                                   foreground='#d7d7d7',
                                                   background='#E5E5E5',
                                                   anchor='w')
-mppt0LowArrayPowerLabel = Label(master=flagFrame,
-                                         text="M0LowArrayPower",
+mppt0LocalMPPTLabel = Label(master=flagFrame,
+                                         text="M0LocalMPPT",
                                          font=errorFont,
                                          foreground='#d7d7d7',
                                          background='#E5E5E5',
                                          anchor='w')
-mppt1LowArrayPowerLabel = Label(master=flagFrame,
-                                         text="M1LowArrayPower",
+mppt1LocalMPPTLabel = Label(master=flagFrame,
+                                         text="M1LocalMPPT",
+                                         font=errorFont,
+                                         foreground='#d7d7d7',
+                                         background='#E5E5E5',
+                                         anchor='w')
+mppt0GlobalMPPTLabel = Label(master=flagFrame,
+                                         text="M0GlobalMPPT",
+                                         font=errorFont,
+                                         foreground='#d7d7d7',
+                                         background='#E5E5E5',
+                                         anchor='w')
+mppt1GlobalMPPTLabel = Label(master=flagFrame,
+                                         text="M1GlobalMPPT",
                                          font=errorFont,
                                          foreground='#d7d7d7',
                                          background='#E5E5E5',
                                          anchor='w')
 
-# placing error labels
-# placing error labels
-mppts0ErrorLabel.place(relx=0.02, rely=0.03, anchor='nw')
-mppts1ErrorLabel.place(relx=0.52, rely=0.03, anchor='nw')
 
-mppt0LowArrayPowerLabel.place(relx=0.02, rely=0.20, anchor='w') #0.22
-mppt1LowArrayPowerLabel.place(relx=0.52, rely=0.20, anchor='w')
+# placing limit labels
+mppt0InputCurrentMinLabel.place(relx=0.02, rely=0.03, anchor='nw')
+mppt1InputCurrentMinLabel.place(relx=0.52, rely=0.03, anchor='nw')
 
-mppt0MosfetOverheatLabel.place(relx=0.02, rely=0.32, anchor='w')
-mppt1MosfetOverheatLabel.place(relx=0.52, rely=0.32, anchor='w')
+mppt0InputCurrentMaxLabel.place(relx=0.02, rely=0.20, anchor='w') #0.22
+mppt1InputCurrentMaxLabel.place(relx=0.52, rely=0.20, anchor='w')
 
-mppt0BatteryLowLabel.place(relx=0.02, rely=0.4332, anchor='w')
-mppt1BatteryLowLabel.place(relx=0.52, rely=0.4332, anchor='w')
+mppt0OutputVoltageMaxLabel.place(relx=0.02, rely=0.32, anchor='w')
+mppt1OutputVoltageMaxLabel.place(relx=0.52, rely=0.32, anchor='w')
 
-mppt0BatteryFullLabel.place(relx=0.02, rely=0.5448, anchor='w')
-mppt1BatteryFullLabel.place(relx=0.52, rely=0.5448, anchor='w')
+mppt0MosfetTemperatureMPPTLabel.place(relx=0.02, rely=0.4332, anchor='w')
+mppt1MosfetTemperatureMPPTLabel.place(relx=0.52, rely=0.4332, anchor='w')
 
-mppt012VUnderVoltageLabel.place(relx=0.02, rely=0.6664, anchor='w')
-mppt112VUnderVoltageLabel.place(relx=0.52, rely=0.6664, anchor='w')
+mppt0DutyCycleMin.place(relx=0.02, rely=0.5448, anchor='w')
+mppt1DutyCycleMin.place(relx=0.52, rely=0.5448, anchor='w')
 
-mppt0HWOverVoltageLabel.place(relx=0.02, rely=0.778, anchor='w')
-mppt1HWOverVoltageLabel.place(relx=0.52, rely=0.778, anchor='w')
+mppt0DutyCycleMax.place(relx=0.02, rely=0.6664, anchor='w')
+mppt1DutyCycleMax.place(relx=0.52, rely=0.6664, anchor='w')
 
-mppt0HWOverCurrentLabel.place(relx=0.02, rely=0.88, anchor='w')
-mppt1HWOverCurrentLabel.place(relx=0.52, rely=0.88, anchor='w')
+mppt0LocalMPPTLabel.place(relx=0.02, rely=0.778, anchor='w')
+mppt1LocalMPPTLabel.place(relx=0.52, rely=0.778, anchor='w')
+
+mppt0GlobalMPPTLabel.place(relx=0.02, rely=0.88, anchor='w')
+mppt1GlobalMPPTLabel.place(relx=0.52, rely=0.88, anchor='w')
+
+
 # place on frame
 flagFrame.place(x=795,y=105, anchor='ne')
 
@@ -484,6 +499,7 @@ sunergyLogo = ImageTk.PhotoImage(img)
 logoLabel = Label(mainWin, image=sunergyLogo, background='#E5E5E5')
 logoLabel.image = sunergyLogo  
 logoLabel.place(x=400, y=0, anchor='n')
+
 
 
 
@@ -535,6 +551,17 @@ def update_label(data: dict):
             mppt012VUnderVoltageLabel.config(foreground=getMPPTErrors(data['12VUnderVoltage']))
             mppt0HWOverCurrentLabel.config(foreground=getMPPTErrors(data['HWOverCurrent']))
             mppt0HWOverVoltageLabel.config(foreground=getMPPTErrors(data['HWOverVoltage']))
+
+            mppt0InputCurrentMinLabel.config(foreground=getMPPTErrors(data['InputCurrentMin']))
+            mppt0InputCurrentMaxLabel.config(foreground=getMPPTErrors(data['InputCurrentMax']))
+            mppt0OutputVoltageMaxLabel.config(foreground=getMPPTErrors(data['OutputVoltageMax']))
+            mppt0MosfetTemperatureMPPTLabel.config(foreground=getMPPTErrors(data['MosfetTemperatureMPPT']))
+            mppt0DutyCycleMin.config(foreground=getMPPTErrors(data['DutyCycleMin']))
+            mppt0DutyCycleMax.config(foreground=getMPPTErrors(data['DutyCycleMax']))
+            mppt0LocalMPPTLabel.config(foreground=getMPPTErrors(data['LocalMPPT']))
+            mppt0GlobalMPPTLabel.config(foreground=getMPPTErrors(data['GlobalMPPT']))
+
+
         elif data['DataType'] == 'mppt1error':
             mppt1OnLabel.itemconfig(standby1, fill=getDisplayColor(data['Mode']))
             mppt1LowArrayPowerLabel.config(foreground=getMPPTErrors(data['LowArrayPower']))
@@ -544,6 +571,16 @@ def update_label(data: dict):
             mppt112VUnderVoltageLabel.config(foreground=getMPPTErrors(data['12VUnderVoltage']))
             mppt1HWOverCurrentLabel.config(foreground=getMPPTErrors(data['HWOverCurrent']))
             mppt1HWOverVoltageLabel.config(foreground=getMPPTErrors(data['HWOverVoltage']))
+
+            mppt1InputCurrentMinLabel.config(foreground=getMPPTErrors(data['InputCurrentMin']))
+            mppt1InputCurrentMaxLabel.config(foreground=getMPPTErrors(data['InputCurrentMax']))
+            mppt1OutputVoltageMaxLabel.config(foreground=getMPPTErrors(data['OutputVoltageMax']))
+            mppt1MosfetTemperatureMPPTLabel.config(foreground=getMPPTErrors(data['MosfetTemperatureMPPT']))
+            mppt1DutyCycleMin.config(foreground=getMPPTErrors(data['DutyCycleMin']))
+            mppt1DutyCycleMax.config(foreground=getMPPTErrors(data['DutyCycleMax']))
+            mppt1LocalMPPTLabel.config(foreground=getMPPTErrors(data['LocalMPPT']))
+            mppt1GlobalMPPTLabel.config(foreground=getMPPTErrors(data['GlobalMPPT']))
+
         elif data['DataType'] == 'bmsData':
             disVal.config(text=data['PackDCL'])
             charVal.config(text=data['PackCCL'])
@@ -553,6 +590,7 @@ def update_label(data: dict):
             socVal.configure(text=f"{data['SOC']:.1f}")
             ampsInValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
             ampsOutValue.configure(text=f"{data['PackCurrent'] - (data['OutputCurrent0'] + data['OutputCurrent1']):.1f}")
+            netVal.config(text=str(data['PackCurrent']) + "AMPS")
         else:
             pass 
 
