@@ -83,11 +83,11 @@ def group_can_data(canId, data: bytearray) -> dict:
         canData.update({'DataType': 'bms',
                    'SOC': getBits(data, 56, 63)/2,
                    'Temp': getBits(data, 0, 7)})
-    elif(canId == 0x301):
+    elif(canId == 0x302):
         canData.update({'DataType': 'bmsData',
-                   'PackCurrent': getBits(data, 0, 7),
-                   'PackDCL': getBits(data, 8, 15),
-                   'PackCCL': getBits(data, 16, 23)})
+                   'PackCurrent': getBits(data, 57, 63),
+                   'PackDCL': getBits(data, 47, 56),
+                   'PackCCL': getBits(data, 35, 46)})
 
     # MPPT0 InputVoltage and InputCurrent
     elif(canId == 0x600):
@@ -153,7 +153,7 @@ def group_can_data(canId, data: bytearray) -> dict:
                     'GlobalMPPT': bool(getBits(data, 39, 39))})
     elif(canId == 0x69):
         canData.update({'DataType': 'Speed',
-                        'Speed': get32FloatBits(data, 0, 31)})
+                        'Speed': getBits(data, 0, 7)})
     elif(canId == 0x420):
         canData.update({'DataType': 'STM',
                         'State': getBits(data, 0, 7),

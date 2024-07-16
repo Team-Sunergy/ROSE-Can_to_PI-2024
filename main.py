@@ -616,9 +616,9 @@ def canCollection(bus):
         # used for seeing can frames
         print("MOSFET:" + str(groupedData['MosfetTemperature']))
         print("CONTROLLER TEMP:" + str(groupedData['ControllerTemperature']))
-        print("CURRENT AMPS:" + str(groupedData['OutputCurrent0'] + groupedData['OutputCurrent1']))
+        print("CURRENT AMPS:" + str(groupedData['PackCurrent']))
         print("CURRENT VOLTAGE:" + str(groupedData['OutputVoltage0']))
-
+              
         # print(f"Timestamp: {parsed_message['timestamp']:.6f}")
         # print(f"ID: {parsed_message['arbitration_id']:x}")
         # print(f"DLC: {parsed_message['dlc']}")
