@@ -123,7 +123,16 @@ def group_can_data(canId, data: bytearray) -> dict:
                     'BatteryFull': bool(getBits(data, 28, 28)),
                     '12VUnderVoltage': bool(getBits(data, 27, 27)),
                     'HWOverCurrent': bool(getBits(data, 25, 25)),
-                    'HWOverVoltage': bool(getBits(data, 24, 24))})
+                    'HWOverVoltage': bool(getBits(data, 24, 24)),
+                    'InputCurrentMin': bool(getBits(data, 32, 32)),
+                    'InputCurrentMax': bool(getBits(data, 33, 33)),
+                    'OutputVoltageMax': bool(getBits(data, 34, 34)),
+                    'MosfetTemperatureMPPT': bool(getBits(data, 35, 35)),
+                    'DutyCycleMin': bool(getBits(data, 36, 36)),
+                    'DutyCycleMax': bool(getBits(data, 37, 37)),
+                    'LocalMPPT': bool(getBits(data, 38, 38)),
+                    'GlobalMPPT': bool(getBits(data, 39, 39))
+                    })
     elif(canId == 0x615):
         canData.update({'DataType': 'mppt1error',
                     'Mode': getBits(data, 40, 40),
@@ -133,7 +142,15 @@ def group_can_data(canId, data: bytearray) -> dict:
                     'BatteryFull': bool(getBits(data, 28, 28)),
                     '12VUnderVoltage': bool(getBits(data, 27, 27)),
                     'HWOverCurrent': bool(getBits(data, 25, 25)),
-                    'HWOverVoltage': bool(getBits(data, 24, 24))})
+                    'HWOverVoltage': bool(getBits(data, 24, 24)),
+                    'InputCurrentMin': bool(getBits(data, 32, 32)),
+                    'InputCurrentMax': bool(getBits(data, 33, 33)),
+                    'OutputVoltageMax': bool(getBits(data, 34, 34)),
+                    'MosfetTemperatureMPPT': bool(getBits(data, 35, 35)),
+                    'DutyCycleMin': bool(getBits(data, 36, 36)),
+                    'DutyCycleMax': bool(getBits(data, 37, 37)),
+                    'LocalMPPT': bool(getBits(data, 38, 38)),
+                    'GlobalMPPT': bool(getBits(data, 39, 39))})
     elif(canId == 0x69):
         canData.update({'DataType': 'Speed',
                         'Speed': get32FloatBits(data, 0, 31)})
