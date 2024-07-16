@@ -12,7 +12,7 @@ root.geometry('800x480')
 mainWin = Frame(root, bg='#E5E5E5')
 root.attributes('-fullscreen', False)
 mainWin.pack(fill='both', expand=True)
-
+g
 secondWin = Frame(mainWin, bg='white')
 secondWin.place(relx=0.0, rely=0.095, relwidth=1, relheight=0.905)
 
