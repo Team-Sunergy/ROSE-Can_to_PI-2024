@@ -73,7 +73,7 @@ ampsInFrame = Frame(master=secondWin,
                                   relief='raised',
                                   )
 ampsInLabel = Label(master=ampsInFrame,
-                                text='AMPERAGE IN',
+                                text='SOLAR AMPERAGE IN',
                                 font=socFont,
                                 foreground='black',
                                 background='#E5E5E5',
@@ -572,7 +572,6 @@ def update_label(data: dict):
             mppt1GlobalMPPTLabel.config(foreground=getMPPTErrors(data['GlobalMPPT']))
 
         elif data['DataType'] == 'bmsData':
-            netVal.config(text=data['PackCurrent'])
             netVal.config(text=str(data['PackCurrent']) + "AMPS")
             disVal.config(text=data['PackDCL'])
             charVal.config(text=data['PackCCL'])
@@ -581,7 +580,7 @@ def update_label(data: dict):
             speedometerNum.config(text=data['Speed'])
             socVal.configure(text=f"{data['SOC']:.1f}")
             ampsInValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
-            ampsOutValue.configure(text=f"{data['PackCurrent'] - (data['OutputCurrent0'] + data['OutputCurrent1']):.1f}")
+            ampsOutValue.configure(text=f"{(data['OutputCurrent0'] + data['OutputCurrent1'] - data['PackCurrent']):.1f}")
         else:
             pass 
 
