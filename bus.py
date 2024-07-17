@@ -2,7 +2,7 @@ import can
 
 # Define CAN message filters to specify which CAN messages to receive
 bus_filters = [
-    {"can_id": 0x302, "can_mask": 0x1FFFFFFF, "extended": False},       #speed from pulse counter
+    {"can_id": 0x69, "can_mask": 0x1FFFFFFF, "extended": False},       #speed from pulse counter
 
     #{"can_id": 0x61A, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 1
     #{"can_id": 0x61B, "can_mask": 0x1FFFFFFF, "extended": False},       #MPPT 1
