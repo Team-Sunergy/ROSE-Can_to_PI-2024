@@ -51,7 +51,7 @@ socVal.place(relx=0.5, rely=0.55, anchor='center')
 netFrame = Frame(secondWin, bg='#E5E5E5', relief='raised', borderwidth=1)
 netFrame.place(x=595, y=5, width=200, height=85)
 
-netLabel = Label(netFrame, text='NET AMPERAGE', font=socFont, background='#E5E5E5',)
+netLabel = Label(netFrame, text='NET AMPERAGE (not accurate)', font=socFont, background='#E5E5E5',)
 netLabel.place(relx=0.5, rely=0.01, anchor='n')
 
 netVal = Label(netFrame, text='-1%', font=dashFont, background='#E5E5E5',)

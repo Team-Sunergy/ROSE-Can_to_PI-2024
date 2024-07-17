@@ -27,7 +27,15 @@ def getBits(canMessage: bytearray, low: int, high: int) -> int:
     Extracts bits from `low` to `high` (inclusive) from the given.
     """
     mask = (1 << (high - low + 1)) - 1
-    return (int.from_bytes(canMessage, byteorder='big', signed=True) >> low) & mask
+    return (int.from_bytes(canMessage, byteorder='big') >> low) & mask
+
+
+def getSignedBits(canMessage: bytearray, index: int):
+    """
+    Get Signed bits
+    """
+    bytes = bytearray[index]
+    return (int.from_bytes(bytes, byteorder='big', signed=True))
 
 def get32FloatBits(canMessage: bytearray, low: int, high: int) -> float:
     """
