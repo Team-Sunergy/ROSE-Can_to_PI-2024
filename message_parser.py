@@ -116,24 +116,24 @@ def group_can_data(canId, data: bytearray) -> dict:
         canData.update({'DataType': 'mpptsTemp',
                    'MosfetTemperature': get32FloatBits(data, 0, 31),
                    'ControllerTemperature': get32FloatBits(data, 32, 63)})
-    elif(canId == 0x605):
+    elif(canId == 0x605): # note for future telemetry: lsb is msb and msb is lsb
         canData.update({'DataType': 'mppt0error',
                     'Mode': getBits(data, 40, 40),
-                    'LowArrayPower': bool(getBits(data, 31, 31)),
-                    'MosfetOverheat': bool(getBits(data, 30, 30)),
-                    'BatteryLow': bool(getBits(data, 29, 29)),
-                    'BatteryFull': bool(getBits(data, 28, 28)),
-                    '12VUnderVoltage': bool(getBits(data, 27, 27)),
-                    'HWOverCurrent': bool(getBits(data, 25, 25)),
-                    'HWOverVoltage': bool(getBits(data, 24, 24)),
-                    'InputCurrentMin': bool(getBits(data, 32, 32)),
-                    'InputCurrentMax': bool(getBits(data, 33, 33)),
-                    'OutputVoltageMax': bool(getBits(data, 34, 34)),
-                    'MosfetTemperatureMPPT': bool(getBits(data, 35, 35)),
-                    'DutyCycleMin': bool(getBits(data, 36, 36)),
-                    'DutyCycleMax': bool(getBits(data, 37, 37)),
-                    'LocalMPPT': bool(getBits(data, 38, 38)),
-                    'GlobalMPPT': bool(getBits(data, 39, 39))
+                    'LowArrayPower': bool(getBits(data, 24, 24)), #msb
+                    'MosfetOverheat': bool(getBits(data, 25, 25)),
+                    'BatteryLow': bool(getBits(data, 26, 26)),
+                    'BatteryFull': bool(getBits(data, 27, 27)),
+                    '12VUnderVoltage': bool(getBits(data, 28, 28)), #bit 2 is reserved (or bit 4 depending on outlook)
+                    'HWOverCurrent': bool(getBits(data, 30, 30)), 
+                    'HWOverVoltage': bool(getBits(data, 31, 31)), #lsb
+                    'InputCurrentMin': bool(getBits(data, 39, 39)), #msb 
+                    'InputCurrentMax': bool(getBits(data, 38, 38)),
+                    'OutputVoltageMax': bool(getBits(data, 37, 37)),
+                    'MosfetTemperatureMPPT': bool(getBits(data, 36, 36)),
+                    'DutyCycleMin': bool(getBits(data, 35, 35)),
+                    'DutyCycleMax': bool(getBits(data, 34, 34)),
+                    'LocalMPPT': bool(getBits(data, 33, 33)),
+                    'GlobalMPPT': bool(getBits(data, 32, 32)) #lsb
                     })
     elif(canId == 0x615):
         canData.update({'DataType': 'mppt1error',

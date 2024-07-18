@@ -110,7 +110,7 @@ ampsOutFrame = Frame(master=secondWin,
                                   relief='raised',
                                   )
 ampsOutLabel = Label(master=ampsOutFrame,
-                                text='AMPERAGE OUT',
+                                text='DATA COLLECTION',
                                 font=socFont,
                                 foreground='black',
                                 background='#E5E5E5',
