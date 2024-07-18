@@ -51,7 +51,7 @@ socVal.place(relx=0.5, rely=0.55, anchor='center')
 netFrame = Frame(secondWin, bg='#E5E5E5', relief='raised', borderwidth=1)
 netFrame.place(x=595, y=5, width=200, height=85)
 
-netLabel = Label(netFrame, text='NET AMPERAGE (not accurate)', font=socFont, background='#E5E5E5',)
+netLabel = Label(netFrame, text='NET AMPERAGE', font=socFont, background='#E5E5E5',)
 netLabel.place(relx=0.5, rely=0.01, anchor='n')
 
 netVal = Label(netFrame, text='-1%', font=dashFont, background='#E5E5E5',)
@@ -573,6 +573,7 @@ def update_label(data: dict):
 
         elif data['DataType'] == 'bmsData':
             netVal.config(text=str(data['PackCurrent']) + "AMPS")
+            #print("pack current: " + str(data['PackCurrent']))
             disVal.config(text=data['PackDCL'])
             charVal.config(text=data['PackCCL'])
         elif data['DataType'] != 'none': # might change
@@ -580,6 +581,8 @@ def update_label(data: dict):
             speedometerNum.config(text=data['Speed'])
             socVal.configure(text=f"{data['SOC']:.1f}")
             ampsInValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
+            #print("mppt0" + str(data['OutputCurrent0']))
+            #print("mppt1" + str(data['OutputCurrent1']))
             ampsOutValue.configure(text=f"{(data['OutputCurrent0'] + data['OutputCurrent1'] - data['PackCurrent']):.1f}")
         else:
             pass 
@@ -596,7 +599,7 @@ def worker_thread(queue, bus):
         queue.put(data) # puts data in queue
 
 def canCollection(bus):
-    print("In the try")
+    #print("In the try")
     try:
         message = bus.recv()
         parsed_message = parse_can_message(message) # recieves parsed message
@@ -604,11 +607,12 @@ def canCollection(bus):
         # group up data into a table
         groupedData = group_can_data(parsed_message['arbitration_id'], data=data) # updates data with new data
         # used for seeing can frames
-        print("MOSFET:" + str(groupedData['MosfetTemperature']))
-        print("CONTROLLER TEMP:" + str(groupedData['ControllerTemperature']))
-        print(groupedData['PackCurrent'])
-        print("CURRENT VOLTAGE:" + str(groupedData['OutputVoltage0']))
-              
+        #print("MOSFET:" + str(groupedData['MosfetTemperature']))
+        #print("CONTROLLER TEMP:" + str(groupedData['ControllerTemperature']))
+        #print(groupedData['PackCurrent'])
+        #print("mppt0 amps" + str(groupedData['InputCurrent0']))
+        #print("mppt1 amps " + str(groupedData['InputCurrent1']))
+        #print("CURRENT VOLTAGE:" + str(groupedData['OutputVoltage0']))
         # print(f"Timestamp: {parsed_message['timestamp']:.6f}")
         # print(f"ID: {parsed_message['arbitration_id']:x}")
         # print(f"DLC: {parsed_message['dlc']}")
@@ -619,7 +623,7 @@ def canCollection(bus):
         
         # used for sending data, contains all different types of possible categories (mppts, bms, mc)
         # depending on what CAN frame ID is
-        print(secondsElapsed)
+        #print(secondsElapsed)
         return groupedData
     
     except KeyboardInterrupt:

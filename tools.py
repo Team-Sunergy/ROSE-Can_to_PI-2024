@@ -32,10 +32,17 @@ def getBits(canMessage: bytearray, low: int, high: int) -> int:
 
 def getSignedBits(canMessage: bytearray, index: int):
     """
-    Get Signed bits
+    Get Signed bits from an index
     """
-    bytes = bytearray[index]
-    return (int.from_bytes(bytes, byteorder='big', signed=True))
+    singleByte = [(canMessage[index])]
+    canByteMessage = bytearray(singleByte)
+    
+    print(canByteMessage[index])
+    
+    #print(int.from_bytes(singleByte, byteorder='big', signed=True))
+
+    return (int.from_bytes(canByteMessage, byteorder='big', signed=True))
+
 
 def get32FloatBits(canMessage: bytearray, low: int, high: int) -> float:
     """
