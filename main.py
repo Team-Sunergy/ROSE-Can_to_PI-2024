@@ -10,12 +10,14 @@ from tkinter.font import Font
 from PIL import Image, ImageTk
 from tools import getDisplayColor, getMPPTErrors, getState
 # definition of main window
+
+# definition of main window
 root = Tk()
 root.title("GUI for Driver Interface")
 root.geometry('800x480')
 
 mainWin = Frame(root, bg='#E5E5E5')
-root.attributes('-fullscreen', True)
+root.attributes('-fullscreen', False)
 mainWin.pack(fill='both', expand=True)
 
 secondWin = Frame(mainWin, bg='white')
@@ -72,6 +74,12 @@ ampsInFrame = Frame(master=secondWin,
                                   borderwidth=1,
                                   relief='raised',
                                   )
+# ampsInButton = Button(master=ampsInFrame,
+#                       width=25,
+#                       height=2
+#                       )
+# ampsInButton.place(relx=0.5, rely=0.5, anchor='n')
+
 ampsInLabel = Label(master=ampsInFrame,
                                 text='SOLAR AMPERAGE IN',
                                 font=socFont,
@@ -102,40 +110,51 @@ avgMilesStartButton = Button(master=stateFrame,
 
 
 
-ampsOutFrame = Frame(master=secondWin,
+dataCollectionFrame = Frame(master=secondWin,
                                   width=200,
                                   height=100,
                                   background='#E5E5E5',
                                   borderwidth=1,
                                   relief='raised',
                                   )
-ampsOutLabel = Label(master=ampsOutFrame,
+
+dataCollectionStart = Button(master=dataCollectionFrame,
+                             text='START',
+                             width=6,
+                             height=3,
+                             foreground='black',
+                             background='#E5E5E5')
+dataCollectionEnd = Button(master=dataCollectionFrame,
+                             text='STOP',
+                             width=6,
+                             height=3,
+                             foreground='black',
+                             background='#E5E5E5')
+
+
+dataCollectionLabel = Label(master=dataCollectionFrame,
                                 text='DATA COLLECTION',
                                 font=socFont,
                                 foreground='black',
                                 background='#E5E5E5',
                                 )
-ampsOutValue = Label(master=ampsOutFrame,
-                                     text='-1 AMPS',
-                                     font=dashFontSmall,
-                                     foreground='black',
-                                     background='#E5E5E5',
-                                     )
-ampsOutValue.place(relx=0.5, rely=0.55, anchor='center')
-ampsOutLabel.place(relx=0.5, rely=0.01, anchor='n')
-ampsOutFrame.place(x=795,y=428,anchor='se')
+
+dataCollectionLabel.place(relx=0.5, rely=0.1, anchor='center')
+dataCollectionEnd.place(relx=0.75, rely=0.55, anchor='center')
+dataCollectionStart.place(relx=0.25, rely=0.55, anchor='center')
+dataCollectionFrame.place(x=795,y=428,anchor='se')
 
 # discharge and charge limits
 #line
 
 chargCurrFrame = Frame(master=secondWin, width=250, height=65, background='#E5E5E5', borderwidth=1, relief='raised')
 disFrame = Frame(master=chargCurrFrame, 
-                    width=250, height=32.5,
+                    width=300, height=32.5,
                     background='#E5E5E5',
                     borderwidth=1,
                     relief='raised')
 chaFrame = Frame(master=chargCurrFrame,
-                    width=250, height=32.5,
+                    width=300, height=32.5,
                     background='#E5E5E5',
                     borderwidth=1,
                     relief='raised',
@@ -144,7 +163,7 @@ disCurrLimitLabel = Label(master=disFrame,
                           text="DCL:",
                           font=socFont,
                           foreground='black',
-                          background='#E5E5E5'
+                          background='#E5E5E5',
                           )
 charCurrLimitLabel = Label(master=chaFrame,
                            text='CCL:',
@@ -497,7 +516,6 @@ logoLabel.place(x=400, y=0, anchor='n')
 secondsElapsed = 0.0
 totalMiles = 0.0
 currentMPH = 0
-
 def startGui():
     """starts the gui loop given data"""
     print("Starting gui")
@@ -583,7 +601,7 @@ def update_label(data: dict):
             ampsInValue.configure(text=f"{data['OutputCurrent0'] + data['OutputCurrent1']:.1f}")
             #print("mppt0" + str(data['OutputCurrent0']))
             #print("mppt1" + str(data['OutputCurrent1']))
-            ampsOutValue.configure(text=f"{(data['OutputCurrent0'] + data['OutputCurrent1'] - data['PackCurrent']):.1f}")
+            #aOutValue.configure(text=f"{(data['OutputCurrent0'] + data['OutputCurrent1'] - data['PackCurrent']):.1f}")
         else:
             pass 
 
@@ -639,6 +657,7 @@ def main():
     receive and parse CAN messages until interrupted by user.
     """
     setup_can_interface()
+    global secondsElapsed
     secondsElapsed = 0.0
     print("The setup_can_interface done")
     bus = initialize_bus()
