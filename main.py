@@ -572,7 +572,7 @@ def update_label(data: dict):
             mppt1GlobalMPPTLabel.config(foreground=getMPPTErrors(data['GlobalMPPT']))
 
         elif data['DataType'] == 'bmsData':
-            netVal.config(text=str(data['PackCurrent']) + "AMPS")
+            netVal.config(text=str(data['PackCurrent']))
             #print("pack current: " + str(data['PackCurrent']))
             disVal.config(text=data['PackDCL'])
             charVal.config(text=data['PackCCL'])

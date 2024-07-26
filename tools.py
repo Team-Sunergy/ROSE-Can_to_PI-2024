@@ -4,6 +4,7 @@ import can
 import threading
 import time
 import struct
+import numpy as np
 
 # these might be better to define in main
 TIRE_DIAMETER = 21.5 # in inches
@@ -30,18 +31,32 @@ def getBits(canMessage: bytearray, low: int, high: int) -> int:
     return (int.from_bytes(canMessage, byteorder='big') >> low) & mask
 
 
-def getSignedBits(canMessage: bytearray, index: int):
+def getSignedBits(canMessage: bytearray, index: int, index2: int):
     """
     Get Signed bits from an index
     """
-    singleByte = [(canMessage[index])]
-    canByteMessage = bytearray(singleByte)
+    #singleByte = [(canMessage[index])]
+    soc = np.uint16((canMessage[index]))
+    soc = soc << 8
+    soc = soc + np.uint16((canMessage[index2]))
+    #soc = [((canMessage[index] << 8) + canMessage[index2])] #right shift so we can add bits
+    #print("byte 0 " + str(canMessage[index]))
+    #soc = ((canMessage[index] * 255) + canMessage[index2])
+    #print("byte 1" + str(canMessage[index2]))
+    #print("soc" + str(soc[0]))
+    #print(int.from_bytes(bytearray(soc), byteorder='big', signed=True))
+
+    val = np.int16(soc)
+    #val = ~val
+    #print("int16 " + str(val))
+    #singleByte2 = [(canMessage[index2])]
+    #canByteMessage = bytearray([singleByte, singleByte2])
     
-    print(canByteMessage[index])
+    #print(canByteMessage[index])
     
     #print(int.from_bytes(singleByte, byteorder='big', signed=True))
 
-    return (int.from_bytes(canByteMessage, byteorder='big', signed=True))
+    return val
 
 
 def get32FloatBits(canMessage: bytearray, low: int, high: int) -> float:
