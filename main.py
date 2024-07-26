@@ -9,6 +9,12 @@ from tkinter import Tk, Frame, Label
 from tkinter.font import Font
 from PIL import Image, ImageTk
 from tools import getDisplayColor, getMPPTErrors, getState
+from dataCollection import dataOpen, dataSave, dataClose
+
+# file field for data collection
+global file
+file = None 
+
 # definition of main window
 root = Tk()
 root.title("GUI for Driver Interface")
@@ -515,6 +521,8 @@ def updateGuiData(dataQueue):
     else:
         # data received, update labels
         update_label(data=data)
+        global file
+        dataSave(data, file)
 
     # seconds elapsed
     global secondsElapsed # get seconds elapsed
@@ -627,6 +635,8 @@ def canCollection(bus):
         return groupedData
     
     except KeyboardInterrupt:
+        global file
+        dataClose(file)
         shutdown_can_interface()
         print("\n\rKeyboard interrupt")
 
@@ -640,6 +650,8 @@ def main():
     """
     setup_can_interface()
     secondsElapsed = 0.0
+    global file
+    file = dataOpen()
     print("The setup_can_interface done")
     bus = initialize_bus()
     print("Bus variable is set")
