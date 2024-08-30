@@ -27,6 +27,7 @@ versionLabel.place(relx=0.99, rely=0.015, anchor='ne')
 # Fonts
 dashFont = Font(family='Gotham', weight='bold', size=30)
 dashFontSmall = Font(family='Gotham', weight='bold', size=28)
+dashFontSmall2 = Font(family='Gotham', weight='bold', size=20)
 socFont = Font(family='Gotham', weight='bold', size=10)
 faultFont = Font(family='Gotham', weight='bold', size=32)
 faultFont2 = Font(family='Gotham', weight='bold', size=20)
@@ -60,8 +61,12 @@ netVal.place(relx=0.5, rely=0.55, anchor='center')
 # define fault frame (middle left)
 stateFrame = Frame(secondWin, bg='#E5E5E5', relief='raised', borderwidth=1)
 stateFrame.place(relx=0.5, y=5, width=375, height=75, anchor='n')
-indicatorLabel = Label(stateFrame, text='AVG:', font=dashFontSmall, background='#E5E5E5', foreground='black')
-indicatorLabel.place(relx=0.075, rely=0.475, anchor='w')
+mphIndicatorLabel = Label(stateFrame, text='AVGM:', font=dashFontSmall2, background='#E5E5E5', foreground='black')
+mphIndicatorLabel.place(relx=0.075, rely=0.275, anchor='w')
+
+netIndicatorLabel = Label(stateFrame, text='AVGAM:', font=dashFontSmall2, background='#E5E5E5', foreground='black')
+netIndicatorLabel.place(relx=0.075, rely=0.675, anchor='w')
+
 
 
 # define AMPS frame
@@ -91,14 +96,25 @@ ampsInFrame.place(x=5,y=428,anchor='sw')
 def setTimeToZero():
     global secondsElapsed
     global totalMiles
+    global currentNetAmps
+    global totalNetAmps
     secondsElapsed = 0
     totalMiles = 0
+    currentNetAmps = 0
+    totalNetAmps = 0
 
 avgMilesStartButton = Button(master=stateFrame, 
                                 text="55mi",
-                                font=dashFontSmall,
+                                font=dashFontSmall2,
                                 command=setTimeToZero,
                                 )
+
+avgAmpsLabel = Label(master=stateFrame,
+                         text="-12amp",
+                         font=dashFontSmall2,
+                         foreground='black',
+                         background='#E5E5E5',
+                         )
 
 
 
@@ -188,7 +204,10 @@ chargCurrFrame.place(relx=0.5, y=428, anchor='s')
 #                                 font=dashFontSmall,
 #                                 command=setTimeToZero,
 #                                 )
-avgMilesStartButton.place(relx=0.7, rely=0.5, width=200, height=50, anchor='center')
+avgMilesStartButton.place(relx=0.7, rely=0.3, width=200, height=25, anchor='center')
+avgAmpsLabel.place(relx=0.7, rely=0.7, width=200, height=25, anchor='center')
+
+
 
 # BELOW ARE ALL THE ANNOYING ERROR FRAME DIAGNOSTICS
 errorFrame = Frame(master=secondWin,
@@ -496,6 +515,8 @@ logoLabel.place(x=400, y=0, anchor='n')
 # seconds elapsed
 secondsElapsed = 0.0
 totalMiles = 0.0
+totalNetAmps = 0.0
+currentNetAmps = 0.0
 currentMPH = 0
 
 def startGui():
@@ -519,11 +540,24 @@ def updateGuiData(dataQueue):
     # seconds elapsed
     global secondsElapsed # get seconds elapsed
     secondsElapsed += 0.1
+    # for total miles
     global totalMiles # gets total miles
     global currentMPH
+    # for avg net amps
+    global totalNetAmps
+    global currentNetAmps
+
     totalMiles = (currentMPH * 0.1/3600) + totalMiles # get total miles
     avgMPH = totalMiles/(secondsElapsed/3600) # get average mph
     avgMilesStartButton.config(text=f"{avgMPH:.1f}" + "mph") # sets button to avgMiles
+
+    totalNetAmps = (currentNetAmps + totalNetAmps)
+    avgAmps = totalNetAmps/(secondsElapsed * 10)
+    print(currentNetAmps)
+    avgAmpsLabel.config(text=f"{avgAmps:.1f}" + "amps")
+
+   
+     
 
     # schedule next update
     mainWin.after(100, updateGuiData, dataQueue)
@@ -590,6 +624,8 @@ def update_label(data: dict):
         # update current MPH
         global currentMPH
         currentMPH = data['Speed']
+        global currentNetAmps
+        currentNetAmps = data['PackCurrent']
 
 def worker_thread(queue, bus):
     """A worker thread that generates canData and puts it on the queue."""
